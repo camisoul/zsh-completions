@@ -1,0 +1,61 @@
+#compdef lshw
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for lshw
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+
+local ret=1
+_arguments -s -S \
+  '(* : -)'{-h,-help,--help}'[display help and exit]' \
+  '(* : -)-version[print program version (B.02.16)]' \
+  '(-html -xml -json)-html[output hardware tree as HTML]' \
+  '(-html -xml -json)-xml[output hardware tree as XML]' \
+  '(-html -xml -json)-json[output hardware tree as JSON]' \
+  '-short[output hardware paths]' \
+  '-businfo[output bus information]' \
+  '-dump[dump collected information into a file]:filename:_files' \
+  '(-class -C -c)'{-c,-C,-class}'[only show a certain class of hardware]:CLASS:->classes' \
+  '(-enable)-disable[disable a test (like pci, isapnp, cpuid, etc. )]:TEST:->tests' \
+  '(-disable)-enable[enable a test (like pci, isapnp, cpuid, etc. )]:TEST:->tests' \
+  "-quiet[don't display status]" \
+  '-sanitize[sanitize output (remove sensitive information like serial numbers, etc.)]' \
+  '-numeric[output numeric IDs (for PCI, USB, etc.)]' && ret=0
+
+case "${state}" in
+  tests)
+    _values 'enables or disables a test' \
+      'dmi' 'device-tree' 'spd' 'memory' 'cpuinfo' \
+      'pci' 'isapnp' 'pcmcia' 'ide' 'usb' 'scsi' 'net-work' && ret=0
+    ;;
+  classes)
+    _values 'class of hardware' \
+      'system' 'bus' 'memory' 'processor' 'bridge' 'display' 'volume' \
+      'communication' 'network' 'bus' 'multimedia' 'disk' 'storage' && ret0=
+    ;;
+esac
+
+
+return ret

@@ -1,0 +1,75 @@
+#compdef unar lsar
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for unar lsar
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local -a common_args archive_types
+
+common_args=(
+  '(-p -password)'{-p,-password}'[the password to use for decrypting]:PASSWORD'
+  '(-e -encoding)'{-e,-encoding}'[the encoding to use for filenames]:ENCODING:->encs'
+  '(-E -password-encoding)'{-E,-password-encoding}'[the encoding to use the password]:ENCODING:->encs'
+  '(-i -indexes)'{-i,-indexes}'[specify files or wildcard patterns as indexes]'
+  '(-nr -no-recursion)'{-nr,-no-recursion}'[do not attempt to extract archives containd in other archives]'
+  '(- : *)'{-v,-version}'[display version infomation]'
+  '(- : *)'{-h,-help}'[display help infomation]'
+)
+case ${service} in
+  unar)
+    _arguments \
+      '(-o -output-directory)'{-o,-output-directory}'[the directory to write the contents]:DIRECTORY:_files -/' \
+      '(-f -force-overwrite -r -force-rename -s -force-skip)'{-f,-force-overwrite}'[always overwrite files]' \
+      '(-f -force-overwrite -r -force-rename -s -force-skip)'{-r,-force-rename}'[always rename files]' \
+      '(-f -force-overwrite -r -force-rename -s -force-skip)'{-s,-force-skip}'[always skip files]' \
+      '(-d -force-directory -D -no-directory)'{-d,-force-directory}'[always create a containing directory]' \
+      '(-d -force-directory -D -no-directory)'{-D,-no-directory}'[never create a containing directory]' \
+      '(-t -copy-time)'{-t,-copy-time}'[copy the file modification time from the archive file]' \
+      '(-k -forks)'{-k,-forks}'[how to handle Mac OS resource forks]:forks:(visible hidden skip)' \
+      '(-q -quiet)'{-q,-quiet}'[run in quiet mode]' \
+      "${common_args[@]}" \
+      '*:archives:_files' && ret=0
+    ;;
+  lsar)
+    _arguments \
+      '(-l -long)'{-l,-long}'[print more information]' \
+      '(-t -test)'{-t,-test}'[test the integrity]' \
+      '(-pe -print-encoding)'{-pe,-print-encoding}'[print the auto-detected encoding]' \
+      '(-j -json -ja -json-ascii)'{-j,-json}'[print the listing in JSON format]' \
+      '(-j -json -ja -json-ascii)'{-ja,-json-ascii}'[print the listing in JSON format, encoded as pure ASCII text]' \
+      "${common_args[@]}" \
+      '*:archives:_files' && ret=0
+    ;;
+esac
+
+case "${state}" in
+  encs)
+    local -a codeset
+    codeset=${(f)$(${service} -e list | cut -d ' ' -f4 | cut -d ',' -f1)}
+    _values 'charset' "${=codeset[@]}" && ret=0
+    ;;
+esac
+
+return ret

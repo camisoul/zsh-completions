@@ -1,0 +1,46 @@
+#compdef top
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for top
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+_arguments -s -S \
+  '(- * -)'{-h,-v}'[Show library version and the usage prompt, then quit]' \
+  '(-u -U)'{-u,-U}'[Display only processes with a user id or user name matching that given]:number of name:_users' \
+  "-b[Starts top in 'Batch' mode]" \
+  "-c[Starts top with the last remembered 'c' state reversed]" \
+  '-d[Specifies the delay between screen updates]:interval(ss.t)' \
+  '-H[Instructs top to display individual threads]' \
+  "-i[Starts top with the last remembered 'i' state reversed]" \
+  '-n[Specifies the maximum number of iterations, or frames, top should produce before ending.]:number' \
+  '-o[Specifies the name of the field on which tasks will be sorted]:fieldname' \
+  '-O[This option acts as a form of help for the above -o option]' \
+  '*-p[Monitor only processes with specified process IDs]:PID:_pids' \
+  '-s[Starts top with secure mode forced, even for root]' \
+  "-S[Starts top with the last remembered 'S' state reversed]" \
+  "-w[In 'Batch' mode, when used without an argument top will format output using the COLUMNS= and LINES= environment variables]::number" \
+  '*:file:_files' && ret=0
+
+return ret

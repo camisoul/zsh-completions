@@ -1,0 +1,69 @@
+#compdef combinediff interdiff flipdiff
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for combinediff interdiff flipdiff
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local -a common_args
+common_args=(
+  '(-U --unified)'{-U,--unified=}'[max lines of context to carry]:N'
+  '(-i --ignore-case)'{-i,--ignore-case}'[Consider upper- and lower-case to be the same]'
+  '(-w --ignore-all-space)'{-w,--ignore-all-space}'[ignore whitespace changes in patches]'
+  '(-b --ignore-space-change)'{-b,--ignore-space-change}'[ignore changes in the amount of whitespace]'
+  '(-B --ignore-blank-lines)'{-B,--ignore-blank-lines}'[ignore changes whose lines are all blank]'
+  '(-p --strip-match)'{-p,--strip-match=}'[pathname components to ignore]:N'
+  '(-q, --quiet)'{-q,--quiet}'[do not add rationale text]'
+  '(-d --drop-context)'{-d,--drop-context=}'[drop context on matching files]:PAT'
+  '(-z --decompress)'{-z,--decompress}'[decompress .gz and .bz2 files]'
+  '(- : *)--help[display help and exit]'
+  '(- : *)--version[output version information and exit]'
+  ':diff1:_files'
+  ':diff2:_files'
+)
+
+case "${service}" in
+  combinediff)
+    _arguments -s -S -A "-*" \
+      '--interpolate[run as interdiff]' \
+      '--flip[run as flipdiff]' \
+      "${common_args[@]}" && ret=0
+    ;;
+  interdiff)
+    _arguments -s -S -A "-*" \
+      '--no-revert-omitted[When a patch from patch1 is not in patch2, do not revert it]' \
+      '--combine[run as combinediff]' \
+      '--flip[run as flipdiff]' \
+      "${common_args[@]}" && ret=0
+    ;;
+  flipdiff)
+    _arguments -s -S -A "-*" \
+      '--in-place[Write the output to the original input files]' \
+      '--interpolate[run as interdiff]' \
+      '--combine[run as combinediff]' \
+      "${common_args[@]}" && ret=0
+    ;;
+esac
+
+return ret

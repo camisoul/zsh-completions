@@ -1,0 +1,59 @@
+#compdef awk gawk pgawk dgawk
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for awk gawk pgawk dgawk
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# TODO:2015-05-10:var=valのところに_guardを設定したい
+
+local ret=1
+local gnu_opts
+gnu_opts="(-C --copyright -h --help -V --version -F --field-separator -v --assign -b --characters-as-bytes -c --traditional -d --dump-variables -e --source -E --exec -g --gen-pot -L --lint -n --non-decimal-data -N --use-lc-numeric -O --optimize -p --profile -b --characters-as-bytes -P --posix -r --re-interval -R --command -S --sandbox -t --lint-old)"
+
+_arguments -S \
+  '(- : *)'{-C,--copyright}'[Print the short version of the GNU copyright information message on the standard output and exit successfully]' \
+  '(- : *)'{-h,--help}'[Print a relatively short summary of the available options on the standard output]' \
+  '(- : *)'{-V,--version}'[Print version information for this particular copy of gawk on the standard output]' \
+  '(-F --field-separator)'{-F,--field-separator}'[Use fs for the input field separator]:field-separator' \
+  '(-v --assign)'{-v,--assign}'[Assign the value val to the variable var, before execution of the program begins]:var=val' \
+  '(-b --characters-as-bytes)'{-b,--characters-as-bytes}'[Treat all input data as single-byte characters]' \
+  '(-c --traditional)'{-c,--traditional}'[Run  in  compatibility  mode]' \
+  '(-d --dump-variables)'{-d-,--dump-variables=-}'[Print a sorted list of global variables, their types and final values to file]::_file' \
+  '(-e --source)'{-e,--source}'[Use program-text as AWK program source code]:program-text' \
+  '(-E --exec)'{-E,--exec}'[Similar to -f, however, this is option is the last one processed]:file:_files' \
+  '(-g --gen-pot)'{-g,--gen-pot}'[Scan  and  parse the AWK program, and generate a GNU .pot format file on standard output]' \
+  '(-L --lint)'{-L,--lint=-}'[Provide warnings about constructs that are dubious or non-portable to other AWK implementations]::value' \
+  '(-n --non-decimal-data)'{-n,--non-decimal-data}'[Recognize octal and hexadecimal values in input data]' \
+  '(-N --use-lc-numeric)'{-N,--use-lc-numeric}"[This forces gawk to use the locale's decimal point character when parsing input data]" \
+  '(-O --optimize)'{-O,--optimize}'[Enable  optimizations  upon the internal representation of the program]' \
+  '(-p --profile)'{-p-,--profile=-}'[Send profiling data to prof_file]::prof_file' \
+  '(-b --characters-as-bytes -P --posix)'{-P,--posix}'[This turns on compatibility mode, with the following additional restrictions]' \
+  '(-r --re-interval)'{-r,--re-interval}'[Enable  the  use of interval expressions in regular expression matching]' \
+  '(-R --command)'{-R,--command}'[file Dgawk only]' \
+  '(-S --sandbox)'{-S,--sandbox}'[Runs gawk in sandbox mode]' \
+  '(-t --lint-old)'{-t,--lint-old}'[Provide warnings about constructs that are not portable to the original version of Unix awk]' \
+  "${gnu_opts}"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
+  '(-)*:file:_files' && ret=0
+
+return ret

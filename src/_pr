@@ -1,0 +1,60 @@
+#compdef pr
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for pr
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# FIXME:2015-05-05:-や+のあとに直接数字がくる引数を再現できない
+
+local ret=1
+_arguments -s -S \
+  '(- : *)--help[display help and exit]' \
+  '(- : *)--version[output version information and exit]' \
+  '(+ --pages)'{+,--pages=}'[begin (stop) printing with page FIRST_(LAST)_PAGE]:FIRST_PAGE' \
+  '(- --columns)'{-,--columns=}'[output COLUMN columns and print columns down]:COLUMN' \
+  '(-a --across)'{-a,--across}'[print columns across rather than down, used together with -COLUMN]' \
+  '(-c --show-control-chars)'{-c,--show-control-chars}'[use hat notation (^G) and octal backslash notation]' \
+  '(-d --double-space)'{-d,--double-space}'[double space the output]' \
+  '(-D --date-format)'{-D-,--date-format=}'[use FORMAT for the header date]:FORMAT' \
+  '(-e --expand-tabs)'{-e-,--expand-tabs=-}'[expand input CHARs (TABs) to tab WIDTH (8)]:CHAR(WIDTH)' \
+  '(-F -f --form-feed)'{-F,-f,--form-feed}'[use form feeds instead of newlines to separate pages]' \
+  '(-h --header)'{-h,--header=}'[use a centered HEADER instead of filename in page header]:HEADER' \
+  '(-i --output-tabs)'{-i-,--output-tabs=-}'[replace spaces with CHARs (TABs) to tab WIDTH (8)]:CHAR_WIDTH' \
+  '(-J --join-lines)'{-J,--join-lines}'[merge full lines]' \
+  '(-l --length)'{-l,--length=}'[set the page length to PAGE_LENGTH (66) lines]:PAGE_LENGTH' \
+  '(-m --merge)'{-m,--merge}'[print all files in parallel]' \
+  '(-n --number-lines)'{-n-,--number-lines=-}'[number lines, use DIGITS (5) digits]:SEP(DIGITS)' \
+  '(-N --first-line-number)'{-N,--first-line-number}'[start counting with NUMBER at 1st line of first page printed]:NUMBER' \
+  '(-o --indent)'{-o-,--indent=}'[offset each line with MARGIN (zero) spaces]:MARGIN' \
+  '(-r --no-file-warnings)'{-r,--no-file-warnings}'[omit warning when a file cannot be opened]' \
+  '(-s --separator)'{-s-,--separator=-}'[separate columns by a single character]:CHAR' \
+  '(-S --sep-string)'{-S-,--sep-string=-}'[separate columns by STRING]:STRING' \
+  '(-t --omit-header)'{-t,--omit-header}'[omit page headers and trailers]' \
+  '(-T --omit-pagination)'{-T,--omit-pagination}'[omit page headers and trailers]' \
+  '(-v --show-nonprinting)'{-v,--show-nonprinting}'[use octal backslash notation]' \
+  '(-w --width)'{-w-,--width=}'[set page width to PAGE_WIDTH (72) characters]:PAGE_WIDTH' \
+  '(-W --page-width)'{-W-,--page-width=}'[set page width to PAGE_WIDTH (72) characters always]:PAGE_WIDTH' \
+  '*:file:_files' && ret=0
+
+return ret

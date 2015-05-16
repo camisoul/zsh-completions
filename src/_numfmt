@@ -1,0 +1,62 @@
+#compdef numfmt
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for numfmt
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+
+_arguments -s -S \
+  '(- : *)--help[display help and exit]' \
+  '(- : *)--version[output version information and exit]' \
+  '--debug[print warnings about invalid input]' \
+  '(-d --delimiter)'{-d,--delimiter=}'[use X instead of whitespace]:X' \
+  '--field=[replace the number in input field N]:N' \
+  '--format=[use printf style floating-oint FORMAT]:FORMAT' \
+  '--from=[auto-scale input numbers to UNITs]:UNIT:->units' \
+  '--to=[the output unit size]:UNIT:->units' \
+  '--from-unit=[specify the input unit size]:N' \
+  '(--to)--grouping[use locale-defined grouping of digits]' \
+  '--header=[print the first N header lines]:N' \
+  '--invalid=[failure mode for invalid numbers]:MODE' \
+  '--padding=[pad the output to N characters]:N' \
+  '--round=[use METHOD fo rounding when scaling]:METHOD:(up down from-zero towards-zero nearest)' \
+  '--suffix=[add SUFFIX to output numbers]:SUFFIX' \
+  '*: :->numbers' && ret=0
+
+case "${state}" in
+  numbers)
+    _message -e numbers 'number(1024,2K,5M..)' && ret=0
+    ;;
+  units)
+    _values 'UNIT' \
+      'none[no auto-scaling]' \
+      'auto[1K -> 1000, 1Ki -> 1024]' \
+      'si[1000 -> 1.0K]' \
+      'iec[2048 -> 2.0K]' \
+      'iec-i[4096 -> 4.0Ki]' && ret=0
+    ;;
+esac
+
+return ret

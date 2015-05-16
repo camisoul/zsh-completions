@@ -1,0 +1,95 @@
+#compdef dig
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for dig
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# FIXME:2015-05-10:マルチクエリができない
+# FIXME:2015-05-10:タイプの指定が極めて冗長
+
+local ret=1
+
+_arguments -C \
+  '(- : *)-h' \
+  '*-4' \
+  '*-6' \
+  '*-b:address' \
+  '*-f:filename' \
+  '*-k:filename' \
+  '*-p:port' \
+  '*-x:addr' \
+  '*-y:[hmac]\:name\:key' \
+  '*-m' \
+  '*-q:name:_hosts' \
+  '*-t:type:((any\:wildcard a\:internet\ address cname\:canonical\ name\ for\ alias hinfo\:CPU\ and\ operating\ system\ type minfo\:mailbox\ or\ mail\ list\ information mx\:mail\ exchanger ns\:name\ server\ for\ zone ptr\:host\ name\ or\ other\ information soa\:domain\'"'"'s\ \`start-of-authority\'"'"'\ information txt\:text\ information uinfo\:user\ information wks\:supported\ well-known\ services))' \
+  '-c:class:((in\:Internet\ class chaos\:CHAOS\ class hesiod\:MIT\ Athena\ Hesiod\ class any\:wildcard))' \
+  '*+domain=:somename' \
+  '*+split=:W' \
+  '*+time=:T' \
+  '*+tries=:T' \
+  '*+retry=:T' \
+  '*+ndots=:D' \
+  '*+bufsize=:B' \
+  '*+edns=:#' \
+  '*+trusted-key=:####' \
+  '*'{+tcp,+notcp} \
+  '*'{+vc,+novc} \
+  '*'{+ignore,+noignore} \
+  '*'{+search,+nosearch} \
+  '*'{+showsearch,+noshowsearch} \
+  '*'{+aaonly,+noaaonly,+aaflag,+noaaflag} \
+  '*'{+adflag,+noadflag} \
+  '*'{+cdflag,+nocdflag} \
+  '*'{+cdcl,+nocdcl} \
+  '*'{+ttlid,+nottlid} \
+  '*'{+recurse,+norecurse} \
+  '*'{+nssearch,+nonssearch} \
+  '*'{+trace,+notrace} \
+  '*'{+short,+noshort} \
+  '*'{+identify,+noidentify} \
+  '*'{+comments,+nocomments} \
+  '*'{+rrcomments,+norrcomments} \
+  '*'{+stats,+nostats} \
+  '*'{+qr,+noqr} \
+  '*'{+question,+noquestion} \
+  '*'{+answer,+noanswer} \
+  '*'{+authority,+noauthority} \
+  '*'{+additional,+noadditional} \
+  '*'{+multiline,+nomultiline} \
+  '*'{+onesoa,+noonesoa} \
+  '*'{+fail,+nofail} \
+  '*'{+besteffort,+nobesteffort} \
+  '*'{+dnssec,+nodnssec} \
+  '*'{+sigchase,+nosigchase} \
+  '*'{+topdown,+notopdown} \
+  '*'{+nsid,+nonsid} \
+  '*'{+keepopen,+nokeepopen} \
+  '*'{+all,+noall} \
+  '(+cmd +nocmd)'{+cmd,+nocmd} \
+  ':domain:_hosts' \
+  ':query type:((any\:wildcard a\:internet\ address cname\:canonical\ name\ for\ alias hinfo\:CPU\ and\ operating\ system\ type minfo\:mailbox\ or\ mail\ list\ information mx\:mail\ exchanger ns\:name\ server\ for\ zone ptr\:host\ name\ or\ other\ information soa\:domain\'"'"'s\ \`start-of-authority\'"'"'\ information txt\:text\ information uinfo\:user\ information wks\:supported\ well-known\ services))' \
+  ':query class:((in\:Internet\ class chaos\:CHAOS\ class hesiod\:MIT\ Athena\ Hesiod\ class any\:wildcard))' && ret=0
+# '0:@name_server:_hosts'
+
+return ret

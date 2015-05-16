@@ -1,0 +1,45 @@
+#compdef touch
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for touch
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local -a _references
+_references=(-d --date -r --reference -t)
+
+_arguments -s -S \
+  '(- : *)--help[display help and exit]' \
+  '(- : *)--version[output version information and exit]' \
+  '-a[change only the access time]' \
+  '-m[change only the modification time]' \
+  '*--time=[change the specified time]:WORD:(atime access use mtime modify)' \
+  '(-c --no-create)'{-c,--no-create}'[do not create any files]' \
+  '(-h --no-dereference)'{-h,--no-dereference}'[affect each symbolic link instead of any referenced file]' \
+  "(${_references})"{-d,--date=}'[parse STRING and use it]:STRING' \
+  "(${_references})"{-r,--reference=}"[use this file's times instead of current time]:FILE:_files" \
+  "(${_references})"'-t[use \[\[CC\]YY\]MMDDhhmm\[.ss\] instead of current time]:STAMP([[CC]YY]MMDDhhmm[.ss]):_guard "(|[0-9][0-9])(|[0-9][0-9])[0-1][0-9][0-3][0-9][0-5][0-9][0-5][0-9](|.[0-5][0-9])" "ok"' \
+  '*:file:_files' && ret=0
+
+return ret

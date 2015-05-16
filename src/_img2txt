@@ -1,0 +1,70 @@
+#compdef img2txt
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for img2txt
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+_arguments -s -S \
+  '(- : *)'{-h,--help}'[display help and exit]' \
+  '(- : *)'{-v,--version}'[output version information and exit]' \
+  '(-W --width)'{-W,--width=}'[Width of resulting image]:WIDTH' \
+  '(-H --height)'{-H,--height=}'[Height of resulting image]:HEIGHT' \
+  '(-x --font-width)'{-x,--font-width=}'[Width of output font]:WIDTH' \
+  '(-y --font-height)'{-y,--font-height=}'[Height of output font]:HEIGHT' \
+  '(-b --brightness)'{-b,--brightness=}'[Brightness of resulting image]:BRIGHTNESS' \
+  '(-c --contrast)'{-c,--contrast=}'[Contrast of resulting image]:CONTRAST' \
+  '(-g --gamma)'{-g,--gamma=}'[Gamma of resulting image]:GAMMA' \
+  '(-d --dither)'{-d,--dither=}'[Dithering algorithm to use]: :->dithering' \
+  '(-f --format)'{-f,--format=}'[Format of the resulting image]: :->format' \
+  '*:file:_files' && ret=0
+
+case "${state}" in
+  dithering)
+    _values 'dithering type' \
+      'none[no dithering]' \
+      'ordered2[2x2 ordered dithering]' \
+      'ordered4[4x4 ordered dithering]' \
+      'ordered8[8x8 ordered dithering]' \
+      'random[random dithering]' \
+      'fstein[Floyd-Steinberg dithering]' && ret=0
+    ;;
+  format)
+    _values 'formats' \
+      'caca[native libcaca format]' \
+      'ansi[ANSI]' \
+      'utf8[UTF-8 with ANSI escape codes]' \
+      'utf8cr[UTF-8 with ANSI escape codes and MS-DOS \\r]' \
+      'html[HTML]' \
+      'html3[backwards-compatible HTML]' \
+      'bbfr[BBCode (French)]' \
+      'irc[IRC with mIRC colours]' \
+      'ps[PostScript document]' \
+      'svg[SVG vector image]' \
+      'tga[TGA image]' \
+      'troff[troff source]' && ret=0
+    ;;
+esac
+
+return ret

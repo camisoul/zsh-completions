@@ -1,0 +1,44 @@
+#compdef flock
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for flock
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# FIXME:2015-05-05:file以降に--commandが入力できない
+
+local ret=1
+_arguments -s -S \
+  '(- : *)'{-h,--help}'[display help and exit]' \
+  '(- : *)'{-V,--version}'[output version information and exit]' \
+  '(-s --shared)'{-s,--shared}'[Get a shared lock]' \
+  '(-x -e --exclusive)'{-x,-e,--exclusive}'[Get an exclusive lock]' \
+  '(-u --unlock)'{-u,--unlock}'[Remove a lock]' \
+  '(-n --nb --nonblock)'{-n,--nb,--nonblock}'[Fail rather than wait]' \
+  '(-w --wait --timeout)'{-w,--wait,--timeout}'[Wait for a limited amount of time]:seconds' \
+  '(-o --close)'{-o,--close}'[Close file descriptor before running command]' \
+  ':file:_files' \
+  '(-)'{-c,--command}'[Run a single command string through the shell]:command:_command_names -e' \
+  '*::args:_normal' && ret=0
+
+return ret

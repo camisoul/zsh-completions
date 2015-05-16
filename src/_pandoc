@@ -1,0 +1,153 @@
+#compdef pandoc
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for pandoc
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local -a general_opts reader_opts general_writer_opts specific_writers_opts citation_opts math_rendering_opts wrapper_opts
+
+general_opts=(
+  '(* 1 -)'{-v,--version}'[print version]'
+  '(* 1 -)'{-h,--help}'[show usage message]'
+  '(-f -r --from --read)'{-f,-r,--from=,--read=}'[specify input format]:FORMAT:->iformats'
+  '(-t -w --to --write)'{-t,-w,--to=,--write=}'[specify output format]:FORMAT:->oformats'
+  '(-o --output)'{-o,--output=}'[write output to FILE]:FILE:_files'
+  '--date-dir=[specify the user data directory]:DIRECTORY:_files -/'
+  )
+
+reader_opts=(
+  '(-R --parse-raw)'{-R,--parse-raw}'[parse untranslatable HTML cods and LaTex environments as raw HTML or LaTeX]'
+  '(-S --smart)'{-S,--smart}'[produce typographically correct]'
+  '--base-header-level=[specify the base level for headers]:NUMBER'
+  '--indented-code-classes=[specify classes to use for indented code blocks]:CLASSES'
+  '--default-image-extension=[specify a default extension to use when image paths/URLs have no extension]:EXTENSION'
+  '--filter=[specify an executable to be used as a filter transforming the Pandoc AST]:EXECUTABLE:_files'
+  '(-M --metadata)*'{-M,--metadata=}'[set the metadata field KEY to the value VAL]:KEY[\:VAL]'
+  '--normalize[normalize the document after reading]'
+  '(-p --preserve-tabs)'{-p,--preserve-tabs}'[preserve tabs instead of converting them to spaces]'
+  '--tab-stop=[specify the number of spaces per tab]:NUMBER'
+  )
+
+general_writer_opts=(
+  '(-s --standalone)'{-s,--standalone}'[produce output with an appropriate header and fotter]'
+  '--template=[use FILE as a custom template]:FILE:_files'
+  '(-V --variable)*'{-V,--variable=}'[set the template variable KEY to the value VAL]:KEY[\:VAL]'
+  '(-D --print-default-template)*'{-D,--print-default-template=}"[print the default template fo an output FORMAT]:FORMAT:${outputf[*]}"
+  '--print-default-data-file=[print a default data file]:FILE:_files'
+  '--no-wrap[disable text wrapping in output]'
+  '--columns=[specify length of lines]:NUMBER'
+  '(-toc --table-of-contents)'{--toc,--table-of-contents}'[include an automatically generated table of contents]'
+  '--toc-depth=[specify the number of section levels to include in the table of contents]:NUMBER'
+  '--no-highlight[disables syntax highlighting]'
+  '--highlight-style=[specifies the coloring style]:STYLE:(pygments kate monochrome espresso zenburn haddock tango)'
+  '(-H --include-in-header)'{-H,--include-in-header=}'[include contents of FILE, verbatim, at the end of the header]:FILE:_files'
+  '(-B --include-before-body)'{-B,--include-before-body=}'[include contents of FILE, verbatim, at the begining of the document body]:FILE:_files'
+  '(-A --include-after-body)'{-A,--include-after-body=}'[include contents of FILE, verbatim, at the end of the document body]:FILE:_files'
+  )
+
+specific_writers_opts=(
+  '--self-contained[produce a standalone HTML file with no external dependencies]'
+  '--html-q-tags[use <q> tags for quotes in HTML]'
+  '--ascii[use only ascii characters in output]'
+  '--refernce-links[use reference -style links, rather than inline links, in writing markdown or reStructured Text]'
+  '--atx-headers[use ATX style headers in markdown and asciidoc output]'
+  '--chapters[treat top-level headers as chapters]'
+  '(-N --number-sections)'{-N,--number-sections}'[number section headings in LaTeX,ConTeXt, HTML, or EPUB output]'
+  '--number-offset=[offset for section hedings in HTML output]:NUMBER'
+  '--no-tex-ligatures[do not convert quotation marks, apostrophes, and dashes to the TeX ligatures when writing LaTeX or GonTeXt]'
+  '(-i --incremental)'{-i,--incremental}'[make list items in slide shows display incrementally]'
+  '--slide-level=[specifies that headers with the specified level creates slides]:NUMBER'
+  '--sections-divs[wrap sections in <div> tags]'
+  '--email-obfuscations=[specify a method for obfuscating mailto: links in HTML documents]:obfuscation:(none javascript references)'
+  '--id-prefix=[specify a prefix to be added to all automatically generated identifiers in HTML and DocBook, and footnote in output]:STRING'
+  '(-T --title-prefix)'{-T,--title-prefix=}'[specify STRING as prefix at the beginning of the title]:STRING'
+  '(-c --css)'{-c,--css=}'[Link to a CSS style sheet]:URL'
+  '--reference-obt=[use the specified file as a style reference in producing an ODT]:FILE:_files'
+  '--reference-docx=[use the specified file as a style reference in producing a docx file]:FILE:_files'
+  '--epub-stylesheet=[use the specified CSS file to tyle the EPUB]:FILE:_files'
+  '--epub-cover-image=[use the specified image as the EPUB cover]:FILE:_files'
+  '--epub-metadata=[look in the specified XML file]:FILE:_files'
+  '--epub-embed-font=[embed the specified font in the EPUB]:FILE:_files'
+  '--epub-chapter-level=[specify the header level at which to split the EPUB]:NUMBER'
+  '--latex-engine=[use the specified LaTeX engine when producing PDF output]:engine:(pdflatex lualatex xelatex)'
+  )
+
+citation_opts=(
+  '--bibliography=[set the bibliography field]:FILE:_files'
+  '--cls=[set the csl field]:FILE:_files'
+  '--citation-abbreviations=[set the citation-abbreviations field]:FILE:_files'
+  '--natbib[use natbib for citations in LaTeX output]'
+  '--biblatex[use biblatex for citations in LaTeX output]'
+  )
+
+math_rendering_opts=(
+  '(-m --latexmathml)'{-m,--latexmathml=-}'[use LaTeXMathML to display embedded TeX math in HTML output]:URL:_urls'
+  '--mathml=-[convert TeX math to MathML]:URL:_urls'
+  '--jsmath=-[use jsMath to display embedded TeX math in HTML output]:URL:_urls'
+  '--mathjax=-[use MathJax to display embedded TeX math in HTML output]:URL:_urls'
+  '--gladtex[enclose TeX math in <eq> tags in HTML output]'
+  '--mimetex=-[render TeX math using the mimeTeX CGI script]:URL:_urls'
+  '--webtex=-[render TeX formulas using an external script]:URL:_urls'
+  )
+
+wrapper_opts=(
+  '--dump-args[print information about command-line arguments to stdout, then exit]'
+  '--ignore-args[ignore command-line arguments]'
+  )
+
+_arguments -s -S \
+  "${general_opts[@]}" \
+  "${reader_opts[@]}" \
+  "${general_writer_opts[@]}" \
+  "${specific_writers_opts[@]}" \
+  "${citation_opts[@]}" \
+  "${math_rendering_opts[@]}" \
+  "${wrapper_opts[@]}" \
+  '*:input file or URI:_files' && ret=0
+
+case "${state}" in
+  *formats)
+    local help_text start_str stop_str start_index stop_index
+    local -a formats
+    case "${state}" in
+      iformats)
+        start_str='Input formats'
+        stop_str='Output formats'
+        ;;
+      oformats)
+        start_str='Output formats'
+        stop_str='Options'
+        ;;
+    esac
+    help_text=$(pandoc --help)
+    start_index=$(echo "${help_text}" | grep -n "${start_str}" | cut -d':' -f1)
+    stop_index=$(echo "${help_text}" | grep -n "${stop_str}" | cut -d':' -f1)
+    formats=($(echo "${help_text}" | sed -n -e "${start_index}","$(( stop_index - 1))"p | sed -e 's/'"${start_str}"'://g' -e 's/\[.*\]//g' | tr -d '*,\n'))
+    _values 'formats' "${formats[@]}" && ret=0
+    ;;
+esac
+
+return ret
+

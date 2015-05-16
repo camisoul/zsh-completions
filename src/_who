@@ -1,0 +1,49 @@
+#compdef who
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for who
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+_arguments -s -S \
+  '(-a --all -b --boot -d --dead -l --login -p --process -r --runlevel -t --time -T -w --mesg --message --writable -u --users)'{-a,--all}'[same as -b -d --login -p -r -t -T -u]' \
+  '(-b --boot)'{-b,--boot}'[time of last system boot]' \
+  '(-d --dead)'{-d,--dead}'[print dead processes]' \
+  '(-H --heading)'{-H,--heading}'[print line of column headings]' \
+  '--ips[print ips instead of hostnames]' \
+  '(-l --login)'{-l,--login}'[print system login processes]' \
+  '--lookup[attempt to canonicalize hostnames via DNS]' \
+  '-m[only hostname and user associated with stdin]' \
+  '(-p --process)'{-p,--process}'[print active processes spawned by init]' \
+  '(-q --count)'{-q,--count}'[all login names and number of users logged on]' \
+  '(-r --runlevel)'{-r,--runlevel}'[print current runlevel]' \
+  '(-s --short)'{-s,--short}'[print only name, line, and time (default)]' \
+  '(-t --time)'{-t,--time}'[print last system clock change]' \
+  '(-T -w --mesg --message --writable)'{-T,-w,--mesg,--message,--writable}"[add user's message status as +, - or ?]" \
+  '(-u --users)'{-u,--users}'[list users logged in]' \
+  '(- : *)--help[display help and exit]' \
+  '(- : *)--version[output version information and exit]' \
+  '*:file:_files' && ret=0
+
+return ret

@@ -1,0 +1,83 @@
+#compdef lsblk
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for lsblk
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+
+local ret=1
+_arguments -s -S \
+  '(- : *)--help[display help and exit]' \
+  '(-a --all)'{-a,--all}'[print all devices]' \
+  '(-b --bytes)'{-b,--bytes}'[print SIZE in bytes rather than in human readable format]' \
+  '(-d --nodeps)'{-d,--nodeps}"[don't print slaves or holders]" \
+  '(-D --discard)'{-D,--discard}'[print discard capabilities]' \
+  '(-e --exclude)'{-e,--exclude}'[exclude devices by major number (default: RAM disks)]:list' \
+  '(-f --fs)'{-f,--fs}'[output info about filesystems]' \
+  '(-i --ascii)'{-i,--ascii}'[use ascii characters only]' \
+  '(-m --perms)'{-m,--perms}'[output info about permissions]' \
+  '(-l --list)'{-l,--list}'[use list format ouput]' \
+  '(-n --noheadings)'{-n,--noheadings}"[don't print headings]" \
+  '(-o --output)'{-o,--output}'[output columns]:list:->available_list' \
+  '(-P --pairs)'{-P,--pairs}'[use key="value" output format]' \
+  '(-r --raw)'{-r,--raw}'[use raw output format]' \
+  '(-t --topology)'{-t,--topology}'[output info about topology]' \
+  '::device:_files' && ret=0
+
+case "${state}" in
+  available_list)
+    _values 'available columns' \
+      'NAME[device name]' \
+      'KNAME[internal kernel device name]' \
+      'MAJ:MIN[major:minor device number]' \
+      'FSTYPE[filesystem type]' \
+      'MOUNTPOINT[where the device is mounted]' \
+      'LABEL[filesystem LABEL]' \
+      'UUID[filesystem UUID]' \
+      'RO[read-only device]' \
+      'RM[removable device]' \
+      'MODEL[device identifier]' \
+      'SIZE[size of the device]' \
+      'STATE[state of the device]' \
+      'OWNER[user name]' \
+      'GROUP[group name]' \
+      'MODE[device node permissions]' \
+      'ALIGNMENT[alignment offset]' \
+      'MIN-IO[minimum I/O size]' \
+      'OPT-IO[optimal I/O size]' \
+      'PHY-SEC[physical sector size]' \
+      'LOG-SEC[logical sector size]' \
+      'ROTA[rotational device]' \
+      'SCHED[I/O scheduler name]' \
+      'RQ-SIZE[request queue size]' \
+      'TYPE[device type]' \
+      'DISC-ALN[discard alignment offset]' \
+      'DISC-GRAN[discard granularity]' \
+      'DISC-MAX[discard max bytes]' \
+      'DISC-ZERO[discard zeroes data]' && ret=0
+    ;;
+esac
+
+return ret

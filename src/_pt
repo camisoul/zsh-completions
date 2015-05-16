@@ -1,0 +1,64 @@
+#compdef pt
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for pt
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+
+_arguments -s -S \
+  '(- 1 *)--version[display version and copyright information]' \
+  '(- 1 *)--help[print a short help statement]' \
+  '(-A --after)'{-A+,--after=}'[Print lines before match. Defaults to 2.]:LINES' \
+  '(-B --before)'{-B+,--before=}'[Print lines after match. Defaults to 2.]:LINES' \
+  '(-C --context)'{-C+,--context=}'[Print lines before and after matches. Defaults to 2.]:LINES' \
+  '(--nocolor --color)'{--nocolor,--color}'[Print color codes in results. Enabled by default.]' \
+  '--depth=[Search up to NUM directories deep. Default is 25.]:NUM' \
+  '(-f --follow)'{-f,--follow}'[Follow symlinks.]' \
+  '--nogroup[Do not print file name at header (Disabled by default)]' \
+  '-e[Parse PATTERN as a regular expression (Disabled by default)]' \
+  '-g=[Print filenames that match PATTERN]:PATTERN' \
+  '(-G --file-search-regexp)'{-G+,--file-search-regexp=}'[Only search file names matching PATTERN]:PATTERN' \
+  '(-H --hidden)'{-H,--hidden}'[Search hidden files. This option obeys ignore files.]' \
+  '(-i --ignore-case)'{-i,--ignore-case}'[Match case insensitively]' \
+  '--ignore=[Ignore files/directories matching this pattern. Literal file and directory names are also allowed.]:PATTERN' \
+  '--noptignore[Do not use default ($Home/.ptignore) file for ignore patterns]' \
+  '--noglobal-gitignore[Do not use global gitignore file for ignore patterns]' \
+  '(-o --output-encode)'{-o+,--output-encode=}'[Specify output encoding]:encode:(none jis sjis euc)' \
+  '(-l --files-with-matches)'{-l,--files-with-matches}'[Only print filenames containing matches, not matching lines.]' \
+  '--vcs-ignore=[VSC ignore files (.gitignore, .hgignore, .ptignore]:PATTERN' \
+  '(-S --smart-case)'{-S,--smart-case}'[Match case sensitively if there are any uppercase letters in PATTERN, or case insensitively otherwise.]' \
+  '--stats[Print stats (files scanned, time taken, etc)]' \
+  '(-U --skip-vsc-ignores)'{-U,--skip-vsc-ignores}'[Ignore VCS ignore files (.gitigore, .hgignore, svn:ignore), but still use .ptignore.]' \
+  '(-w --word-regexp)'{-w,--word-regexp}'[Only match whole words.]' \
+  '1: :->patterns' \
+  '*: :_files' && ret=0
+
+case $state in
+  patterns)
+    _message -e patterns 'pattern' && ret=0
+    ;;
+esac
+
+return ret

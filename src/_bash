@@ -1,0 +1,52 @@
+#compdef bash
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for bash
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# FIXME:2015-05-10:`-c`のあとにコマンドが入力できない
+local ret=1
+
+_arguments -S \
+  '(- : *)--help' \
+  '(- : *)--version' \
+  '--debugger[arrange for the debugger profile to be executed before the shell starts]' \
+  '(-D --dump-strings)--dump-po-strings[equivalent to -D, but the output is in the GNU gettext po file format]' \
+  '(-D --dump-strings --dump-po-strings)'{-D,--dump-strings}'[dump strings]' \
+  '(-l --login)'{-l,--login}'[make bash act as if it had been invoked as a login shell]' \
+  '(--rcfile --init-file --norc)'{--rcfile,--init-file}'[execute commands from file instead of rc file]:file:_files' \
+  '--noediting[do not use the GNU readline library]' \
+  '--noprofile[do not read login and profile files]' \
+  '(--rcfile --init-file)--norc[do not read bashrc files]' \
+  '--posix[change the behavior of bash to posix mode]' \
+  '(-r --restricted)'{-r,--restricted}'[restricted shell]' \
+  '(-v --verbose)'{-v,--verbose} \
+  '-c[read commands from the commad_string]:command_string' \
+  '-s[stdin]' \
+  '-i[interactive]' \
+  '*-O[sets the value]:shopt_option:(allexport braceexpand emacs errexit errtrace functrace hashall histexpand history ignoreeof keyword monitor noclobber noexec noglob nolog notify nounset onecmd physical pipefail posix privileged verbose vi xtrace)' \
+  '*+O[unsets the value]:shopt_option:(allexport braceexpand emacs errexit errtrace functrace hashall histexpand history ignoreeof keyword monitor noclobber noexec noglob nolog notify nounset onecmd physical pipefail posix privileged verbose vi xtrace)' \
+&& ret=0
+
+return ret

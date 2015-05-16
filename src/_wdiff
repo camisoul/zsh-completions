@@ -1,0 +1,71 @@
+#compdef wdiff
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for wdiff
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+args=(
+  '(- : *)'{-h,--help}'[display help and exit]'
+  '(- : *)'{-v,--version}'[output version information and exit]'
+  '(- : *)'{-C,--copyright}'[display copyright then exit]'
+  '(-1 --no-deleted)'{-1,--no-deleted}'[inhibit output of deleted words]'
+  '(-2 --no-inserted)'{-2,--no-inserted}'[inhibit output of inserted words]'
+  '(-3 --no-common)'{-3,--no-common}'[inhibit output of common words]'
+  '(-a --auto-pager)'{-a,--auto-pager}'[automatically calls a pager]'
+  '(-i --ignore-case)'{-i,--ignore-case}'[fold character case while comparing]'
+  '(-l --less-mode)'{-l,--less-mode}'[variation of printer mode for "less"]'
+  '(-n --avoid-wraps)'{-n,--avoid-wraps}'[do not extend fields through newlines]'
+  '(-p --printer)'{-p,--printer}'[overstrike as for printers]'
+  '(-s --statistics)'{-s,--statistics}'[say how many words deleted, inserted etc.]'
+  '(-t --terminal)'{-t,--terminal}'[use termcap as for terminal displays]'
+  '(-w --start-delete)'{-w,--start-delete=}'[string to mark beginning of delete region]:STRING'
+  '(-x --end-delete)'{-x,--end-delete=}'[string to mark end of delete region]:STRING'
+  '(-y --start-insert)'{-y,--start-insert=}'[string to mark beginning of insert region]:STRING'
+  '(-z --end-insert)'{-z,--end-insert=}'[string to mark end of insert region]:STRING'
+)
+
+if (( CURRENT == 2 )); then
+  _arguments -S -A "-*" \
+    "${args[@]}" \
+    '(-d --diff-input)'{-d,--diff-input}'[use single unified diff as input]' \
+    '(-):FILE1:_files' \
+    '(-):FILE2:_files' && ret=0
+else
+  case "${words[2]}" in
+    -d|--diff-input)
+      _arguments -s -S -A "-*" \
+        "${args[@]}" \
+        '(-):FILE:_files' && ret=0
+      ;;
+    *)
+      _arguments -s -S -A "-*" \
+        "${args[@]}" \
+        '(-):FILE1:_files' \
+        '(-):FILE2:_files' && ret=0
+      ;;
+  esac
+fi
+
+return ret

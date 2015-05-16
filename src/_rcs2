@@ -1,0 +1,125 @@
+#compdef rcs ci co
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for rcs ci co
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+# TODO:2015-05-10:revisionが常に要求されるのをなんとかしたい
+# TODO:2015-05-10:rcsのコマンド指定で分岐させたい
+# TODO:2015-05-10:rcsdiff等にも対応したい
+
+local ret=1
+
+if [[ $service = ci ]]; then
+_arguments -C -s \
+    '-i-[initial checkin]:rev' \
+    '-I-[interactive]:rev' \
+    '-j-[just checkin]:rev' \
+    '-k-[compute revision from wroking file keywords]:rev' \
+    '-q-[quiet mode]:rev' \
+    '(-u -l -r)-r-[check in revision]:rev' \
+    '(-u -l -r)-l-[check in and out again and locked]:rev' \
+    '(-u -l -r)-u-[check in and out again and unlocked]:rev' \
+    '-M-[reset working file mtime]:rev' \
+    '-d-[use DATE]:DATE' \
+    '-m-[use MSG as the log message]:MSG' \
+    '-n-[assign symbolic NAME to the entry]:NAME' \
+    '-N-[overrite symbolic NAME to the entry]:NAME' \
+    '-s-[set state to STATE]:STATE' \
+    '-t\--[set description to TEXT]:TEXT' \
+    '-t-[set description from text read from FILENAME]:FILENAME' \
+    '-T[set the RCS files modification time]' \
+    '-V-[Emulate RCS version N]:N' \
+    '-w-[use WHO as the author]:WHO' \
+    '-x-[specify SUFF as a slash-separated list of suffiexes]:SUFF' \
+    '-z-[specify date output format]:ZONE' \
+    '*: :_rcs' && ret=0
+elif [[ $service = co ]]; then
+_arguments -C -s \
+    '-f-[force overwrite of working file]:rev' \
+    '-I-[interactive]:rev' \
+    '-p-[write to stdout]:rev' \
+    '-q-[quiet mode]:rev' \
+    '(-u -l -r)-r-[check out revision]:rev' \
+    '(-u -l -r)-l-[check out and locked]:rev' \
+    '(-u -l -r)-u-[check out and unlocked]:rev' \
+    '-M-[reset working file mtime]:rev' \
+    '-k-[use SUBST substitution]:SUBST:->subst' \
+    '-d-[select latest before or on DATE]:DATE' \
+    '-s-[select matching state STATE]:STATE' \
+    '-S[enable self-same mode]' \
+    '-T[preserve the modification time on the RCS file]' \
+    '-w-[select matching login WHO]:WHO' \
+    '-V-[Emulate RCS version N]:N' \
+    '-j-[generates a new revision which is the join of the revisions on joinlist]:joinlist' \
+    '-x-[specify SUFF as a slash-separated list of suffiexes]:SUFF' \
+    '-z-[specify date output format]:ZONE' \
+    '*: :_rcs' && ret=0
+elif [[ $service = rcs ]]; then
+_arguments -C -s \
+    '(- : *)--help[print help]:command:(ci co frob clean diff merge log)' \
+    '(- : *)--aliases[display command aliases]' \
+    '(- : *)--command[display available commands]' \
+    '(- : *)--version[print version number]' \
+    '-i[cleate and initialize]' \
+    '(-e)-a-[append the login names]:logins' \
+    '(-a)-e-[erase the login names]:logins' \
+    '-A-[append the access list of oldfile]:oldfile' \
+    '-b-[set the default branch]:rev' \
+    '-c-[set the comment leader]:string' \
+    '-k-[set the default keyword substitution]:subst:->subst' \
+    '(-u)-l-[lock the revision with number rev]:rev' \
+    '(-l)-u-[unlock the revision with number rev]:rev' \
+    '(-U)-L[set locking to strict]' \
+    '(-L)-U[set locking to unstrict]' \
+    '-m-[replace revision log message]:rev' \
+    '-M[do not send mail]' \
+    '(-N)-n-[associate the symbolic name]:name' \
+    '(-n)-N-[associate the symbolic name(override)]:name' \
+    '-o-[deletes the revisions]:range' \
+    '(-I)-q[run quietly]' \
+    '(-q)-I[run interactively]' \
+    '-s-[set the state attribute]:state' \
+    '-t-[write descriptive text]:file' \
+    '-t\--[write descriptive text from the string]:string' \
+    '-T[preserve the modification time]' \
+    '-x-[use suffixes]:suffixes' \
+    '-z-[use zone]:zone' \
+    '*: :_rcs' && ret=0
+fi
+
+case "${state}" in
+  subst)
+    _values "subst" \
+      'kv[generate keyword strings using the default form]' \
+      "kvl[like -kkv, except that a locker's name is always inserted]" \
+      'k[generate only keyword names in keyword strings]' \
+      'o[generate old keyword string]' \
+      'b[generate a binary image of the old keyword string]' \
+      'v[generate only keyword values for keyword strings]' && ret=0
+    ;;
+esac
+
+
+return ret

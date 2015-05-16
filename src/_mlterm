@@ -1,0 +1,209 @@
+#compdef mlterm
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for mlterm
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+
+_arguments -s -S \
+  '(-# --initstr)'{-\#,--initstr=}'[initial string sent to pty]:value' \
+  '(-$ --mc)'{-$,--mc=}'[click interval(milisecond)  (250)]:value' \
+  '(-% --logseq)'{-%,--logseq=}'[enable logging vt100 sequence  (false)]::value:->bool' \
+  '(-& --borderless)'{-\&,--borderless=}'[override redirect  (false)]::value:->bool' \
+  '(-* --type)'{-\*,--type=}'[type engine  (xft)]:value:(xcore xft cairo)' \
+  '(-0 --crbg)'{-0,--crbg=}'[cursor background color]:value' \
+  '(-1 --wscr)'{-1,--wscr=}'[screen width in percent against font width  (100)]:value' \
+  '(-2 --hscr)'{-2,--hscr=}'[screen height in percent against font height  (100)]:value' \
+  '(-3 --contrast)'{-3,--contrast=}'[contrast of background image in percent  (100)]:value' \
+  '(-4 --gamma)'{-4,--gamma=}'[gamma of background image in percent  (100)]:value' \
+  '(-5 --big5bug)'{-5,--big5bug=}'[manage buggy Big5 CTEXT in XFree86 4.1 or earlier  (false)]::value:->bool' \
+  '(-6 --stbs)'{-6,--stbs=}'[screen is static under backscroll mode  (false)]::value:->bool' \
+  '(-7 --bel)'{-7,--bel=}'[bel (0x07) mode (none/sound/visual)  (sound)]:value:(none sound visual)' \
+  '(-8 --88591)'{-8,--88591=}'[use ISO-8859-1 font for ASCII part of any encoding  (false)]::value:->bool' \
+  '(-9 --crfg)'{-9,--crfg=}'[cursor foreground color]:value' \
+  '(-@ --screens)'{-@,--screens=}'[number of screens to open in start up  (1)]:value' \
+  '(-A --aa)'{-A,--aa=}'[forcibly use anti alias font by using Xft or cairo]:value:->bool' \
+  '(-B --sbbg)'{-B,--sbbg=}'[scrollbar background color]:value' \
+  '(-E --km)'{-E,--km=}'[character encoding (AUTO/ISO-8859-*/EUC-*/UTF-8/...)  (AUTO)]:value:->encs' \
+  '(-F --sbfg)'{-F,--sbfg=}'[scrollbar foreground color]:value' \
+  '(-G --vertical)'{-G,--vertical=}'[vertical mode (none/cjk/mongol)  (none)]:value:(none cjk mongol)' \
+  '(-H --bright)'{-H,--bright=}'[brightness of background image in percent  (100)]:value' \
+  '(-I --icon)'{-I,--icon=}'[icon name]:value' \
+  '(-J --dyncomb)'{-J,--dyncomb=}'[use dynamic combining  (false)]::value:->bool' \
+  '(-K --metakey)'{-K,--metakey=}'[meta key  (none)]:value' \
+  '(-L --ls)'{-L,--ls=}'[turn on login shell  (false)]::value:->bool' \
+  '(-M --im)'{-M,--im=}'[input method (xim/kbd/uim/m17nlib/scim/ibus/none)  (xim)]:value:(xim kbd uim m17nlib scim ibus none)' \
+  '(-N --name)'{-N,--name=}'[application name]:value' \
+  '(-O --sbmod)'{-O,--sbmod=}'[scrollbar mode (none/left/right)  (none)]:value:(none left right)' \
+  '(-P --clip)'{-P,--clip=}'[use CLIPBOARD (not only PRIMARY) selection  (true)]::value:->bool' \
+  '(-Q --vcur)'{-Q,--vcur=}'[rearrange cursor key for vertical mode  (false)]::value:->bool' \
+  '(-R --fsrange)'{-R,--fsrange=}'[font size range for GUI configurator  (6-30)]:value' \
+  '(-S --sbview)'{-S,--sbview=}'[scrollbar view name (simple/sample/...)  (simple)]:value:(simple sample sample2 athena motif mozmodern next)' \
+  '(-T --title)'{-T,--title=}'[title name]:value' \
+  '(-U --viaucs)'{-U,--viaucs=}'[process received (pasted) strings via Unicode  (false)]::value:->bool' \
+  '(-V --varwidth)'{-V,--varwidth=}'[variable column width (for proportional/ISCII)  (false)]::value:->bool' \
+  '(-W --sep)'{-W,--sep=}'[word-separating characters for double-click  (,.:;/@)]:value' \
+  '(-X --alpha)'{-X,--alpha=}'[alpha blending for translucent  (255)]:value' \
+  '(-Y --decsp)'{-Y,--decsp=}'[compose dec special font  (false)]::value:->bool' \
+  '(-Z --multicol)'{-Z,--multicol=}'[fullwidth character occupies two logical columns  (true)]::value:->bool' \
+  '(-a --ac)'{-a,--ac=}'[columns for Unicode "EastAsianAmbiguous" character  (1)]:value' \
+  '(-b --bg)'{-b,--bg=}'[background color]:value' \
+  '(-c --cp932)'{-c,--cp932=}'[use CP932-Unicode mapping table for JISX0208  (false)]::value:->bool' \
+  '(-d --display)'{-d,--display=}'[X server to connect]:value' \
+  '(-f --fg)'{-f,--fg=}'[foreground color]:value' \
+  '(-g --geometry)'{-g,--geometry=}'[size (in characters) and position  (80x24)]:value:_x_geometry' \
+  '(-i --xim)'{-i,--xim=}'[use XIM (X Input Method)  (true)]::value:->bool' \
+  '(-j --daemon)'{-j,--daemon=}'[start as a daemon (none/blend/genuine)  (none)]:value:(none blend genuine)' \
+  '(-k --meta)'{-k,--meta=}'[mode in pressing meta key (none/esc/8bit)  (8bit)]:value:(none esc 8bit)' \
+  '(-l --sl)'{-l,--sl=}'[number of backlog (scrolled lines to save)  (128)]:value' \
+  '(-m --comb)'{-m,--comb=}'[use combining characters  (true)]::value:->bool' \
+  '(-n --noucsfont)'{-n,--noucsfont=}'[use non-Unicode fonts even in UTF-8 mode  (false)]::value:->bool' \
+  '(-o --lsp)'{-o,--lsp=}'[extra space between lines in pixels  (0)]:value' \
+  '(-p --pic)'{-p,--pic=}'[path for wallpaper (background) image]:value:_files' \
+  '(-q --extkey)'{-q,--extkey=}'[use extended scroll shortcut keys  (false)]::value:->bool' \
+  '(-r --fade)'{-r,--fade=}'[fade ratio in percent when window unfocued  (100)]:value' \
+  '(-s --sb)'{-s,--sb=}'[use scrollbar  (true)]::value:->bool' \
+  '(-t --transbg)'{-t,--transbg=}'[use transparent background  (false)]::value:->bool' \
+  '(-u --onlyucsfont)'{-u,--onlyucsfont=}'[use a Unicode font even in non-UTF-8 modes  (false)]::value:->bool' \
+  '(-v --version)'{-v,--version=}'[show version message]:value:->bool' \
+  '(-w --fontsize)'{-w,--fontsize=}'[font size in pixels  (16)]:value' \
+  '(-x --tw)'{-x,--tw=}'[tab width in columns  (8)]:value' \
+  '(-y --term)'{-y,--term=}'[terminal type for TERM variable  (xterm)]:value:_terminals' \
+  '(-z --largesmall)'{-z,--largesmall=}'[step in changing font size in GUI configurator  (1)]:value' \
+  '--bdfont=[use bold fonts  (true)]::value:->bool' \
+  '--itfont=[use italic fonts  (true)]::value:->bool' \
+  '--iconpath=[path to an imagefile to be use as an window icon]:value:_files' \
+  '--parent=[parent window]:value:_x_window' \
+  '--bd=[Color to use to display bold characters (equivalent to colorBD)]:value' \
+  '--it=[Color to use to display italic characters]:value' \
+  '--ul=[Color to use to display underlined characters (equivalent to colorUL)]:value' \
+  '--bl=[Color to use to display blinking characters (equivalent to colorBL)]:value' \
+  '--co=[Color to use to display crossed-out characters]:value' \
+  '--noul=[Do not draw underline  (false)]::value:->bool' \
+  '--csp=[extra space between letters in pixels  (0)]:value' \
+  '--osc52=[allow access to clipboard by OSC 52 sequence  (false)]::value:->bool' \
+  '--blink=[blink cursor  (false)]::value:->bool' \
+  '--border=[inner border  (2)]:value' \
+  '--restart=[restart mlterm automatically if an error like segv happens.  (true)]::value:->bool' \
+  '--logmsg=[output messages to ~/.mlterm/msg.log  (true)]::value:->bool' \
+  '--loecho=[use local echo  (false)]::value:->bool' \
+  '--altbuf=[use alternative buffer.  (true)]::value:->bool' \
+  '--colors=[recognize ANSI color change escape sequences.  (true)]::value:->bool' \
+  '--exitbs=[exit backscroll mode on receiving data from pty.  (false)]::value:->bool' \
+  '--shortcut=[allow dynamic change of shortcut keys.  (false)]::value:->bool' \
+  '--boxdraw=[force unicode or decsp font for box-drawing characters.  (noconv)]:value' \
+  "--urgent=[draw the user's attention when making a bell sound.  (false)]:->bool" \
+  '--locale=[set locale]:value' \
+  '--ucsnoconv=[use unicode fonts partially regardless of -n option]:value' \
+  '--fullwidth=[force full width regardless of EastAsianWidth.txt]:value' \
+  '--ade=[encodings detected automatically]:value' \
+  '--auto=[detect character encoding automatically]:value:->bool' \
+  '--ldd=[embold glyphs by drawing doubly at 1 pixel leftward instead of rightward]:value:->bool' \
+  '--working-directory=[working directory]:value:_files -/' \
+  '--seqfmt=[format of logging vt100 sequence.  (raw)]:value' \
+  '--depth=[visual depth]:value' \
+  '--maxptys=[max ptys to open simultaneously (multiple of 32)]:value' \
+  '--metaprefix=[prefix characters in pressing meta key if mod_meta_mode = esc]:value' \
+  '--deffont=[default font]:value:_xft_fonts' \
+  '--point=[treat fontsize as point instead of pixel]:value:->bool' \
+  '(-)-e[execute external]:command:_command_names -e' \
+  '(- : *)'{-h,--help}'[display help and exit]' \
+  '(- : *)'{-v,--version}'[output version information and exit]' && ret=0
+
+case "${state}" in
+  "encs")
+    _values 'character encoding' \
+      'AUTO' \
+      'ISO-8859-1' \
+      'ISO-8859-2' \
+      'ISO-8859-3' \
+      'ISO-8859-4' \
+      'ISO-8859-5' \
+      'ISO-8859-6' \
+      'ISO-8859-7' \
+      'ISO-8859-8' \
+      'ISO-8859-9' \
+      'ISO-8859-10' \
+      'ISO-8859-11' \
+      'ISO-8859-13' \
+      'ISO-8859-14' \
+      'ISO-8859-15' \
+      'ISO-8859-16' \
+      'TIS-620' \
+      'KOI8-R' \
+      'KOI8-U' \
+      'KOI8-T' \
+      'GEORGIAN-PS' \
+      'TCVN5712' \
+      'ISCII_ASSAMESE' \
+      'ISCII_BENGALI' \
+      'ISCII_GUJARATI' \
+      'ISCII_HINDI' \
+      'ISCII_KANNADA' \
+      'ISCII_MALAYALAM' \
+      'ISCII_ORIYA' \
+      'ISCII_PUNJABI' \
+      'ISCII_ROMAN' \
+      'ISCII_TAMIL' \
+      'ISCII_TELUGU' \
+      'VISCII' \
+      'CP1250' \
+      'CP1251' \
+      'CP1252' \
+      'CP1253' \
+      'CP1254' \
+      'CP1255' \
+      'CP1256' \
+      'CP1257' \
+      'CP1258' \
+      'CP874' \
+      'EUC-JP' \
+      'EUC-JISX0213' \
+      'Shift_JIS' \
+      'Shift_JISX0213' \
+      'ISO-2022-JP1' \
+      'ISO-2022-JP2' \
+      'ISO-2022-JP3' \
+      'EUC-KR' \
+      'UHC' \
+      'JOHAB' \
+      'ISO-2022-KR' \
+      'GB2312' \
+      'EUC-CN' \
+      'GBK' \
+      'GB18030' \
+      'ISO-2022-CN' \
+      'HZ' \
+      'EUC-TW' \
+      'BIG5' \
+      'BIG5HKSCS' \
+      'UTF-8' && ret=0
+    ;;
+  bool)
+    _values 'boolean' 'true' 'false' && ret=0
+    ;;
+esac
+
+return ret

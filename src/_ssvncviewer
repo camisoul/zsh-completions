@@ -1,0 +1,58 @@
+#compdef ssvncviewer
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for 
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+
+local ret=1
+_arguments -s -S \
+  '(- : *)-help[display help and exit]' \
+  '(- : *)-version[output version information and exit]' \
+  '-listen[Make the viewer listen on port 5500+display for reverse connections from a server]' \
+  '-via[Automatically create encrypted TCP tunnel to the gateway machine before connection, connect to the host  through  that  tunnel]:gateway' \
+  '-shared[When connecting, specify that a shared connection is requested]' \
+  '-noshared[When connecting, specify that the session may not be shared]' \
+  '-viewonly[Disable transfer of mouse and keyboard events from the client to the server]' \
+  '-fullscreen[Start in full-screen mode]' \
+  '-noraiseonbeep[By default, the viewer shows and raises its window on remote beep (bell) event]' \
+  '-user[User name for Unix login authentication]:username:_users' \
+  '-passwd[File from which to get the password]:passwd-file:_files' \
+  '-encodings[supports several different compression methods to encode screen updates]:encodings:(copyrect tight hextile zlib corre rre raw)' \
+  '-bgr233[Always use the BGR233 format to encode pixel data]' \
+  '-owncmap[Try to use a PseudoColor visual and a private colormap]' \
+  '(-truecolour -truecolor)'{-truecolour,-truecolor}'[Try to use a TrueColor visual]' \
+  '-owncmap[Try to use a PseudoColor visual and a private colormap]' \
+  '-depth[an X server which supports multiple TrueColor visuals of different depths, attempt to use the specified one]:depth' \
+  '(-nojpeg)-compresslevel[level Use specified compression level (0..9) for "tight" and "zlib" encodings]:level' \
+  '(-nojpeg)-quality[Use the specified JPEG quality level (0..9) for the "tight" encoding]:level' \
+  '(-quality -compresslevel)-nojpeg[Disable lossy JPEG compression in Tight encoding]' \
+  '-nocursorshape[Disable cursor shape updates]' \
+  '-x11cursor[Use a real X11 cursor with X-style cursor shape updates]' \
+  '-autopass[Read a plain-text password from stdin]' \
+  '(- : *)-h[display help and exit]' \
+  '::file:_hosts' && ret=0
+
+return ret

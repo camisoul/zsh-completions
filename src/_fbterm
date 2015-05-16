@@ -1,0 +1,50 @@
+#compdef fbterm
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for fbterm
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+
+_arguments -s -S \
+  '(- : *)'{-h,--help}'[display help and exit]' \
+  '(- : *)'{-V,--version}'[display FbTerm version and exit]' \
+  '(-v --verbose)'{-v,--verbose}'[display extra information]' \
+  '(-n --font-names)'{-n,--font-names=}'[specify font family names]:TEXT:_xft_fonts' \
+  '(-s --font-size)'{-s,--font-size=}'[specify font pixel size]:NUM' \
+  '--font-width=[force font width]:NUM' \
+  '--font-height=[force font height]:NUM' \
+  '(-f --color-foreground)'{-f,--color-foreground=}'[specify foreground color]:NUM' \
+  '(-b --color-background)'{-b,--color-background=}'[specify background color]:NUM' \
+  '(-e --text-encodings)'{-e,--text-encodings=}'[specify additional text encodings]:TEXT' \
+  '(-r --screen-rotate)'{-r,--screen-rotate=}'[specify orientation of screen display]:NUM' \
+  '(-a --ambiguous-wide)'{-a,--ambiguous-wide}'[treat ambiguous width characters as wide]' \
+  '(-i --input-method)'{-i,--input-method=}'[specify input method program]:TEXT' \
+  '--cursor-shape=[specify default cursor shape]:NUM' \
+  '--cursor-interval=[specify cursor flash interval]:NUM' \
+  '--vesa-mode=[force VESA video mode]:VESA:(list)' \
+  ':command:_command_names -e' \
+  '*::args:_normal' && ret=0
+
+return ret

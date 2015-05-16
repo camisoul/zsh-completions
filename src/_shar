@@ -1,0 +1,67 @@
+#compdef shar
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for shar
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+_arguments -s -S \
+  '(-p --intermix-type --vanilla-operation)'{-p,--intermix-type}'[specify compression for input files]' \
+  '(-C --compactor --vanilla-operation)'{-C,--compactor=}'[specify compaction (compression) program PROG]::PROG:_command_names' \
+  '(-p --intermix-type -C --compactor -V --vanilla-operation)'{-V,--vanilla-operation}'[produce very simple shars]' \
+  '(-g --level-of-compression)'{-g,--level-of-compression=}'[pass LEVEL for compression]:LEVEL]:(1 2 3 4 5 6 7 8 9)' \
+  '(-M --mixed-uuencode -B --uuencode -T --text-files)'{-M,--mixed-uuencode}'[decide uuencoding for each file]' \
+  '(-M --mixed-uuencode -B --uuencode -T --text-files)'{-B,--uuencode}'[treat all files as binary]' \
+  '(-M --mixed-uuencode -B --uuencode -T --text-files)'{-T,--text-files}'[treat all files as text]' \
+  '(-o --output-prefix)'{-o,--output-prefix=}'[print output to file PREFIX.nn]:str' \
+  '(-L --split-size-limit -l --whole-size-limit)'{-l,--whole-size-limit=}'[split archive, not files to SIZE]:SIZE' \
+  '(-L --split-size-limit -l --whole-size-limit)'{-L,--split-size-limit=}'[split archive or files to SIZE]:SIZE' \
+  '(-I --input-file-list)'{-I,--input-file-list=}'[read file list from FILE]:FILE:_files' \
+  '(-n --archive-name)'{-n,--archive-name=}'[use NAME to document the archive]:NAME' \
+  '(-s --submitter)'{-s,--submitter=}'[override the submitter name with NAME]:NAME' \
+  '(-a --net-headers)'{-a,--net-headers}'[output Submitted-by: & Archive-name: headers]' \
+  '(-c --cut-mark)'{-c,--cut-mark}'[start the shar with a cut line]' \
+  '(-t --translate)'{-t,--translate}'[translate messages in the script]' \
+  "--no-character-count[do not use \`wc -c' to check size]" \
+  '(-D --no-md5-digest)'{-D,--no-md5-digest}'[do not use md5sum digest to verify]' \
+  '(-F --force-prefix)'{-F,--force-prefix}'[apply the prefix character on every line]' \
+  '(-d --here-delimiter)'{-d,--here-delimiter=}'[use DELIM to delimit the files]:DELIM' \
+  '(-P --no-piping)'{-P,--no-piping}'[use temporary files between programs]' \
+  '(-x --no-check-existing)'{-x,--no-check-existing}'[blindly overwrite existing files]' \
+  '(-X --query-user -V --vanilla-operation)'{-X,--query-user}'[ask user before overwriting files]' \
+  '(-m --no-timestamp)'{-m,--no-timestamp}'[do not restore modification times]' \
+  '(-Q --quiet-unshar)'{-Q,--quiet-unshar}'[avoid verbose messages at unshar time]' \
+  '(-f --basename)'{-f,--basename}'[restore in one directory, despite hierarchy]' \
+  '--no-i18n[do not internationalize]' \
+  '--print-text-domain-dir[print directory with shar messages]' \
+  '(-q --quiet --silent)'{-q,--quiet,--silent}'[do not output verbose messages]' \
+  '(-R --save-opts)'{-R-,--save-opts=-}'[save the option state to a config file FILE]:FILE:_files' \
+  '(-r --load-opts --no-load-opts)'{-r,--load-opts=}'[load options from the config file FILE]::FILE:_files' \
+  '(-r --load-opts --no-load-opts)--no-load-opts[do not load options from the config file]' \
+  '(- : *)'{-!,--more-help}'[extended usage information passed thru pager]' \
+  '(- : *)'{-h,--help}'[display help and exit]' \
+  '(- : *)'{-v,--version=-}'[output version information and exit]:MODE:((v\:simple c\:copyright n\:notice))' \
+  '*:file:_files' && ret=0
+
+return ret
