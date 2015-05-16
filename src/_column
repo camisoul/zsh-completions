@@ -1,0 +1,39 @@
+#compdef column
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for column
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+local ret=1
+_arguments -s -S \
+  '-c[Output is formatted for a display columns wide]:columns' \
+  '-s[Specify a set of characters to be used to delimit columns for the -t option]:sep' \
+  '-t[Determine the number of columns the input contains and create a table]' \
+  '-x[Fill columns before filling rows]' \
+  '-n[Do not merge multiple adjacent delimiters into a single delimiter]' \
+  '-e[Do not ignore empty lines.]' \
+  '*:file:_files' && ret=0
+
+return ret
