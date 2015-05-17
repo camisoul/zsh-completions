@@ -67,7 +67,7 @@ esac
 case "${state}" in
   encs)
     local -a codeset
-    codeset=${(f)$(${service} -e list | cut -d ' ' -f4 | cut -d ',' -f1)}
+    codeset=${(f)$(${service} -e list | awk -F ' ' '{ print $2 }')}
     _values 'charset' "${=codeset[@]}" && ret=0
     ;;
 esac
