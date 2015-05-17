@@ -129,8 +129,7 @@ _arguments -s -S \
 
 case "${state}" in
   *formats)
-    local help_text start_str stop_str start_index stop_index
-    local -a formats
+    local start_str stop_str
     case "${state}" in
       iformats)
         start_str='Input formats'
@@ -141,11 +140,8 @@ case "${state}" in
         stop_str='Options'
         ;;
     esac
-    help_text=$(pandoc --help)
-    start_index=$(echo "${help_text}" | grep -n "${start_str}" | cut -d':' -f1)
-    stop_index=$(echo "${help_text}" | grep -n "${stop_str}" | cut -d':' -f1)
-    formats=($(echo "${help_text}" | sed -n -e "${start_index}","$(( stop_index - 1))"p | sed -e 's/'"${start_str}"'://g' -e 's/\[.*\]//g' | tr -d '*,\n'))
-    _values 'formats' "${formats[@]}" && ret=0
+    _values 'formats' \
+      $(${words[1]} --help | awk '/'"${start_str}"'/,/'"${stop_str}"'/ { print } ' | sed -e '$d' -e 's/'"${start_str}"'://g' -e 's/\[.*\]//g' -e 's/,/\n/g' -e 's/\*//g' | awk 'length() > 0 { print $1 }') && ret=0
     ;;
 esac
 
