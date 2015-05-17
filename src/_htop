@@ -31,7 +31,7 @@ _arguments -s -S \
   '(-d -delay --delay)'{-d,-delay,--delay=}'[Set the delay between updates, in tenths of seconds]:DELAY' \
   '(-s -sort-key --sort-key)'{-s,-sort-key=,--sort-key}'[Sort by COLUMN (try --sort-key=help for a list)]:COLUMN:->sortkey' \
   '(-u -user --user)'{-u,-user=,--user=}'[Show only processes of a given user]:USER:_users' \
-  '(-p -ped --pid)*'{-p,-pid=,--pid=}'[Show only the given PIDs]:PIDs:_pids' \
+  '*'{-p,-pid=,--pid=}'[Show only the given PIDs]:PIDs:_pids' \
   '(- : *)'{-h,-help,--help}'[display help and exit]' \
   '(- : *)'{-v,-version,--version}'[output version information and exit]' && ret=0
 
