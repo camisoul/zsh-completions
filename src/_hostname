@@ -39,7 +39,6 @@ _arguments \
   '(-s --short)'{-s,--short}'[short host name]' \
   '(-y --yp --nis)'{-y,--yp,--nis}'[NIS/YP domain name]' \
   '(- : *)'{-h,--help}'[display help and exit]' \
-  '(- : *)'{-V,--version}'[output version information and exit]' \
-  '*:hostname:_hosts' && ret=0
+  '(- : *)'{-V,--version}'[output version information and exit]' && ret=0
 
 return ret
