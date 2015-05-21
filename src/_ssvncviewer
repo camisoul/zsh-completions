@@ -26,13 +26,12 @@
 # --------------------------------------------------------------------------
 
 
-
 local ret=1
-_arguments -s -S \
+_arguments \
   '(- : *)-help[display help and exit]' \
   '(- : *)-version[output version information and exit]' \
   '-listen[Make the viewer listen on port 5500+display for reverse connections from a server]' \
-  '-via[Automatically create encrypted TCP tunnel to the gateway machine before connection, connect to the host  through  that  tunnel]:gateway' \
+  '-via[Automatically create encrypted TCP tunnel to the gateway machine before connection]:gateway' \
   '-shared[When connecting, specify that a shared connection is requested]' \
   '-noshared[When connecting, specify that the session may not be shared]' \
   '-viewonly[Disable transfer of mouse and keyboard events from the client to the server]' \
@@ -52,6 +51,42 @@ _arguments -s -S \
   '-nocursorshape[Disable cursor shape updates]' \
   '-x11cursor[Use a real X11 cursor with X-style cursor shape updates]' \
   '-autopass[Read a plain-text password from stdin]' \
+  '-multilisten[As in -listen except allow more than one incoming VNC server to be connected at a time]' \
+  '-acceptpopup[In -listen mode when a reverse VNC connection comes in show a popup asking whether to Accept or Reject the connection]' \
+  '-acceptpopupsc[As in -acceptpopup except assume UltraVNC Single Click (SC) server]' \
+  '(-use64 -bgr222)'{-use64,-bgr222}'[In -bgr233 mode, use 64 colors instead of 256]' \
+  '(-use8 -bgr111)'{-use8,-bgr111}'[In -bgr233 mode, use 8 colors instead of 256]' \
+  '(-bgr565 -16bpp)'{-16bpp,-bgr565}'[If the vnc viewer X display is depth 24 at 32bpp request a 16bpp format from the VNC server]' \
+  '-grey[Use a grey scale for the 16- and 8-bpp modes]' \
+  '-alpha[Use alphablending transparency for local cursors requires]' \
+  '-scale[Scale the desktop locally]:scale' \
+  '-ycrop[Only show the top n rows of the framebuffer]:n' \
+  '-sbwidth[Scrollbar width for x11vnc -ncache mode (-ycrop), default is very narrow]:n' \
+  '-nobell[Disable bell]' \
+  '-rawlocal[Prefer raw encoding for localhost]' \
+  '-notty[Try to avoid using the terminal for interactive responses]' \
+  '-sendclipboard[Send the X CLIPBOARD selection]' \
+  '-sendalways[Whenever the mouse enters the VNC viewer main window, send the selection to the VNC server even if it has not changed]' \
+  '-recvtext[Ssvncviewer will set both the X PRIMARY and the X CLIPBOARD local selections]:str' \
+  '-graball[Grab the entire X server when in fullscreen mode, needed by some old window managers like fvwm2]' \
+  '-popupfix[Warp the popup back to the pointer position, needed by some old window managers like fvwm2]' \
+  '-grabkbd[Grab the X keyboard when in fullscreen mode, needed by some window managers]' \
+  '(-bs -nobs)'{-bs,-nobs}'[Whether or not to use X server Backingstore for the main viewer window]' \
+  '-noshm[Disable use of MIT shared memory extension (not recommended)]' \
+  '-termchat[Do the UltraVNC chat in the terminal vncviewer is in instead of in an independent window]' \
+  '-unixpw[Useful for logging into x11vnc in -unixpw mode]:str' \
+  '-repeater[This is for use with UltraVNC repeater proxy described here]:str' \
+  '-rfbversion[Set the advertised RFB version]:str' \
+  '-ultradsm[UltraVNC has symmetric private encryption DSM plugins]' \
+  '-mslogon[Use Windows MS Logon to an UltraVNC server]:user' \
+  '-chatonly[Try to be a client that only does UltraVNC text chat]' \
+  '-env[To save writing a shell script to set environment variables, specify as many as you need on the command line]:VAR=VALUE' \
+  '-noipv6[Disable all IPv6 sockets]' \
+  '-noipv4[Disable all IPv4 sockets]' \
+  '-printres[Print out the Ssvnc X resources and then exit]' \
+  '-pipeline[Like TurboVNC, request the next framebuffer update as soon as possible]' \
+  "-appshare[Enable features for use with x11vnc's -appshare mode]" \
+  "-escape[This sets the 'Escape Keys' modifier sequence and enables escape keys mode]:str:(r f l s t b x g + c z e - a V Q 1 2 3 4 5 6)" \
   '(- : *)-h[display help and exit]' \
   '::file:_hosts' && ret=0
 
