@@ -7,7 +7,6 @@ AC_INIT([my-zsh-completions], [1.0.0])
 # Checks for programs.
 AC_PROG_AWK
 AC_PROG_FGREP
-AC_PROG_SED
 
 AC_CHECK_PROGS([COLUMN], [column fmt], [cat])
 

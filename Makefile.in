@@ -4,10 +4,9 @@ LIST  = COMPLETIONS
 COLUMN = @COLUMN@
 AWK    = @AWK@
 FGREP  = @FGREP@
-SED    = @SED@
 
 $(LIST): src/*
-	$(FGREP) compdef src/* | $(AWK) '{ $$1 = ""; print }' | $(SED) 's/ /\n/g' | $(AWK) 'BEGIN { FS = "=" } length() > 0 { print $$1 }' > $(@)
+	$(FGREP) compdef src/* | $(AWK) '{ $$1 = ""; print }' | sed 's/ /\n/g' | $(AWK) 'BEGIN { FS = "=" } length() > 0 { print $$1 }' > $(@)
 
 .PHONY: show
 show:
@@ -15,9 +14,9 @@ show:
 
 .PHONY: clean
 clean:
-	-$(RM) $(LIST)
+	-rm -f $(LIST)
 
 .PHONY: distclean
 distclean:
-	-$(RM) $(LIST)
-	-$(RM) config.log config.status Makefile
+	-rm -f $(LIST)
+	-rm -f config.log config.status Makefile
