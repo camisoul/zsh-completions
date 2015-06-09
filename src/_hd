@@ -50,8 +50,8 @@ case "${service}" in
     ;;
   hexdump)
     _arguments -s -S \
-      '-C[Canonical hex+ASCII display]' && ret=0
-      "${args[@]}" \
+      '-C[Canonical hex+ASCII display]' \
+      "${args[@]}" && ret=0
     ;;
 esac
 
