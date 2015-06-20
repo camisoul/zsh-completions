@@ -1,0 +1,111 @@
+#compdef upx upx-ucl
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for upx-ucl
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+local ret=1
+local -a args
+
+case ${OSTYPE} in
+  linux*)
+    ;;
+  PSONE*)
+    args=(
+      '--8-bit[uses 8 bit size compression (default: 32 bit)]'
+      '--8mib-ram[8 megabyte memory limit (default: 2 MiB)]'
+      '--boot-only[disables client/host transfer compatibility]'
+      "--no-align[don't align to 2048 bytes (enables: --console-run)]"
+      '--le[produce LE output (default: EXE)]'
+      )
+      ;;
+  COFF*)
+    args=(
+      '--coff[produce COFF output (default: EXE)]'
+      )
+      ;;
+  *)
+    args=(
+      '--8086[make compressed (com/exe/sys) work on any 8086]'
+      '--compress-exports=[export section]:exports:->c_exports'
+      '--compress-icons=[icons]:icons:->c_icons'
+      '--compress-resources=[do not compress any resources at all]:resources:(0)'
+      '--keep-resource=[do not compress resources specified by list]:list'
+      '--strip-relocs=[relocations]:relocations:->s_relocs'
+      '--no-reloc[put no relocations in to the exe header]'
+      '-f[force compression of suspicious files]'
+      )
+    ;;
+esac
+
+_arguments -s -S \
+  '(-1 -2 -3 -4 -5 -6 -7 -8 -9 --best)'{-1,-2,-3,-4,-5,-6,-7,-8,-9,--best}'[compress level(1:faster 9:better)]' \
+  '(-)-d[decompress]' \
+  '(-)-l[list compressed file]' \
+  '(-)-t[test compressed file]' \
+  '(- : *)'{-V,--version}'[display version number]' \
+  '(- : *)'{-h,--help}'[give help]' \
+  '(- : *)-L[display software license]' \
+  '*-q[be quiet]' \
+  '*-v[be verbose]' \
+  '-o-[write output to FILE]:FILE:_files' \
+  '(--mono --color --no-color)'{--mono,--color,--nocolor}'[change color]' \
+  '--no-progress[change progress]' \
+  '(--brute --ultra-brute)--brute[try all available compression methods & filters (slow)]' \
+  '(--brute --ultra-brute)--ultra-brute[try even more compression variants (very slow)]' \
+  '(-k --backup --no-backup)'{-k,--backup}'[keep backup files]' \
+  '(-k --backup --no-backup)--no-backup[no backup files (default)]' \
+  '--overlay=[option for extra data]:overlay:->overlays' \
+  '--preserve-build-id[copy .gnu.note.build-id to compressed output]' \
+  "${args[@]}" \
+  '*:file:_files' && ret=0
+
+case "${state}" in
+  overlays)
+    _values 'overlay' \
+      'copy[copy any extra data attached to the file (default)]' \
+      'strip[strip any extra data attached to the file (DANGEROUS)]' \
+      'skip[do not compress a file with an overlay]' && ret=0
+    ;;
+  c_exports)
+    _values 'compress exports' \
+      '0[do not compress the export section]' \
+      '1[compress the export section (default)]' && ret=0
+    ;;
+  c_icons)
+    _values 'compress icons' \
+      '0[do not compress any icons]' \
+      '1[compress all but the first icon]' \
+      '2[compress all but the first icon directory (default)]' \
+      '3[compress all icons]' && ret=0
+    ;;
+  s_relocs)
+    _values 'strip relocations' \
+      '0[do not strip relocations]' \
+      '1[strip relocations (default)]' && ret=0
+    ;;
+esac
+
+return ret
