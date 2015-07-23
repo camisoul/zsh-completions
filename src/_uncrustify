@@ -1,0 +1,59 @@
+#compdef uncrustify
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for uncrustify
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+
+
+local ret=1
+_arguments -s -S \
+  '(- : *)'{-h,--help,-?,--usage}'[display help and exit]' \
+  '-c[use the config file CFG]:CFG:_files' \
+  '-f[process the single file FILE (output to stdout, use with -o)]:FILE:_files' \
+  '-o[Redirect stdout to FILE]:FILE:_files' \
+  '-F[read files to process from FILE, one filename per line (- is stdin)]:FILE:_files' \
+  '--check[Do not output the new text]' \
+  '--suffix[Append SFX to the output filename. The default is .uncrustify]:SFX' \
+  '--prefix[Prepend PFX to the output filename path]:PFX' \
+  '--replace[replace source files (creates a backup)]' \
+  '--no-backup[replace files, no backup. Useful if files are under source control]' \
+  '--mtime[preserve mtime on replaced files]' \
+  '-l[language override]:LANG:(C CPP D CS JAVA PAWN OC OC+ VALA)' \
+  '-t[load a file with types (usually not needed)]' \
+  '-q[quiet mode - no output on stderr (-L will override)]' \
+  '--frag[code fragment, assume the first line is indented correctly]' \
+  '--version[print the version and exit]' \
+  '--show-config[print out option documentation and exit]' \
+  '--update-config[Output a new config file]' \
+  '--update-config-with-doc[Output a new config file with embedded usage comments]' \
+  '--universalindent[Output a config file for Universal Indent GUI]' \
+  '--detect[detects the config from a source file]' \
+  '-p[dump debug info to a file]:FILE:_file' \
+  '-L[Set the log severity (see log_levels.h)]:SEV' \
+  '-s[Show the log severity in the logs]' \
+  '--decode[decode remaining args (chunk flags) and exit]:FLAG' \
+  '*:file:_files' && ret=0
+
+return ret
