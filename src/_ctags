@@ -1,0 +1,90 @@
+#compdef ctags
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for ctags
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local -a languages
+for value in $(_call_program commands ${words[1]} --list-languages)
+do
+  languages+="--regex-${value}=:pattern"
+  languages+="--${value}-kinds=:kind"
+done
+
+
+local ret=1
+_arguments -s -S \
+  "${languages[@]}" \
+  '-a[Append the tags to an existing tag file.]' \
+  '-B[searching patterns (?...?).]' \
+  '-e[Output tag file for use with Emacs.]' \
+  '(-o -f)'{-o+,-f+}'[Write tags to specified file.]:name:_files' \
+  '-F[Use forward searching patterns (/.../) (default).]' \
+  '-h[Specify list of file extensions to be treated as include files.(".h.H.hh.hpp.hxx.h++").]:list' \
+  '-I[A list of tokens to be specially handled is read from either the command line or the specified file.]:list:_file' \
+  '-L[A list of source file names are read from the specified file.]:list:_file' \
+  '-x[Print a tabular cross reference file to standard output.]' \
+  '--append=[Should tags should be appended to existing tag file (no)?]:flag:(yes no)' \
+  '--etags-include=[Include reference to file in Emacs-style tag file (requires -e).]:file:_files' \
+  '(-N --exclude)'{-N-,--exclude=}'[Exclude files and directories matching pattern.]:pattern' \
+  '(-n --excmd)'{-n-,--excmd=}'[Uses the specified type of EX command to locate tags mix.]:cmd:(number pattern mix)' \
+  '--extra=[Include extra tag entries for selected information (flags: "fq").]:flags' \
+  '--fields=[Include selected extension fields (flags: "afmikKlnsStz") (fks).]:flags' \
+  '--file-scope=[Should tags scoped only for a single file(yes)?]:flag:(yes no)' \
+  '--filter=[Behave as a filter, reading file names from standard input and writing tags to standard output (no).]:flag:(yes no)' \
+  '--filter-terminator=[Specify string to print to stdout following the tags for each file parsed when --filter is enabled.]:string' \
+  '--format=[Force output of specified tag file format (2).]:level' \
+  '--if0=[Should C code within #if 0 conditional branches be parsed (no)?]:flag:(yes no)' \
+  '--langdef=[Define a new language to be parsed with regular expressions.]:name' \
+  '--langmap=[Override default mapping of language to source file extension.]:map(s)' \
+  '--language-force=[Force all files to be interpreted using specified language.]:language:->langs' \
+  '--languages=[Restrict files scanned for tags to those mapped to langauges specified in the comma-separated list]:list:->langs' \
+  '--line-directives=[Should #line directives be processed (no)?]:flag:(yes no)' \
+  '--links=[Indicate whether symbolic links should be followed (yes).]:flag:(yes no)' \
+  '--list-kinds=[Output a list of all tag kinds for specified language or all.]:kinds:(language all)' \
+  '--list-maps=[Output list of language mappings.]:list:(language all)' \
+  '--options=[Specify file from which command line options should be read.]:file:_files' \
+  '(--recurse)-R[Equivalent to --recurse=yes.]' \
+  '(-R)--recurse=[Recurse into directories supplied on command line (no).]:flag:(yes no)' \
+  '(--sort)-u[Equivalent to --sort=no.]' \
+  '(-u)--sort=[Should tags be sorted (optionally ignoring case) (yes)?.]:flag:(yes no foldcase)' \
+  '--tag-relative=[Should paths be relative to location of tag file (no; yes when -e)?]:flag:(yes no)' \
+  '--totals=[Print statistics about source and tag files (no).]:flag:(yes no)' \
+  '(-V --verbose)'{-V,--verbose=}'[Enable verbose messages describing actions on each source file.]:flag:(yes no)' \
+  '(* : -)--list-languages[Output list of supported languages.]' \
+  '(* : -)--version[Print version identifier to standard output.]' \
+  '(* : -)--license[Print details of software license.]' \
+  '(* : -)--help[Print this option summary.]' \
+  '*:file:_files' && ret=0
+
+
+case "${state}" in
+  langs)
+    _values 'languages' \
+      $(_call_program commands ${words[1]} --list-languages) && ret=0
+    ;;
+esac
+
+
+return ret
