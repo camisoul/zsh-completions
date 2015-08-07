@@ -1,5 +1,7 @@
 #compdef nkf
 
+# modify original
+
 typeset -A opt_args
 
 local outputsshort="-j -s -e -w -w8 -w16 -w16b0 -w16b -w16l0 -w16l"
