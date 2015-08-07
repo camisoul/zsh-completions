@@ -1,7 +1,9 @@
 LIST  = COMPLETIONS
 
+all: $(LIST)
+
 $(LIST): src/*
-	fgrep compdef src/* | gawk '{ $$1 = ""; gsub(/=| /, "\n"); print }' | sort -u > $(@)
+	fgrep compdef src/* | gawk '{ $$1 = ""; gsub(/=.*| /, "\n"); print }' | sort -u > $(@)
 
 show:
 	column $(LIST)
@@ -9,4 +11,4 @@ show:
 clean:
 	-rm -f $(LIST)
 
-.PHONY: show clean
+.PHONY: all show clean
