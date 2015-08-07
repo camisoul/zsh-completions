@@ -1,22 +1,16 @@
-SHELL = /bin/sh
 LIST  = COMPLETIONS
 
-COLUMN = @COLUMN@
-AWK    = @AWK@
-FGREP  = @FGREP@
+COLUMN = column
+AWK    = gawk
+FGREP  = /bin/grep -F
 
 $(LIST): src/*
 	$(FGREP) compdef src/* | $(AWK) '{ $$1 = ""; print }' | sed 's/ /\n/g' | $(AWK) 'BEGIN { FS = "=" } length() > 0 { print $$1 }' > $(@)
 
-.PHONY: show
 show:
 	cat $(LIST) | $(COLUMN)
 
-.PHONY: clean
 clean:
 	-rm -f $(LIST)
 
-.PHONY: distclean
-distclean:
-	-rm -f $(LIST)
-	-rm -f config.log config.status Makefile
+.PHONY: show clean
