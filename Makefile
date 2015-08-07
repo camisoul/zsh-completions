@@ -1,14 +1,10 @@
 LIST  = COMPLETIONS
 
-COLUMN = column
-AWK    = gawk
-FGREP  = /bin/grep -F
-
 $(LIST): src/*
-	$(FGREP) compdef src/* | $(AWK) '{ $$1 = ""; print }' | sed 's/ /\n/g' | $(AWK) 'BEGIN { FS = "=" } length() > 0 { print $$1 }' > $(@)
+	fgrep compdef src/* | gawk '{ $$1 = ""; gsub(/=| /, "\n"); print }' | sort -u > $(@)
 
 show:
-	cat $(LIST) | $(COLUMN)
+	column $(LIST)
 
 clean:
 	-rm -f $(LIST)
