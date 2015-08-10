@@ -67,7 +67,7 @@ esac
 case "${state}" in
   encs)
     _values 'charset' \
-      $(_call_program commands ${words[1]} -e list | awk -F ' ' '{ print $2 }') && ret=0
+      $(_call_program commands ${words[1]} -e list | sed -n 's/^ *\* *\([^ ]*\) *.*$/\1/p') && ret=0
     ;;
 esac
 
