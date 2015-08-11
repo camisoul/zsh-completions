@@ -5,8 +5,6 @@
 # Description :
 #   @(#) zsh completion script for pandoc
 #
-#   - Depends on `sed` for now
-#
 # --------------------------------------------------------------------------
 # Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
 #
@@ -129,24 +127,21 @@ _arguments -s -S \
   "${wrapper_opts[@]}" \
   '*:input file or URI:_files' && ret=0
 
-case "${state}" in
-  *formats)
-    local start
-    local stop
-    case "${state}" in
-      iformats)
-        start='Input formats: *'
-        stop='Output formats: *'
-        ;;
-      oformats)
-        start='Output formats: *'
-        stop='^ *\['
-        ;;
-    esac
-    _values 'formats' \
-      $(_call_program commands ${words[1]} --help | sed -n '/'"${start}"'/,/'"${stop}"'/!d;/'"${start}"'/{s/'"${start}"'//;h;d};/'"${stop}"'/{g;s/,\s*/\n/g;s/\*//g;p;q};H') && ret=0
-    ;;
-esac
+
+if [[ "${state}" == *formats ]]; then
+  case "${state}" in
+    iformats)
+      local section="Input formats:  "
+      ;;
+    oformats)
+      local section="Output formats: "
+      ;;
+  esac
+  if   { which sed >/dev/null 2>&1; }; then
+    _values 'formats' $(_call_program commands ${words[1]} --help | sed -n "/${section}/,/[^,]\$/!d;/${section}/{s/${section}//;h;d};/[^,]\$/{H;g;s/,\s*/\n/g;s/\*//g;p;q};H") && ret=0
+  elif { which ed  >/dev/null 2>&1; }; then
+    _values 'formats' $(echo "1,/${section}/-d\n/[^,]\$/+,\$d\n%j\ns/${section}//\ns/ \|\*//g\ns/,/\\\\\n/g\n%p" | ed - "!${words[1]} --help") && ret=0
+  fi
+fi
 
 return ret
-
