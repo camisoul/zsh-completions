@@ -1,4 +1,4 @@
-#compdef rcs ci co rcsmerge rcsdiff rcsclean ident
+#compdef rcs ci co rlog rcsmerge rcsdiff rcsclean ident
 #
 # --------------------------------------------------------------------------
 #
@@ -115,6 +115,21 @@ case "${service}" in
       '-w-[select matching login WHO]:WHO' \
       '-j-[generates a new revision which is the join of the revisions on joinlist]:joinlist' && ret=0
     ;;
+  rlog)
+    _arguments -C -s \
+      "${common_args[@]}" \
+      '-L[Ignore RCS files with no locks set]' \
+      '-R[Print the RCS file name only]' \
+      '-h[Print only the "header" information]' \
+      '-t[Like -h, but also include the description]' \
+      '-N[Omit symbolic names]' \
+      '-b[Select the default branch]' \
+      '-d-[select revisions in the range DATES]:DATES' \
+      '-s-[select matching state STATE]:STATE' \
+      '-l-[select revisions locked by WHO]:WHO' \
+      '-w-[select revisions checked in by WHO]:WHO' \
+      '*-r-[specify a revision]:rev' && ret=0
+    ;;
   rcsmerge)
     _arguments -C -s \
       "${common_args[@]}" \
@@ -130,8 +145,7 @@ case "${service}" in
       "${common_args[@]}" \
       '-q[quiet mode]' \
       '-T:[Passed to diff]' \
-      '*-r-[specify a revision]:rev' \
-      ':::_diff' && ret=0
+      '*-r-[specify a revision]:rev' && ret=0
     ;;
   rcsclean)
     _arguments -C -s \
@@ -145,7 +159,7 @@ case "${service}" in
   ident)
     _arguments -C -s \
       "${common_args[@]}" \
-      '-q[quiet mode]' && ret= 0
+      '-q[quiet mode]' && ret=0
     ;;
 esac
 
