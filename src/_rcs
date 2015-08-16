@@ -26,8 +26,6 @@
 # --------------------------------------------------------------------------
 
 # TODO:2015-05-10:revisionが常に要求されるのをなんとかしたい
-# TODO:2015-05-10:rcsのコマンド指定で分岐させたい
-# TODO:2015-05-10:rcsdiff等にも対応したい
 
 local ret=1
 local -a common_args
@@ -35,7 +33,7 @@ local -a common_args
 common_args=(
   '(- : *)--help[print help and exit]'
   '(- : *)--version[print version number and exit]'
-  '-k-[set the default keyword substitution]:subst:->subst' \
+  '-k-[set the default keyword substitution]:subst:->subst'
   '-V-[Emulate RCS version N]:N'
   '-x-[specify SUFF as a slash-separated list of suffiexes]:SUFF'
   '-z-[specify date output format]:ZONE'

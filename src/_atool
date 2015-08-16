@@ -31,40 +31,40 @@ local -a cmds
 local -a cmds_args
 local -a archive_types
 cmds=(-a --add -c --cat -d --diff -x --extract -l --list -X --extract-to -r --repack)
-archive_types=( \
-  '.tar.gz' '.tgz' \
-  '.tar.bz' '.tbz' \
-  '.tar.bz2' '.tbz2' \
-  '.tar.Z' '.tZ' \
-  '.tar.lzo' '.tzo' \
-  '.tar.lz' '.tlz' \
-  '.tar.xz' '.txz' \
-  '.tar.7z' '.t7z' \
-  '.tar' '.zip' '.jar' '.war' \
-  '.rar' '.lha' '.lzh' '.7z' \
-  '.alz' '.ace' '.arj' '.arc' \
-  '.rpm' '.deb' '.cab' '.cpio' \
-  '.gz' '.bz' '.bz2' '.Z' \
-  '.lzma' '.lzo' '.lz' '.xz' \
-  '.rz' '.lrz' '.a' \
+archive_types=(
+  '.tar.gz' '.tgz'
+  '.tar.bz' '.tbz'
+  '.tar.bz2' '.tbz2'
+  '.tar.Z' '.tZ'
+  '.tar.lzo' '.tzo'
+  '.tar.lz' '.tlz'
+  '.tar.xz' '.txz'
+  '.tar.7z' '.t7z'
+  '.tar' '.zip' '.jar' '.war'
+  '.rar' '.lha' '.lzh' '.7z'
+  '.alz' '.ace' '.arj' '.arc'
+  '.rpm' '.deb' '.cab' '.cpio'
+  '.gz' '.bz' '.bz2' '.Z'
+  '.lzma' '.lzo' '.lz' '.xz'
+  '.rz' '.lrz' '.a'
   )
 
-if [[ ${service} == "atool" ]]; then
+if [[ ${service} == atool ]]; then
   cmds_args=(
-  "(${cmds})"{-l,--list}'[List files in archive.]'
-  "(${cmds})"{-x,--extract}'[Extract files from archive.]'
-  "(${cmds})"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_files -/'
-  "(${cmds})"{-a,--add}'[Create archive.]'
-  "(${cmds})"{-c,--cat}'[Extract a file from archive to standard out.]'
-  "(${cmds})"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]'
-  "(${cmds})"{-r,--repack}'[Repacks archives to a differnt format.]'
+  "(${cmds[*]})"{-l,--list}'[List files in archive.]'
+  "(${cmds[*]})"{-x,--extract}'[Extract files from archive.]'
+  "(${cmds[*]})"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_files -/'
+  "(${cmds[*]})"{-a,--add}'[Create archive.]'
+  "(${cmds[*]})"{-c,--cat}'[Extract a file from archive to standard out.]'
+  "(${cmds[*]})"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]'
+  "(${cmds[*]})"{-r,--repack}'[Repacks archives to a differnt format.]'
   )
 fi
 
 _arguments -s -S \
+  "${cmds_args[@]}" \
   '(- 1 *)--version[Output version information and exit.]' \
   '(- 1 *)--help[Show summary of options.]' \
-  "${cmds_args[@]}" \
   '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_types#.}}')"' \
   '(-F --format)'{-F+,--format=}'[Specify arhive format manually.]:archive types:->types' \
   '(-S --simulate)'{-s,--simulate}'[Run atool in simulation mode.]' \

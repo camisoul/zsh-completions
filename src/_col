@@ -25,14 +25,13 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-
 local ret=1
 _arguments -s \
-      '-b[Do not output any backspaces]' \
-      '-f[Forward half line feeds are permitted (fine mode)]' \
-      '-h[Do not output multiple spaces instead of tabs (default)]' \
-      '-l[Buffer at least num lines in memory (default 128)]:num' \
-      '-p[Force unknown control sequences to be passed through unchanged]' \
-      '-x[Output multiple spaces instead of tabs]' && ret=0
+  '-b[Do not output any backspaces]' \
+  '-f[Forward half line feeds are permitted (fine mode)]' \
+  '-h[Do not output multiple spaces instead of tabs (default)]' \
+  '-l[Buffer at least num lines in memory (default 128)]:num' \
+  '-p[Force unknown control sequences to be passed through unchanged]' \
+  '-x[Output multiple spaces instead of tabs]' && ret=0
 
 return ret
