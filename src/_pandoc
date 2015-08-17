@@ -137,11 +137,7 @@ if [[ "${state}" == *formats ]]; then
       local section="Output formats: "
       ;;
   esac
-  if   { which ed  >/dev/null 2>&1; }; then
-    _values 'formats' $(printf "1,/${section}/-d\n/[^,]\$/+,\$d\n,j\ns/${section}//\ns/ \|\*//g\ns/,/\\\\\n/g\n,p\n" | ed - "!${words[1]} --help") && ret=0
-  elif { which sed >/dev/null 2>&1; }; then
-    _values 'formats' $(_call_program commands ${words[1]} --help | sed -n "/${section}/,/[^,]\$/!d;/${section}/{s/${section}//;h;d};/[^,]\$/{H;g;s/,\s*/\n/g;s/\*//g;p;q};H") && ret=0
-  fi
+  _values 'formats' $(_call_program commands ${words[1]} --help | sed -n "/${section}/,/[^,]\$/!d;/${section}/{s/${section}//;h;d};/[^,]\$/{H;g;s/,\s*/\n/g;s/\*//g;p;q};H") && ret=0
 fi
 
 return ret
