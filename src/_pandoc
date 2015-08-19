@@ -128,6 +128,25 @@ _arguments -s -S \
   '*:input file or URI:_files' && ret=0
 
 
+function scan_help
+{
+  local flag=false
+  local str
+  while read line
+  do
+    if [[ ${line} =~ "${1}" ]]; then
+      flag=true
+    fi
+    if ${flag}; then
+      str+=${line}
+      if [[ ${line} =~ [^,]$ ]]; then
+        echo "${${${${str#${1}}//\*/}//, /\n}//,/\n}"
+        return 0
+      fi
+    fi
+  done < <(_call_program commands "${words[1]}" --help)
+}
+
 if [[ "${state}" == *formats ]]; then
   case "${state}" in
     iformats)
@@ -137,11 +156,7 @@ if [[ "${state}" == *formats ]]; then
       local section="Output formats: "
       ;;
   esac
-  if   { which ed  >/dev/null 2>&1; }; then
-    _values 'formats' $(printf "1,/${section}/-d\n/[^,]\$/+,\$d\n,j\ns/${section}//\ns/ \|\*//g\ns/,/\\\\\n/g\n,p\n" | ed - "!${words[1]} --help") && ret=0
-  elif { which sed >/dev/null 2>&1; }; then
-    _values 'formats' $(_call_program commands ${words[1]} --help | sed -n "/${section}/,/[^,]\$/!d;/${section}/{s/${section}//;h;d};/[^,]\$/{H;g;s/,\s*/\n/g;s/\*//g;p;q};H") && ret=0
-  fi
+  _values 'formats' $(scan_help "${section}") && ret=0
 fi
 
 return ret
