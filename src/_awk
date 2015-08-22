@@ -33,7 +33,7 @@ _arguments -S \
   '(- : *)'{-h,--help}'[Print a relatively short summary of the available options on the standard output]' \
   '(- : *)'{-V,--version}'[Print version information for this particular copy of gawk on the standard output]' \
   '(-F --field-separator)'{-F,--field-separator}'[Use fs for the input field separator]:field-separator' \
-  '(-v --assign)'{-v,--assign}'[Assign the value val to the variable var, before execution of the program begins]:var=val' \
+  '*'{-v,--assign=}'[Assign the value val to the variable var, before execution of the program begins]: :->assign' \
   '(-b --characters-as-bytes)'{-b,--characters-as-bytes}'[Treat all input data as single-byte characters]' \
   '(-c --traditional)'{-c,--traditional}'[Run  in  compatibility  mode]' \
   '(-d --dump-variables)'{-d-,--dump-variables=-}'[Print a sorted list of global variables, their types and final values to file]::_file' \
@@ -52,5 +52,11 @@ _arguments -S \
   '(-t --lint-old)'{-t,--lint-old}'[Provide warnings about constructs that are not portable to the original version of Unix awk]' \
   "($gnu_opts)"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
   '(-)*:file:_files' && ret=0
+
+if [[ $state = assign ]]; then
+  compset -P '*='
+  compset -S '=*'
+  _message -e value 'var=val' && ret=0
+fi
 
 return ret
