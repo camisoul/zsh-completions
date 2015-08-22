@@ -51,8 +51,8 @@ _arguments -s -S \
   '(-t --trace)'{-t+,--trace=}'[trace NAME when it is defined]:NAME' \
   '*:file:_files' && ret=0
 
-case "${state}" in
-  "flags")
+case $state in
+  flags)
     _values 'flags' \
       'a[show actual arguments]' \
       'c[show before collect, after collect and after call]' \

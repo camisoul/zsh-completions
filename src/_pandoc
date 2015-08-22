@@ -118,13 +118,13 @@ wrapper_opts=(
   )
 
 _arguments -s -S \
-  "${general_opts[@]}" \
-  "${reader_opts[@]}" \
-  "${general_writer_opts[@]}" \
-  "${specific_writers_opts[@]}" \
-  "${citation_opts[@]}" \
-  "${math_rendering_opts[@]}" \
-  "${wrapper_opts[@]}" \
+  ${general_opts[@]} \
+  ${reader_opts[@]} \
+  ${general_writer_opts[@]} \
+  ${specific_writers_opts[@]} \
+  ${citation_opts[@]} \
+  ${math_rendering_opts[@]} \
+  ${wrapper_opts[@]} \
   '*:input file or URI:_files' && ret=0
 
 
@@ -147,8 +147,8 @@ function scan_help
   done < <(_call_program commands "${words[1]}" --help)
 }
 
-if [[ "${state}" == *formats ]]; then
-  case "${state}" in
+if [[ $state == *formats ]]; then
+  case $state in
     iformats)
       local section="Input formats:  "
       ;;

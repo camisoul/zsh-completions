@@ -78,8 +78,8 @@ _arguments -s -S \
   '--dwarf-check[Make additional dwarf internal consistency checks]' \
   '*:file:_files' && ret=0
 
-case "${state}" in
-  "disassembler")
+case $state in
+  disassembler)
     _values 'disassembler' \
       'x86-64[Disassemble in 64bit mode]' \
       'i386[Disassemble in 32bit mode]' \

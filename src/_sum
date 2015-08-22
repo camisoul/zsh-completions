@@ -28,9 +28,8 @@
 local ret=1
 
 local -a args
-local -a file_mode
-file_mode=(-0 --01 -b --binary -t --text -p --portable)
-case "${service}" in
+local file_mode='-0 --01 -b --binary -t --text -p --portable'
+case $service in
   sum)
     args=(
     '(-s --sysv -r)-r[use BSD sum algorithm, use 1K blocks]'
@@ -48,16 +47,16 @@ case "${service}" in
     '(-w --warn)'{-w,--warn}'[warn about improperly formatted checksum lines]'
     '--status[do not output anything, status code shows success]'
     )
-    if [[ "${service}" == "shasum" ]]; then
+    if [[ $service == shasum ]]; then
       args=(
-      "${args[@]}"
-      "(${file_mode})"{-p,--portable}'[read in portable mode]'
-      "(${file_mode})"{-0,--01}'[read in BITS mode]'
+      ${args[@]}
+      "($file_mode)"{-p,--portable}'[read in portable mode]'
+      "($file_mode)"{-0,--01}'[read in BITS mode]'
       '(-a --algorithm)'{-a,--algorithm}'[1 (default)]:value:(1 224 256 384 512 512224 512256)'
       )
     else
       args=(
-      "${args[@]}"
+      ${args[@]}
       '--tag[create a BSD-style checksum]'
       '--quiet[do not print OK for each successfully verified file]'
       '--strict[with --check, exit non-zero for any invalid input]'
@@ -67,7 +66,7 @@ case "${service}" in
 esac
 
 _arguments -s -S \
-  "${args[@]}" \
+  ${args[@]} \
   '(- : *)--help[display help and exit]' \
   '(- : *)--version[output version information and exit]' \
   '::FILE:_files' && ret=0

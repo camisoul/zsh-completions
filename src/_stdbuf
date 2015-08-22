@@ -34,7 +34,7 @@ _arguments -s -S \
   '(-e --error)'{-e+,--error=}'[adjust standard error stream buffering]:MODE:->mode' \
   ':COMMAND:_command_names' && ret=0
 
-if [[ "${state}" == "mode" ]]; then
+if [[ $state == mode ]]; then
   _values "mode" \
     '(0)L[corresponding stream will be line bufferd]' \
     '(L)0[corresponding stream will be unbufferd]' \

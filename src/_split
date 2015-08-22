@@ -26,16 +26,15 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -a _split_cmds
+local split_cmds='-b --bytes -C --line-bytes -l --lines -n --number'
 
-_split_cmds=(-b --bytes -C --line-bytes -l --lines -n --number)
 _arguments -s -S \
   '(- : *)--help[display help and exit]' \
   '(- : *)--version[output version information and exit]' \
-  "(${_split_cmds})"{-b+,--bytes=}'[put SIZE bytes per output file]:SIZE' \
-  "(${_split_cmds})"{-C+,--line-bytes=}'[put at most SIZE bytes of lines per output file]:SIZE' \
-  "(${_split_cmds})"{-l+,--lines=}'[put NUMBER lines per output file]:NUMBER' \
-  "(${_split_cmds})"{-n+,--number=}'[generate CHUNKS output files]:CHUNKS' \
+  "($split_cmds)"{-b+,--bytes=}'[put SIZE bytes per output file]:SIZE' \
+  "($split_cmds)"{-C+,--line-bytes=}'[put at most SIZE bytes of lines per output file]:SIZE' \
+  "($split_cmds)"{-l+,--lines=}'[put NUMBER lines per output file]:NUMBER' \
+  "($split_cmds)"{-n+,--number=}'[generate CHUNKS output files]:CHUNKS' \
   '(-a --suffix-length)'{-a+,--suffix-length=}'[generate suffixes of length N]:N' \
   '--additional-suffix=[append an additional SUFFIX to file names]:SUFFIX' \
   '(-d --numeric-suffixes)'{-d,--numeric-suffixes=-}'[use numeric suffixes instead of alphabetic]:FROM' \

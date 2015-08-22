@@ -26,12 +26,13 @@
 # --------------------------------------------------------------------------
 
 local ret=1
+local shells='-c --csh --c-shell -b --sh --bourne-shell -p --print-database'
 _arguments -s -S \
   '(- : *)--help[display help and exit]' \
   '(- : *)--version[output version information and exit]' \
-  '(-c --csh --cshell -b --sh --bourne-shell -p --print-database)'{-b,--sh,--bourne-shell}'[output Bourne shell code to set LS_COLORS]' \
-  '(-c --csh --cshell -b --sh --bourne-shell -p --print-database)'{-c,--csh,--c-shell}'[output C shell code to set LS_COLORS]' \
-  '(-c --csh --cshell -b --sh --bourne-shell -p --print-database)'{-p,--print-database}'[output defaults]' \
+  "($shells)"{-b,--sh,--bourne-shell}'[output Bourne shell code to set LS_COLORS]' \
+  "($shells)"{-c,--csh,--c-shell}'[output C shell code to set LS_COLORS]' \
+  "($shells)"{-p,--print-database}'[output defaults]' \
   '*:file:_files' && ret=0
 
 return ret

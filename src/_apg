@@ -48,7 +48,7 @@ _arguments \
   '-h[print this help screen]' \
   '-v[print version information]' && ret=0
 
-case "${state}" in
+case $state in
   pass_modes)
     _values 'password mode' \
       'S[generator must use special symbol]' \

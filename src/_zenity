@@ -28,82 +28,82 @@
 local ret=1
 
 args=(
-  '--add-calendar=[Add a new Calendar in forms dialog]:FIELDNAME' \
-  '--add-entry=[Add a new Entry in forms dialog]:FIELDNAME' \
-  '--add-password=[Add a new Password Entry in forms dialog]:FIELDNAME' \
-  '--auto-close[Close dialog when 100% has been reached]' \
-  '--auto-kill[Kill parent process if cancel button is pressed]' \
-  '--calendar[Display calendar dialog]' \
-  '--cancel-label[Set the text of the cancel button]' \
-  '--checkbox=[Enable a checkbox]:TEXT' \
-  '--checklist[Use check boxes for first column]' \
-  '--color-selection[Display color selection dialog]' \
-  '--color=[Set the initial color]:VALUE' \
-  '--column=[Set the column header]:STRING' \
-  '--confirm-overwrite[Confirm file selection if filename already exists]' \
-  '--date-format=[Set the format for the returned date]:PATTERN' \
-  '--day=[Set the calendar day]:INT' \
-  '--directory[Activate directory-only selection]' \
-  '--editable[Allow changes to text]' \
-  '--entry[Display text entry dialog]' \
-  '--entry-text=[Set the entry text]:STRING' \
-  '--error[Display error dialog]' \
-  '--file-filter=[| PATTERN1 PATTERN2 Sets a filename filter]:NAME' \
-  '--file-selection[Display file selection dialog]' \
-  '--filename=[Open file]:FILENAME:_files' \
-  '--forms[Display forms dialog]' \
-  '--forms-date-format=[Set the format for the returned date]:PATTERN' \
-  '--height=[Set the dialog height]:HEIGHT' \
-  '--hide-column=[Hide a specific column]:NUMBER' \
-  '--hide-header[Hides the column headers]' \
-  '--hide-text[Hide the entry text]' \
-  '--hide-value[Hide value]' \
-  '--info[Display info dialog]' \
-  '--list[Display list dialog]' \
-  '--listen[Listen for commands on stdin]' \
-  '--max-value=[Set maximum value]:VALUE' \
-  '--min-value=[Set minimum value]:VALUE' \
-  '--month=[Set the calendar month]:INT' \
-  '--multiple[Allow selection of multiple filenames in file selection dialog]' \
-  '--no-cancel[Hides the cancel button]' \
-  '--no-markup[Do not enable pango markup]' \
-  '--no-wrap[Do not enable text wrapping]' \
-  '--notification[Display notification]' \
-  '--ok-label[Set the text of the OK button]' \
-  '--password[Display password dialog]' \
-  '--percentage=[Set initial percentage]:INT' \
-  '--print-column=[Specify what column to print to standard output]:NUMBER' \
-  '--print-partial[Print partial values]' \
-  '--progress[Display progress indication dialog]' \
-  '--pulsate[Pulsate progress bar]' \
-  '--question[Display question dialog]' \
-  '--radiolist[Use radio buttons for first column]' \
-  '--save[Activate save mode]' \
-  '--scale[Display scale dialog]' \
-  '--separator=[Set output separator character]:STRING' \
-  '--show-palette[Show the palette]' \
-  '--step=[Set step size]:VALUE' \
-  '--text-info[Display text information dialog]' \
-  '--text=[Set the dialog text]:STRING' \
-  '--timeout=[Set the dialog timeout in seconds]:TIMEOUT' \
-  '--title=[Set the dialog title]:TITLE' \
-  '--username[Display the username field]' \
-  '--value=[Set initial value]:VALUE' \
-  '--warning[Display warning dialog]' \
-  '--width=[Set the dialog width]:WIDTH' \
-  '--window-icon=[Set the window icon with the path to an image]:ICONPATH:_files' \
+  '--add-calendar=[Add a new Calendar in forms dialog]:FIELDNAME'
+  '--add-entry=[Add a new Entry in forms dialog]:FIELDNAME'
+  '--add-password=[Add a new Password Entry in forms dialog]:FIELDNAME'
+  '--auto-close[Close dialog when 100% has been reached]'
+  '--auto-kill[Kill parent process if cancel button is pressed]'
+  '--calendar[Display calendar dialog]'
+  '--cancel-label[Set the text of the cancel button]'
+  '--checkbox=[Enable a checkbox]:TEXT'
+  '--checklist[Use check boxes for first column]'
+  '--color-selection[Display color selection dialog]'
+  '--color=[Set the initial color]:VALUE'
+  '--column=[Set the column header]:STRING'
+  '--confirm-overwrite[Confirm file selection if filename already exists]'
+  '--date-format=[Set the format for the returned date]:PATTERN'
+  '--day=[Set the calendar day]:INT'
+  '--directory[Activate directory-only selection]'
+  '--editable[Allow changes to text]'
+  '--entry[Display text entry dialog]'
+  '--entry-text=[Set the entry text]:STRING'
+  '--error[Display error dialog]'
+  '--file-filter=[| PATTERN1 PATTERN2 Sets a filename filter]:NAME'
+  '--file-selection[Display file selection dialog]'
+  '--filename=[Open file]:FILENAME:_files'
+  '--forms[Display forms dialog]'
+  '--forms-date-format=[Set the format for the returned date]:PATTERN'
+  '--height=[Set the dialog height]:HEIGHT'
+  '--hide-column=[Hide a specific column]:NUMBER'
+  '--hide-header[Hides the column headers]'
+  '--hide-text[Hide the entry text]'
+  '--hide-value[Hide value]'
+  '--info[Display info dialog]'
+  '--list[Display list dialog]'
+  '--listen[Listen for commands on stdin]'
+  '--max-value=[Set maximum value]:VALUE'
+  '--min-value=[Set minimum value]:VALUE'
+  '--month=[Set the calendar month]:INT'
+  '--multiple[Allow selection of multiple filenames in file selection dialog]'
+  '--no-cancel[Hides the cancel button]'
+  '--no-markup[Do not enable pango markup]'
+  '--no-wrap[Do not enable text wrapping]'
+  '--notification[Display notification]'
+  '--ok-label[Set the text of the OK button]'
+  '--password[Display password dialog]'
+  '--percentage=[Set initial percentage]:INT'
+  '--print-column=[Specify what column to print to standard output]:NUMBER'
+  '--print-partial[Print partial values]'
+  '--progress[Display progress indication dialog]'
+  '--pulsate[Pulsate progress bar]'
+  '--question[Display question dialog]'
+  '--radiolist[Use radio buttons for first column]'
+  '--save[Activate save mode]'
+  '--scale[Display scale dialog]'
+  '--separator=[Set output separator character]:STRING'
+  '--show-palette[Show the palette]'
+  '--step=[Set step size]:VALUE'
+  '--text-info[Display text information dialog]'
+  '--text=[Set the dialog text]:STRING'
+  '--timeout=[Set the dialog timeout in seconds]:TIMEOUT'
+  '--title=[Set the dialog title]:TITLE'
+  '--username[Display the username field]'
+  '--value=[Set initial value]:VALUE'
+  '--warning[Display warning dialog]'
+  '--width=[Set the dialog width]:WIDTH'
+  '--window-icon=[Set the window icon with the path to an image]:ICONPATH:_files'
   '--year=[Set the calendar year]:INT'
-  '--class=[Program class as used by the window manager]:CLASS' \
-  '--name=[Program name as used by the window manager]:NAME' \
-  '--gdk-debug=[GDK debugging flags to set]:FLAGS' \
-  '--gdk-no-debug=[GDK debugging flags to unset]:FLAGS' \
-  '--gtk-module=[Load additional GTK+ modules]:MODULES' \
-  '--g-fatal-warnings[Make all warnings fatal]' \
-  '--gtk-debug=[GTK+ debugging flags to set]:FLAGS' \
+  '--class=[Program class as used by the window manager]:CLASS'
+  '--name=[Program name as used by the window manager]:NAME'
+  '--gdk-debug=[GDK debugging flags to set]:FLAGS'
+  '--gdk-no-debug=[GDK debugging flags to unset]:FLAGS'
+  '--gtk-module=[Load additional GTK+ modules]:MODULES'
+  '--g-fatal-warnings[Make all warnings fatal]'
+  '--gtk-debug=[GTK+ debugging flags to set]:FLAGS'
   '--gtk-no-debug=[GTK+ debugging flags to unset]:FLAGS'
 )
 
-if (( CURRENT == 2 )); then
+if [[ $CURRENT -eq 2 ]]; then
   _arguments \
     '(- : *)--version[Show version of program]' \
     '(- : *)'{-?,-h,--help}'[Show summary of options]' \
@@ -127,10 +127,9 @@ if (( CURRENT == 2 )); then
     '(- : *)--help-misc[Show miscellaneous options]' \
     '(- : *)--help-gtk[Show GTK+ Options]' \
     '(- : *)--about[Display an about dialog]' \
-    "${args[@]}" && ret=0
+    ${args[@]} && ret=0
 else
-  _arguments \
-    "${args[@]}" && ret=0
+  _arguments ${args[@]} && ret=0
 fi
 
 return ret

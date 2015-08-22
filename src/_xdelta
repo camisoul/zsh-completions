@@ -27,7 +27,7 @@
 
 local ret=1
 
-if (( CURRENT == 2 )); then
+if [[ $CURRENT -eq 2 ]]; then
   _values 'command' \
     'delta[produce a delta from ARG1 to ARG2 producing ARG3]' \
     'info[list details about delta ARG1]' \

@@ -29,7 +29,7 @@ local ret=1
 local -a args encode_args
 
 args=(
-  '(-0 -1 -2 -3 -4 -5 -6 -7 -8 -9)'{-0,-1,-2,-3,-4,-5,-6,-7,-8,-9}'[compression level]'
+  '(-0 -1 -2 -3 -4 -5 -6 -7 -8 -9)'-{0..9}'[compression level]'
   '-c[use stdout]'
   '-f[force overwrite]'
   '-F[force the external-compression subprocess]'
@@ -51,45 +51,45 @@ encode_args=(
   '-A[disable/provide application header]'
 )
 
-if (( CURRENT == 2 )); then
+if [[ $CURRENT -eq 2 ]]; then
   _arguments \
     '1: :->modes' \
-    "${args[@]}" \
-    "${encode_args[@]}" \
+    ${args[@]} \
+    ${encode_args[@]} \
     '(- : *)'-V'[show version]' \
     '(- : *)'-h'[show help]' && ret=0
 else
   local -a encode_ary
-  case "${words[2]}" in
+  case ${words[2]} in
     test)
       _arguments -S \
-        "${args[@]}" \
+        ${args[@]} \
         '-T[use alternate code table]' && ret=0
       ;;
     config|recode|print*)
-      _arguments -S "${args[@]}" && ret=0
+      _arguments -S ${args[@]} && ret=0
       ;;
     decode|-d)
       _arguments -S \
-        "${args[@]}" \
+        ${args[@]} \
         '-D[disable external decompression]' \
         '-R[disable external recompression]' \
         '-n[disable checksum]' && ret=0
       ;;
     merge)
       _arguments -S \
-        "${args[@]}" \
+        ${args[@]} \
         '*-m[arguments for merge]' && ret=0
       ;;
     *)
       _arguments -S \
-        "${args[@]}" \
-        "${encode_args[@]}" && ret=0
+        ${args[@]} \
+        ${encode_args[@]} && ret=0
       ;;
   esac
 fi
 
-case "${state}" in
+case $state in
   modes)
     _values 'mode' \
       'config[prints xdelta3 configuration]' \

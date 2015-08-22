@@ -36,12 +36,11 @@ args=(
   '(-c --bytes -n --lines)'{-n+,--lines=}'[print the first K lines instead of the first 10]: :->k_value'
   '*:FILE:_files'
 )
-if [[ ${service} == 'head' ]]; then
+if [[ $service == head ]]; then
+  _arguments -s -S ${args[@]} && ret=0
+elif [[ $service == tail ]]; then
   _arguments -s -S \
-    "${args[@]}" && ret=0
-elif [[ ${service} == 'tail' ]]; then
-  _arguments -s -S \
-    "${args[@]}" \
+    ${args[@]} \
     '(-f --follow -F)'{-f-,--follow=-}'[output appended data as the file grows]::name or descriptor' \
     '(-f --follow --retry)-F[same as --follow=name --retry]:name:_files' \
     '--max-unchanged-stats=[with --follow=name, reopen a FILE which has not changed size after N]:N' \
@@ -49,7 +48,7 @@ elif [[ ${service} == 'tail' ]]; then
     '--retry[keep trying to open a file even when it is or becomes inaccessible]' && ret=0
 fi
 
-case "${state}" in
+case $state in
   k_value)
     _message -e numbers 'K: normal, -K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
     ;;

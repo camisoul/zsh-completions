@@ -38,7 +38,7 @@ _arguments -s -S \
   '--display=[X display to use]:display:_x_display' \
   ':URIs:->uris' && ret=0
 
-case "${state}" in
+case $state in
   uris)
     _alternative \
       'directory::_files' \

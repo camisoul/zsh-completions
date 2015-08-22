@@ -40,7 +40,7 @@ _arguments -s -S \
   '(-f --format)'{-f,--format=}'[Format of the resulting image]: :->format' \
   '*:file:_files' && ret=0
 
-case "${state}" in
+case $state in
   dithering)
     _values 'dithering type' \
       'none[no dithering]' \

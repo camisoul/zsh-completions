@@ -25,6 +25,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
+local ret=1
 _arguments -s -S \
   '(- : *)'{-h,--help}'[display help and exit]' \
   '(- : *)'{-v,--version}'[output version information and exit]' \
@@ -36,4 +37,6 @@ _arguments -s -S \
   '(-r --recursive)'{-r,--recursive}'[contents of directories should be added recursively]' \
   '(-m --machine)'{-m,--machine}'[machine readable way]' \
   '--copyright[display copyright text]' \
-  '*:file and directories:_files'
+  '*:file and directories:_files' && ret=0
+
+return ret

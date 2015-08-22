@@ -45,7 +45,7 @@ _arguments -s -S \
   '--suffix=[add SUFFIX to output numbers]:SUFFIX' \
   '*: :->numbers' && ret=0
 
-case "${state}" in
+case $state in
   numbers)
     _message -e numbers 'number(1024,2K,5M..)' && ret=0
     ;;

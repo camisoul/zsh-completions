@@ -35,7 +35,7 @@ done
 
 local ret=1
 _arguments -s -S \
-  "${languages[@]}" \
+  ${languages[@]} \
   '-a[Append the tags to an existing tag file.]' \
   '-B[searching patterns (?...?).]' \
   '-e[Output tag file for use with Emacs.]' \
@@ -79,7 +79,7 @@ _arguments -s -S \
   '*:file:_files' && ret=0
 
 
-case "${state}" in
+case $state in
   langs)
     _values 'languages' \
       $(_call_program commands ${words[1]} --list-languages) && ret=0

@@ -45,7 +45,7 @@ _arguments -s -S \
   '(-t --topology)'{-t,--topology}'[output info about topology]' \
   '::device:_files' && ret=0
 
-case "${state}" in
+case $state in
   available_list)
     _values 'available columns' \
       "${(f)$(_call_program commands ${words[1]} --help | sed -n '/Available/,/^$/!d;/Available/d;/^$/q;s/:/\\:/g;s/ *\([^ ]*\)  \(.*\)/\1[\2]/p')}" && ret=0

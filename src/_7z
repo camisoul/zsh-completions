@@ -29,7 +29,7 @@
 
 local ret=1
 
-if (( CURRENT == 2 )); then
+if [[ $CURRENT -eq 2 ]]; then
   _values 'command' \
     'a[Add files to archive]' \
     'b[Benchmark]' \

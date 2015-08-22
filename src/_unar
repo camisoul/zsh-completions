@@ -37,7 +37,7 @@ common_args=(
   '(- : *)'{-v,-version}'[display version infomation]'
   '(- : *)'{-h,-help}'[display help infomation]'
 )
-case ${service} in
+case $service in
   unar)
     _arguments \
       '(-o -output-directory)'{-o,-output-directory}'[the directory to write the contents]:DIRECTORY:_files -/' \
@@ -49,7 +49,7 @@ case ${service} in
       '(-t -copy-time)'{-t,-copy-time}'[copy the file modification time from the archive file]' \
       '(-k -forks)'{-k,-forks}'[how to handle Mac OS resource forks]:forks:(visible hidden skip)' \
       '(-q -quiet)'{-q,-quiet}'[run in quiet mode]' \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '*:archives:_files' && ret=0
     ;;
   lsar)
@@ -59,12 +59,12 @@ case ${service} in
       '(-pe -print-encoding)'{-pe,-print-encoding}'[print the auto-detected encoding]' \
       '(-j -json -ja -json-ascii)'{-j,-json}'[print the listing in JSON format]' \
       '(-j -json -ja -json-ascii)'{-ja,-json-ascii}'[print the listing in JSON format, encoded as pure ASCII text]' \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '*:archives:_files' && ret=0
     ;;
 esac
 
-case "${state}" in
+case $state in
   encs)
     _values 'charset' \
       $(_call_program commands ${words[1]} -e list | sed -n 's/^ *\* *\([^ ]*\) *.*$/\1/p') && ret=0

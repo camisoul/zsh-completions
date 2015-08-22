@@ -30,7 +30,7 @@ local ret=1
 local -a args
 
 case ${OSTYPE} in
-  linux*)
+  *linux*)
     ;;
   PSONE*)
     args=(
@@ -61,7 +61,8 @@ case ${OSTYPE} in
 esac
 
 _arguments -s -S \
-  '(-1 -2 -3 -4 -5 -6 -7 -8 -9 --best)'{-1,-2,-3,-4,-5,-6,-7,-8,-9,--best}'[compress level(1:faster 9:better)]' \
+  '(-1 -2 -3 -4 -5 -6 -7 -8 -9 --best)'-{1..9}'[compress level(1:faster 9:better)]' \
+  '(-1 -2 -3 -4 -5 -6 -7 -8 -9 --best)--best[compress level]' \
   '(-)-d[decompress]' \
   '(-)-l[list compressed file]' \
   '(-)-t[test compressed file]' \
@@ -79,10 +80,10 @@ _arguments -s -S \
   '(-k --backup --no-backup)--no-backup[no backup files (default)]' \
   '--overlay=[option for extra data]:overlay:->overlays' \
   '--preserve-build-id[copy .gnu.note.build-id to compressed output]' \
-  "${args[@]}" \
+  ${args[@]} \
   '*:file:_files' && ret=0
 
-case "${state}" in
+case $state in
   overlays)
     _values 'overlay' \
       'copy[copy any extra data attached to the file (default)]' \

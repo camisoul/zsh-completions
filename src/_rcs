@@ -40,7 +40,7 @@ common_args=(
   '::RCS:->rcsfiles'
 )
 
-case "${service}" in
+case $service in
   rcs)
     _arguments -C -s \
       '(- : *)--version[print version number and exit]' \
@@ -76,7 +76,7 @@ case "${service}" in
     ;;
   ci)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q-[quiet mode]:rev' \
       '-i-[initial checkin]:rev' \
       '-I-[interactive]:rev' \
@@ -97,7 +97,7 @@ case "${service}" in
     ;;
   co)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q-[quiet mode]:rev' \
       '-f-[force overwrite of working file]:rev' \
       '-I-[interactive]:rev' \
@@ -115,7 +115,7 @@ case "${service}" in
     ;;
   rlog)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-L[Ignore RCS files with no locks set]' \
       '-R[Print the RCS file name only]' \
       '-h[Print only the "header" information]' \
@@ -130,7 +130,7 @@ case "${service}" in
     ;;
   rcsmerge)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q-[quiet mode]:rev' \
       '-A:[Passed to diff]' \
       '-E:[Passed to diff3; default if unspecifie]' \
@@ -140,14 +140,14 @@ case "${service}" in
     ;;
   rcsdiff)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q[quiet mode]' \
       '-T:[Passed to diff]' \
       '*-r-[specify a revision]:rev' && ret=0
     ;;
   rcsclean)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q-[quiet mode]:rev' \
       '-n-[do not actually remove any files or unlock any revisions]:rev' \
       '-r-[specify a revision]:rev' \
@@ -156,12 +156,12 @@ case "${service}" in
     ;;
   ident)
     _arguments -C -s \
-      "${common_args[@]}" \
+      ${common_args[@]} \
       '-q[quiet mode]' && ret=0
     ;;
 esac
 
-case "${state}" in
+case $state in
   subst)
     _values "subst" \
       'kv[generate keyword strings using the default form]' \

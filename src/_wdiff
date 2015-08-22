@@ -46,22 +46,22 @@ args=(
   '(-z --end-insert)'{-z,--end-insert=}'[string to mark end of insert region]:STRING'
 )
 
-if (( CURRENT == 2 )); then
+if [[ $CURRENT -eq 2 ]]; then
   _arguments -S -A "-*" \
-    "${args[@]}" \
+    ${args[@]} \
     '(-d --diff-input)'{-d,--diff-input}'[use single unified diff as input]' \
     '(-):FILE1:_files' \
     '(-):FILE2:_files' && ret=0
 else
-  case "${words[2]}" in
+  case ${words[2]} in
     -d|--diff-input)
       _arguments -s -S -A "-*" \
-        "${args[@]}" \
+        ${args[@]} \
         '(-):FILE:_files' && ret=0
       ;;
     *)
       _arguments -s -S -A "-*" \
-        "${args[@]}" \
+        ${args[@]} \
         '(-):FILE1:_files' \
         '(-):FILE2:_files' && ret=0
       ;;

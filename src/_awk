@@ -26,8 +26,7 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -a gnu_opts
-gnu_opts=(-C --copyright -h --help -V --version -F --field-separator -v --assign -b --characters-as-bytes -c --traditional -d --dump-variables -e --source -E --exec -g --gen-pot -L --lint -n --non-decimal-data -N --use-lc-numeric -O --optimize -p --profile -b --characters-as-bytes -P --posix -r --re-interval -R --command -S --sandbox -t --lint-old)
+local gnu_opts='-C --copyright -h --help -V --version -F --field-separator -v --assign -b --characters-as-bytes -c --traditional -d --dump-variables -e --source -E --exec -g --gen-pot -L --lint -n --non-decimal-data -N --use-lc-numeric -O --optimize -p --profile -b --characters-as-bytes -P --posix -r --re-interval -R --command -S --sandbox -t --lint-old'
 
 _arguments -S \
   '(- : *)'{-C,--copyright}'[Print the short version of the GNU copyright information message on the standard output and exit successfully]' \
@@ -51,7 +50,7 @@ _arguments -S \
   '(-R --command)'{-R,--command}'[file Dgawk only]' \
   '(-S --sandbox)'{-S,--sandbox}'[Runs gawk in sandbox mode]' \
   '(-t --lint-old)'{-t,--lint-old}'[Provide warnings about constructs that are not portable to the original version of Unix awk]' \
-  "(${gnu_opts[*]})"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
+  "($gnu_opts)"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
   '(-)*:file:_files' && ret=0
 
 return ret

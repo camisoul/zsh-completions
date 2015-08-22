@@ -26,18 +26,17 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -a units
-units=(-b --bytes -k --kilo -m --mega -g --giga --tera -h --human)
+local units='-b --bytes -k --kilo -m --mega -g --giga --tera -h --human'
 
 _arguments -s \
   '(- : *)--help[display help and exit]' \
   '(- : *)'{-V,--version}'[output version information and exit]' \
-  "(${units[*]})"{-b,--bytes}'[display the amount of memory in bytes]' \
-  "(${units[*]})"{-k,--kilo}'[display the amount of memory in kilobytes]' \
-  "(${units[*]})"{-m,--mega}'[display the amount of memory in megabytes]' \
-  "(${units[*]})"{-g,--giga}'[display the amount of memory in gigabytes]' \
-  "(${units[*]})--tera[display the amount of memory in terabytes]" \
-  "(${units[*]})"{-h,--human}'[automatically scaled]' \
+  "($units)"{-b,--bytes}'[display the amount of memory in bytes]' \
+  "($units)"{-k,--kilo}'[display the amount of memory in kilobytes]' \
+  "($units)"{-m,--mega}'[display the amount of memory in megabytes]' \
+  "($units)"{-g,--giga}'[display the amount of memory in gigabytes]' \
+  "($units)--tera[display the amount of memory in terabytes]" \
+  "($units)"{-h,--human}'[automatically scaled]' \
   '--si[use power of 1000 not 1024]' \
   '(-l --lohi)'{-l,--lohi}'[show detailed low and high memory statistics]' \
   '(-t --total)'{-t,--total}'[display a line showing the column totals]' \
