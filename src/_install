@@ -36,7 +36,7 @@ _arguments -s -S \
   '(-d --directory)'{-d,--directory}'[treat all arguments as directory names]' \
   '-D[create all leading components of DEST except the last]' \
   '(-g --group)'{-g,--group=}'[set group ownership]:GROUP:_groups' \
-  '(-m --mode)'{-m,--mode=}'[set permission mode]:MODE' \
+  '(-m --mode)'{-m,--mode=}'[set permission mode]:MODE:->mode' \
   '(-o --owner)'{-o,--owner=}'[set ownership]:OWNER:_users' \
   '(-p --preserve-timestamps)'{-p,--preserve-timestamps}'[apply access/modification times]' \
   '(-s --strip)'{-s,--strip}'[strip symbol tables]' \
@@ -48,5 +48,28 @@ _arguments -s -S \
   '(- : *)--help[display help and exit]' \
   '(- : *)--version[output version information and exit]' \
   '*:file or directory:_files' && ret=0
+
+if [[ $state == mode ]]; then
+  compset -P \*,
+  compset -S ,\*
+  if [[ -prefix [0-7] ]]; then
+    _message -e number 'numeric mode'
+  elif compset -P '[a-z]#[+-=]'; then
+    _values -S '' privilege \
+      'r[read]' 'w[write]' 'x[execute]' \
+      's[set uid/gid]' 't[sticky]' \
+      'X[execute only if directory or executable to another]' \
+      "u[owner's current permissions]" \
+      "g[group's current permissions]" \
+      "o[other's current permissions]" \
+      "$privs[@]" && ret=0
+  else
+    suf=( -S '' )
+    compset -P '*'
+    _alternative -O suf \
+      'who:who:((u\:user g\:group a\:all o\:others))' \
+      'operators:operator:(+ - =)' && ret=0
+  fi
+fi
 
 return ret
