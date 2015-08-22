@@ -39,7 +39,7 @@ _arguments -s -S \
   '--additional-suffix=[append an additional SUFFIX to file names]:SUFFIX' \
   '(-d --numeric-suffixes)'{-d,--numeric-suffixes=-}'[use numeric suffixes instead of alphabetic]:FROM' \
   '(-e --elide-empty-files)'{-e,--elide-empty-files}"[do not generate empty output files with '-n']" \
-  '--filter=[write to shell COMMAND]:COMMAND' \
+  '--filter=[write to shell COMMAND]:COMMAND:_command_names -e' \
   '(-u --unbufferd)'{-u,--unbufferd}"[immediately copy input to output]" \
   '--verbose[print a diagnostic just before each output file is opend]' \
   '*: :_files' && ret=0
