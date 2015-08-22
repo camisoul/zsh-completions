@@ -34,7 +34,7 @@ _arguments -s -S \
   '(-m --max-tries)'{-m,--max-tries=}'[Set number of tries.]:N' \
   '--auto-save-interval=[Save a control file(*.aria2) every SEC seconds.]:SEC' \
   '(-l --log)'{-l,--log=}'[The file name of the log file.]:LOG:_files' \
-  '(-d --dir)'{-d,--dir=}'[The directory to store the downloaded file.]:DIR:_files -/' \
+  '(-d --dir)'{-d,--dir=}'[The directory to store the downloaded file.]:DIR:_directories' \
   '(-o --out)'{-o,--out=}'[The file name of the downloaded file.]:FILE:_files' \
   '(-s --split)'{-s,--split=}'[Download a file using N connections.]:N' \
   '(-D --daemon)'{-D,--daemon=}'[Run as daemon.]:BOOL:(true false)' \

@@ -76,7 +76,7 @@ case $service in
       '--script[run file as an emacs lisp script]:file:_files' \
       '--insert[insert contents of file into the current buffer]:file:_files' \
       '--kill[exit emacs while in batch mode]' \
-      '(-L --directory)'{-L,--directory}'[add dir to the list of directories emacs searches for lisp files]:dir:_files -/' \
+      '(-L --directory)'{-L,--directory}'[add dir to the list of directories emacs searches for lisp files]:dir:_directories' \
       \
       '--name[specify emacs window name]:name:_x_name' \
       '(-T --title)'{-T,--title}'[specify the title for X window]:title:_x_title' \

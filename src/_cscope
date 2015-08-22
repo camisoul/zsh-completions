@@ -37,7 +37,7 @@ _arguments -s -S \
   '-F[Read symbol reference lines from symfile.]:symfile:_files' \
   '-f[Use reffile as cross-ref file name instead of cscope.out.]:reffile:_files' \
   '-I[Look in incdir for any #include files.]' \
-  '-i[Browse through files listed in namefile, instead of cscope.files]:incdir:_files -/' \
+  '-i[Browse through files listed in namefile, instead of cscope.files]:incdir:_directories' \
   "-k[Kernel Mode - don't use /usr/include for include files.]:namefile:_files" \
   '-L[Do a single search with line-oriented output.]' \
   '-l[Line-oriented interface.]' \
@@ -46,7 +46,7 @@ _arguments -s -S \
   '-p[Display the last n file path components.]:n' \
   '-q[Build an inverted index for quick symbol searching.]' \
   '-R[Recurse directories for files.]' \
-  '-s[Look in dir for additional source  files.]:dir:_files -/' \
+  '-s[Look in dir for additional source  files.]:dir:_directories' \
   '-T[Use only the first eight characters to match against C symbols.]' \
   '-U[Check file time stamps.]' \
   '-u[Unconditionally build the cross-reference file.]' \

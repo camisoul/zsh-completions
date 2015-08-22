@@ -45,7 +45,7 @@ if [[ $service == atool ]]; then
   cmds_args=(
   "($cmds)"{-l,--list}'[List files in archive.]'
   "($cmds)"{-x,--extract}'[Extract files from archive.]'
-  "($cmds)"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_files -/'
+  "($cmds)"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_directories'
   "($cmds)"{-a,--add}'[Create archive.]'
   "($cmds)"{-c,--cat}'[Extract a file from archive to standard out.]'
   "($cmds)"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]'
@@ -71,7 +71,7 @@ _arguments -s -S \
   '(--config)--config=[Load configuration from the specified file.]:FILE:_files' \
   '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
   '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
-  '(--save-outdir)--save-outdir=:FILE:_files -/' \
+  '(--save-outdir)--save-outdir=:DIR:_directories' \
   '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_types#.}}')"' \
   '*:FILE:_files' \
   && ret=0

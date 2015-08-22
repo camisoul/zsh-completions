@@ -37,7 +37,7 @@ general_opts=(
   '(-f -r --from --read)'{-f,-r,--from=,--read=}'[specify input format]:FORMAT:->iformats'
   '(-t -w --to --write)'{-t,-w,--to=,--write=}'[specify output format]:FORMAT:->oformats'
   '(-o --output)'{-o,--output=}'[write output to FILE]:FILE:_files'
-  '--data-dir=[specify the user data directory]:DIRECTORY:_files -/'
+  '--data-dir=[specify the user data directory]:DIRECTORY:_directories'
   )
 
 reader_opts=(
@@ -53,7 +53,7 @@ reader_opts=(
   '(-p --preserve-tabs)'{-p,--preserve-tabs}'[preserve tabs instead of converting them to spaces]'
   '--tab-stop=[specify the number of spaces per tab]:NUMBER'
   '--track-changes=[specifies what to do with insertions and deltions produced by th MS Word track-changes feature]:(accept reject all)'
-  '--extract-media=[extract images and other media contained in a docx or epub container to the path DIR]:DIR:_files -/'
+  '--extract-media=[extract images and other media contained in a docx or epub container to the path DIR]:DIR:_directories'
   )
 
 general_writer_opts=(

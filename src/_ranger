@@ -31,7 +31,7 @@ _arguments -s -S \
   "(- : *)--version[show program's version number and exit]" \
   '(-d --debug)'{-d,--debug}'[activate debug mode]' \
   '(-c --clean)'{-c,--clean}'[do not touch/require any config files]' \
-  '(-r --confdir)'{-r,--confdir=}'[change the configuration directory (~/.config/ranger)]:dir:_files -/' \
+  '(-r --confdir)'{-r,--confdir=}'[change the configuration directory (~/.config/ranger)]:dir:_directories' \
   '--copy-config=[copy the default configs to the local config directory]:which:(all rc rifle commands scope)' \
   '(--choosefile --choosefiles --choosedir)--choosefile=[Makes ranger act like a file chooser]:TARGET:_files' \
   '(--choosefile --choosefiles --choosedir)--choosefiles=[Makes ranger act like a file chooser for multiple files at once]:TARGET:_files' \

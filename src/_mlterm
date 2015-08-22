@@ -121,7 +121,7 @@ _arguments -s -S \
   '--ade=[encodings detected automatically]:value' \
   '--auto=[detect character encoding automatically]:value:->bool' \
   '--ldd=[embold glyphs by drawing doubly at 1 pixel leftward instead of rightward]:value:->bool' \
-  '--working-directory=[working directory]:value:_files -/' \
+  '--working-directory=[working directory]:value:_directories' \
   '--seqfmt=[format of logging vt100 sequence.  (raw)]:value' \
   '--depth=[visual depth]:value' \
   '--maxptys=[max ptys to open simultaneously (multiple of 32)]:value' \

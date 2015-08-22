@@ -40,7 +40,7 @@ common_args=(
 case $service in
   unar)
     _arguments \
-      '(-o -output-directory)'{-o,-output-directory}'[the directory to write the contents]:DIRECTORY:_files -/' \
+      '(-o -output-directory)'{-o,-output-directory}'[the directory to write the contents]:DIRECTORY:_directories' \
       '(-f -force-overwrite -r -force-rename -s -force-skip)'{-f,-force-overwrite}'[always overwrite files]' \
       '(-f -force-overwrite -r -force-rename -s -force-skip)'{-r,-force-rename}'[always rename files]' \
       '(-f -force-overwrite -r -force-rename -s -force-skip)'{-s,-force-skip}'[always skip files]' \

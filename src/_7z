@@ -70,7 +70,7 @@ else
   '-mhe[7z format only]:Value:(on off)' \
   '-bd[Disable percentage indicator]' \
   '-m[set compression Method]:Parameters' \
-  '-o[et Output directory]:Directory:_files -/' \
+  '-o[et Output directory]:Directory:_directories' \
   '-p[set Password]:Password' \
   '-scs[set charset for list files]:(UTF-8 WIN DOS)' \
   '-sfx[Create SFX archive]:name' \
@@ -80,7 +80,7 @@ else
   '-ssc-[set sensitive case mode]' \
   '-t[Set type of archive]:Type' \
   '-v+[Create volumes]:size' \
-  '-w-[assign Work directory]:path:_files -/' \
+  '-w-[assign Work directory]:path:_directories' \
   '-y[assume Yes on all queries]' \
   '*:file:_files' && ret=0
 fi
