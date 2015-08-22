@@ -48,7 +48,7 @@ reader_opts=(
   '--indented-code-classes=[specify classes to use for indented code blocks]:CLASSES'
   '--default-image-extension=[specify a default extension to use when image paths/URLs have no extension]:EXTENSION'
   '--filter=[specify an executable to be used as a filter transforming the Pandoc AST]:EXECUTABLE:_command_names -e'
-  '(-M --metadata)*'{-M,--metadata=}'[set the metadata field KEY to the value VAL]:KEY[\:VAL]'
+  '(-M --metadata)*'{-M,--metadata=}'[set the metadata field KEY to the value VAL]:KEY[\:VAL]:->keys'
   '--normalize[normalize the document after reading]'
   '(-p --preserve-tabs)'{-p,--preserve-tabs}'[preserve tabs instead of converting them to spaces]'
   '--tab-stop=[specify the number of spaces per tab]:NUMBER'
@@ -59,7 +59,7 @@ reader_opts=(
 general_writer_opts=(
   '(-s --standalone)'{-s,--standalone}'[produce output with an appropriate header and fotter]'
   '--template=[use FILE as a custom template]:FILE:_files'
-  '(-V --variable)*'{-V,--variable=}'[set the template variable KEY to the value VAL]:KEY[\:VAL]'
+  '(-V --variable)*'{-V,--variable=}'[set the template variable KEY to the value VAL]:KEY[\:VAL]:->keys'
   '(-D --print-default-template)*'{-D,--print-default-template=}"[print the default template fo an output FORMAT]:FORMAT:->oformats"
   '--print-default-data-file=[print a default data file]:FILE:_files'
   '--no-wrap[disable text wrapping in output]'
@@ -175,6 +175,9 @@ elif [[ $state == uris ]]; then
   _alternative \
     'files:file:_files' \
     'urls:url:_urls' && ret=0
+elif [[ $state == keys ]]; then
+  compset -P '*:'
+  _message -e key 'KEY[:VALUE]' && ret=0
 fi
 
 return ret
