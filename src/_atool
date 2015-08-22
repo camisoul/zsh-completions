@@ -25,6 +25,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
+# TODO:2015-08-22:コマンドごとに分岐したい
 
 local ret=1
 local -a cmds_args
@@ -68,7 +69,7 @@ _arguments -s -S \
   '*'{-v,--verbose}'[Increase verbosity level by one.]' \
   '(-q --quiet -v --verbose)'{-V+,--verbosity=}'[Specify verbosity level.]:LEVEL' \
   '(--config)--config=[Load configuration from the specified file.]:FILE:_files' \
-  '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE' \
+  '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
   '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
   '(--save-outdir)--save-outdir=:FILE:_files -/' \
   '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_types#.}}')"' \
@@ -78,6 +79,11 @@ _arguments -s -S \
 case $state in
   types)
     _describe -t 'types' 'type' archive_types && ret=0
+    ;;
+  option)
+    compset -P '*='
+    compset -S '=*'
+    _message -e value 'KEY=VALUE' && ret=0
     ;;
 esac
 
