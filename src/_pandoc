@@ -25,36 +25,42 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
+# TODO:2015-08-22: `KEY[:VAL]`というスタイルの入力をガードしたい
+
 local ret=1
 local -a general_opts reader_opts general_writer_opts specific_writers_opts citation_opts math_rendering_opts wrapper_opts
 
 general_opts=(
   '(* 1 -)'{-v,--version}'[print version]'
   '(* 1 -)'{-h,--help}'[show usage message]'
+  '--verbose[give verbose debugging output]'
   '(-f -r --from --read)'{-f,-r,--from=,--read=}'[specify input format]:FORMAT:->iformats'
   '(-t -w --to --write)'{-t,-w,--to=,--write=}'[specify output format]:FORMAT:->oformats'
   '(-o --output)'{-o,--output=}'[write output to FILE]:FILE:_files'
-  '--date-dir=[specify the user data directory]:DIRECTORY:_files -/'
+  '--data-dir=[specify the user data directory]:DIRECTORY:_files -/'
   )
 
 reader_opts=(
   '(-R --parse-raw)'{-R,--parse-raw}'[parse untranslatable HTML cods and LaTex environments as raw HTML or LaTeX]'
   '(-S --smart)'{-S,--smart}'[produce typographically correct]'
+  '--old-dashes[selects the pandoc <= 1.8.2.1 behavior for parsing smart dashes]'
   '--base-header-level=[specify the base level for headers]:NUMBER'
   '--indented-code-classes=[specify classes to use for indented code blocks]:CLASSES'
   '--default-image-extension=[specify a default extension to use when image paths/URLs have no extension]:EXTENSION'
-  '--filter=[specify an executable to be used as a filter transforming the Pandoc AST]:EXECUTABLE:_files'
+  '--filter=[specify an executable to be used as a filter transforming the Pandoc AST]:EXECUTABLE:_command_names -e'
   '(-M --metadata)*'{-M,--metadata=}'[set the metadata field KEY to the value VAL]:KEY[\:VAL]'
   '--normalize[normalize the document after reading]'
   '(-p --preserve-tabs)'{-p,--preserve-tabs}'[preserve tabs instead of converting them to spaces]'
   '--tab-stop=[specify the number of spaces per tab]:NUMBER'
+  '--track-changes=[specifies what to do with insertions and deltions produced by th MS Word track-changes feature]:(accept reject all)'
+  '--extract-media=[extract images and other media contained in a docx or epub container to the path DIR]:DIR:_files -/'
   )
 
 general_writer_opts=(
   '(-s --standalone)'{-s,--standalone}'[produce output with an appropriate header and fotter]'
   '--template=[use FILE as a custom template]:FILE:_files'
   '(-V --variable)*'{-V,--variable=}'[set the template variable KEY to the value VAL]:KEY[\:VAL]'
-  '(-D --print-default-template)*'{-D,--print-default-template=}"[print the default template fo an output FORMAT]:FORMAT:${outputf[*]}"
+  '(-D --print-default-template)*'{-D,--print-default-template=}"[print the default template fo an output FORMAT]:FORMAT:->oformats"
   '--print-default-data-file=[print a default data file]:FILE:_files'
   '--no-wrap[disable text wrapping in output]'
   '--columns=[specify length of lines]:NUMBER'
@@ -75,15 +81,16 @@ specific_writers_opts=(
   '--atx-headers[use ATX style headers in markdown and asciidoc output]'
   '--chapters[treat top-level headers as chapters]'
   '(-N --number-sections)'{-N,--number-sections}'[number section headings in LaTeX,ConTeXt, HTML, or EPUB output]'
-  '--number-offset=[offset for section hedings in HTML output]:NUMBER'
+  '--number-offset=[offset for section hedings in HTML output]:NUMBER:->offset'
   '--no-tex-ligatures[do not convert quotation marks, apostrophes, and dashes to the TeX ligatures when writing LaTeX or GonTeXt]'
+  '--listings[use listings package for LaTeX code blocks]'
   '(-i --incremental)'{-i,--incremental}'[make list items in slide shows display incrementally]'
   '--slide-level=[specifies that headers with the specified level creates slides]:NUMBER'
   '--sections-divs[wrap sections in <div> tags]'
   '--email-obfuscations=[specify a method for obfuscating mailto: links in HTML documents]:obfuscation:(none javascript references)'
   '--id-prefix=[specify a prefix to be added to all automatically generated identifiers in HTML and DocBook, and footnote in output]:STRING'
   '(-T --title-prefix)'{-T,--title-prefix=}'[specify STRING as prefix at the beginning of the title]:STRING'
-  '(-c --css)'{-c,--css=}'[Link to a CSS style sheet]:URL'
+  '(-c --css)'{-c,--css=}'[Link to a CSS style sheet]:URL:->uris'
   '--reference-obt=[use the specified file as a style reference in producing an ODT]:FILE:_files'
   '--reference-docx=[use the specified file as a style reference in producing a docx file]:FILE:_files'
   '--epub-stylesheet=[use the specified CSS file to tyle the EPUB]:FILE:_files'
@@ -92,24 +99,27 @@ specific_writers_opts=(
   '--epub-embed-font=[embed the specified font in the EPUB]:FILE:_files'
   '--epub-chapter-level=[specify the header level at which to split the EPUB]:NUMBER'
   '--latex-engine=[use the specified LaTeX engine when producing PDF output]:engine:(pdflatex lualatex xelatex)'
+  '--latex-engine-opt=[use the given string as a command-line argument to the latex-engine]:STRING'
   )
 
 citation_opts=(
   '--bibliography=[set the bibliography field]:FILE:_files'
-  '--cls=[set the csl field]:FILE:_files'
+  '--csl=[set the csl field]:FILE:_files'
   '--citation-abbreviations=[set the citation-abbreviations field]:FILE:_files'
   '--natbib[use natbib for citations in LaTeX output]'
   '--biblatex[use biblatex for citations in LaTeX output]'
   )
 
 math_rendering_opts=(
-  '(-m --latexmathml)'{-m,--latexmathml=-}'[use LaTeXMathML to display embedded TeX math in HTML output]:URL:_urls'
-  '--mathml=-[convert TeX math to MathML]:URL:_urls'
-  '--jsmath=-[use jsMath to display embedded TeX math in HTML output]:URL:_urls'
-  '--mathjax=-[use MathJax to display embedded TeX math in HTML output]:URL:_urls'
+  '(-m --latexmathml)'{-m,--latexmathml=-}'[use LaTeXMathML to display embedded TeX math in HTML output]:URL:->uris'
+  '--mathml=-[convert TeX math to MathML]:URL:->uris'
+  '--jsmath=-[use jsMath to display embedded TeX math in HTML output]:URL:->uris'
+  '--mathjax=-[use MathJax to display embedded TeX math in HTML output]:URL:->uris'
   '--gladtex[enclose TeX math in <eq> tags in HTML output]'
-  '--mimetex=-[render TeX math using the mimeTeX CGI script]:URL:_urls'
-  '--webtex=-[render TeX formulas using an external script]:URL:_urls'
+  '--mimetex=-[render TeX math using the mimeTeX CGI script]:URL:->uris'
+  '--webtex=-[render TeX formulas using an external script]:URL:->uris'
+  '--katex=-[render TeX formulas using an external script]:URL:->uris'
+  '--katex-stylesheet=[render TeX formulas using an external script]:URL:->uris'
   )
 
 wrapper_opts=(
@@ -125,7 +135,7 @@ _arguments -s -S \
   ${citation_opts[@]} \
   ${math_rendering_opts[@]} \
   ${wrapper_opts[@]} \
-  '*:input file or URI:_files' && ret=0
+  '*:input file or URI:->uris' && ret=0
 
 
 function scan_help
@@ -157,6 +167,14 @@ if [[ $state == *formats ]]; then
       ;;
   esac
   _values 'formats' $(scan_help "${section}") && ret=0
+elif [[ $state == offset ]]; then
+  compset -P \*,
+  compset -S ,\*
+  _message -e number 'number' && ret=0
+elif [[ $state == uris ]]; then
+  _alternative \
+    'files:file:_files' \
+    'urls:url:_urls' && ret=0
 fi
 
 return ret
