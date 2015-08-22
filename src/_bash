@@ -25,29 +25,49 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# FIXME:2015-05-10:`-c`のあとにコマンドが入力できない
+# FIXME:2015-08-22:コマンドのあとにはコマンドに対する補完をしたい
+
 local ret=1
 local opts='allexport braceexpand emacs errexit errtrace functrace hashall histexpand history ignoreeof keyword monitor noclobber noexec noglob nolog notify nounset onecmd physical pipefail posix privileged verbose vi xtrace'
 
-_arguments -S \
-  '(- : *)--help' \
-  '(- : *)--version' \
-  '--debugger[arrange for the debugger profile to be executed before the shell starts]' \
-  '(-D --dump-strings)--dump-po-strings[equivalent to -D, but the output is in the GNU gettext po file format]' \
-  '(-D --dump-strings --dump-po-strings)'{-D,--dump-strings}'[dump strings]' \
-  '(-l --login)'{-l,--login}'[make bash act as if it had been invoked as a login shell]' \
-  '(--rcfile --init-file --norc)'{--rcfile,--init-file}'[execute commands from file instead of rc file]:file:_files' \
-  '--noediting[do not use the GNU readline library]' \
-  '--noprofile[do not read login and profile files]' \
-  '(--rcfile --init-file)--norc[do not read bashrc files]' \
-  '--posix[change the behavior of bash to posix mode]' \
-  '(-r --restricted)'{-r,--restricted}'[restricted shell]' \
-  '(-v --verbose)'{-v,--verbose} \
-  '-c[read commands from the commad_string]:command_string' \
-  '-s[stdin]' \
-  '-i[interactive]' \
-  "*-O[sets the value]:shopt_option:($opts)" \
-  "*+O[unsets the value]:shopt_option:($opts)" \
-&& ret=0
+local -a args
+args=(
+  '(- : *)--help'
+  '(- : *)--version'
+  '--debugger[arrange for the debugger profile to be executed before the shell starts]'
+  '(-D --dump-strings)--dump-po-strings[equivalent to -D, but the output is in the GNU gettext po file format]'
+  '(-D --dump-strings --dump-po-strings)'{-D,--dump-strings}'[dump strings]'
+  '(-l --login)'{-l,--login}'[make bash act as if it had been invoked as a login shell]'
+  '(--rcfile --init-file --norc)'{--rcfile,--init-file}'[execute commands from file instead of rc file]:file:_files'
+  '--noediting[do not use the GNU readline library]'
+  '--noprofile[do not read login and profile files]'
+  '(--rcfile --init-file)--norc[do not read bashrc files]'
+  '--posix[change the behavior of bash to posix mode]'
+  '(-r --restricted)'{-r,--restricted}'[restricted shell]'
+  '(-v --verbose)'{-v,--verbose}
+  '-i[interactive]'
+  "*-O[sets the value]:shopt:($opts)"
+  "*+O[unsets the value]:shopt:($opts)"
+)
+
+case $words[2] in
+  -s)
+    ;;
+  -c)
+    args+=('*:command string:_command_names -e')
+    ;;
+  *)
+    args+=('*:file:_files')
+    ;;
+esac
+
+if [[ $CURRENT -eq 2 ]]; then
+  _arguments -s -S \
+    '-c[read commands from the commad_string]' \
+    '-s[stdin]' \
+    $args[@] && ret=0
+else
+  _arguments -s -S $args[@] && ret=0
+fi
 
 return ret
