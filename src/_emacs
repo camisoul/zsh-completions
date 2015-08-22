@@ -27,92 +27,91 @@
 
 local ret=1
 
-case ${service} in
+case $service in
   emacsclient*)
-  _arguments -S \
-    '(* : -)'{-V,--version}'[print version info and return]' \
-    '(* : -)'{-H,--help}'[print usage infomation message]' \
-    '(-a --alternate-editor)'{-a,--alternate-editor=}'[run the specified editor instead]:EDITOR:_command_names -e' \
-    '(-c --create-frame)'{-c,--create-frame}'[create a new frame]' \
-    '(-F --frame-parameters)'{-F,--frame-parameters=}'[set the parameters of a newly-created frame]:ALIST' \
-    '(-d --display)'{-d,--display=}'[tell the servert to display the files]:DISPLAY:_x_display' \
-    '(-e --eval)'{-e,--eval}'[do not visit files but instead evaluate the arguments as emacs lisp expressionx]' \
-    '(-f --server-file)'{-f,--server-file=}'[use TCP configuration file]:FILENAME:_files' \
-    '(-n --no-wait)'{-n,--no-wait}'[returns immediately]' \
-    '(-nw -t --tty)'{-nw,-t,--tty}'[open a new emacs frame on the current terminal]' \
-    '(-s --socket-name)'{-s,--socket-name=}'[use socket named FILENAME]:FILENAME:_files -W "*(=)"' \
-    '*:file:_files' && ret=0
+    _arguments -S \
+      '(* : -)'{-V,--version}'[print version info and return]' \
+      '(* : -)'{-H,--help}'[print usage infomation message]' \
+      '(-a --alternate-editor)'{-a,--alternate-editor=}'[run the specified editor instead]:EDITOR:_command_names -e' \
+      '(-c --create-frame)'{-c,--create-frame}'[create a new frame]' \
+      '(-F --frame-parameters)'{-F,--frame-parameters=}'[set the parameters of a newly-created frame]:ALIST' \
+      '(-d --display)'{-d,--display=}'[tell the servert to display the files]:DISPLAY:_x_display' \
+      '(-e --eval)'{-e,--eval}'[do not visit files but instead evaluate the arguments as emacs lisp expressionx]' \
+      '(-f --server-file)'{-f,--server-file=}'[use TCP configuration file]:FILENAME:_files' \
+      '(-n --no-wait)'{-n,--no-wait}'[returns immediately]' \
+      '(-nw -t --tty)'{-nw,-t,--tty}'[open a new emacs frame on the current terminal]' \
+      '(-s --socket-name)'{-s,--socket-name=}'[use socket named FILENAME]:FILENAME:_files -W "*(=)"' \
+      '*:file:_files' && ret=0
     ;;
-    emacs*)
-  local -a x_args
-  x_args=(
-    '-nw --no-window-system --name -T --title -r -rv --reverse-video'
-    '-fn --font --xrm --color -bw --border-width -ib --internal-border'
-    '-g --geometry -lsp --line-spacing -vb --vertical-scroll-bars'
-    '-fh --fullheight -fw --fullwidth -mm --maximized -fs --fullscreen'
-    '-fg --foreground-color -bg --background-color -bd --border-color -cr --cursor-color -ms --mouse-color'
-    '-d --display -nbi --no-bitmap-icon --iconic -nbc --no-blinking-cursor'
-  )
+  emacs*)
+    local -a x_args
+    x_args=(
+      -nw --no-window-system --name -T --title -r -rv --reverse-video
+      -fn --font --xrm --color -bw --border-width -ib --internal-border
+      -g --geometry -lsp --line-spacing -vb --vertical-scroll-bars
+      -fh --fullheight -fw --fullwidth -mm --maximized -fs --fullscreen
+      -fg --foreground-color -bg --background-color -bd --border-color -cr --cursor-color -ms --mouse-color
+      -d --display -nbi --no-bitmap-icon --iconic -nbc --no-blinking-cursor
+    )
 
-  _arguments -S \
-    '(* : -)'{-V,--version}'[print version info and return]' \
-    '(* : -)'{-H,--help}'[print usage infomation message]' \
-    '(--file --find-file --visit)'{--file,--find-file,--visit}'[edit file]:file:_files' \
-    '(-q --no-init-file)'{-q,--no-init-file}'[do not load an init file]' \
-    '+-[go to the line or column]:number or line\:column' \
-    '--no-site-file[do not load the site-wide startup file]' \
-    '--no-desktop[do not load a saved desktop]' \
-    '--no-splash[do not display a splash screen]' \
-    '(-q --no-init-file --no-site-file --no-splash -Q --quick)'{-Q,--quick}'[similar to "-q --no-site-file --no-splash"]' \
-    '(-u --user)'{-u,--user}'[load users init file]:user:_users' \
-    '(-t --terminal)'{-t,--terminal}'[use specified file as the terminal]:file:_files' \
-    '--daemon[start emacs as a daemon]' \
-    \
-    '*'{-f,--funcall}'[execute the lisp function]:function' \
-    '*'{-l,--load}'[load the lisp code in the file]:file:_files' \
-    '*'{--eval,--execute}'[evaluate the lisp expression]:expr' \
-    \
-    '--batch[edit in batch mode]' \
-    '--script[run file as an emacs lisp script]:file:_files' \
-    '--insert[insert contents of file into the current buffer]:file:_files' \
-    '--kill[exit emacs while in batch mode]' \
-    '(-L --directory)'{-L,--directory}'[add dir to the list of directories emacs searches for lisp files]:dir:_files -/' \
-    \
-    '--name[specify emacs window name]:name:_x_name' \
-    '(-T --title)'{-T,--title}'[specify the title for X window]:title:_x_title' \
-    '(-r -rv --reverse-video)'{-r,-rv,--reverse-video}'[display the window in reverse video]' \
-    '(-fn --font)'{-fn,--font}'[set font]:font:->xls_fonts' \
-    '--xrm[set additional X resources]:resources:_x_resource' \
-    '--color=[override color mode]:mode:(auto never always)' \
-    '(-bw --border-width)'{-bw,--border-width}'[set the border width]:pixels:_x_borderwidth' \
-    '(-ib --internal-border)'{-ib,--internal-border}'[set the internal border width]:pixels:_x_borderwidth' \
-    '(-g --geometry)'{-g,--geometry}'[set the width, height, position]:geometry:_x_geometry' \
-    '(-lsp --line-spacing)'{-lsp,--line-spacing}'[additional space to put between lines]:pixels' \
-    '(-vb --vertical-scroll-bars)'{-vb,--vertical-scroll-bars}'[enable vertical scrollbars]' \
-    '(-fh --fullheight)'{-fh,--fullheight}'[as high as the screen]' \
-    '(-fw --fullwidth)'{-fw,--fullwidth}'[as wide as the screen]' \
-    '(-mm --maximized -fh --fullheight -fw --fullwidth)'{-mm,--maximized}'[maximize the screen]' \
-    '(-fs --fullscreen)'{-fs,--fullscreen}'[fullscreen]' \
-    '(-fg --foreground-color)'{-fg,--foreground-color}'[set the color of the text]:color:_x_color' \
-    '(-bg --background-color)'{-bg,--background-color}'[set the background]:color:_x_color' \
-    '(-bd --border-color)'{-bd,--border-color}'[set the border]:color:_x_color' \
-    '(-cr --cursor-color)'{-cr,--cursor-color}'[set the text cursor]:color:_x_color' \
-    '(-ms --mouse-color)'{-ms,--mouse-color}'[set the mouse cursor]:color:_x_color' \
-    '(-d --display)'{-d,--display}'[create emacs window on the display]:displayname:_x_display' \
-    '(-nbi --no-bitmap-icon)'{-nbi,--no-bitmap-icon}'[do not use picture of gnu for emacs icon]' \
-    '--iconic[start emacs in iconfied state]' \
-    '(-nbc --no-blinking-cursor)'{-nbc,--no-blinking-cursor}'[disable blinking cursor]' \
-    "(${x_args[*]})"{-nw,--no-window-system}'[tell emacs not to create a graphical frame]' \
-    '(-D --basic-display)'{-D,--basic-display}'[disables many display features]' \
-    '*:file:_files' && ret=0
-  ;;
+    _arguments -S \
+      '(* : -)'{-V,--version}'[print version info and return]' \
+      '(* : -)'{-H,--help}'[print usage infomation message]' \
+      '(--file --find-file --visit)'{--file,--find-file,--visit}'[edit file]:file:_files' \
+      '(-q --no-init-file)'{-q,--no-init-file}'[do not load an init file]' \
+      '+-[go to the line or column]:number or line\:column' \
+      '--no-site-file[do not load the site-wide startup file]' \
+      '--no-desktop[do not load a saved desktop]' \
+      '--no-splash[do not display a splash screen]' \
+      '(-q --no-init-file --no-site-file --no-splash -Q --quick)'{-Q,--quick}'[similar to "-q --no-site-file --no-splash"]' \
+      '(-u --user)'{-u,--user}'[load users init file]:user:_users' \
+      '(-t --terminal)'{-t,--terminal}'[use specified file as the terminal]:file:_files' \
+      '--daemon[start emacs as a daemon]' \
+      \
+      '*'{-f,--funcall}'[execute the lisp function]:function' \
+      '*'{-l,--load}'[load the lisp code in the file]:file:_files' \
+      '*'{--eval,--execute}'[evaluate the lisp expression]:expr' \
+      \
+      '--batch[edit in batch mode]' \
+      '--script[run file as an emacs lisp script]:file:_files' \
+      '--insert[insert contents of file into the current buffer]:file:_files' \
+      '--kill[exit emacs while in batch mode]' \
+      '(-L --directory)'{-L,--directory}'[add dir to the list of directories emacs searches for lisp files]:dir:_files -/' \
+      \
+      '--name[specify emacs window name]:name:_x_name' \
+      '(-T --title)'{-T,--title}'[specify the title for X window]:title:_x_title' \
+      '(-r -rv --reverse-video)'{-r,-rv,--reverse-video}'[display the window in reverse video]' \
+      '(-fn --font)'{-fn,--font}'[set font]:font:->xls_fonts' \
+      '--xrm[set additional X resources]:resources:_x_resource' \
+      '--color=[override color mode]:mode:(auto never always)' \
+      '(-bw --border-width)'{-bw,--border-width}'[set the border width]:pixels:_x_borderwidth' \
+      '(-ib --internal-border)'{-ib,--internal-border}'[set the internal border width]:pixels:_x_borderwidth' \
+      '(-g --geometry)'{-g,--geometry}'[set the width, height, position]:geometry:_x_geometry' \
+      '(-lsp --line-spacing)'{-lsp,--line-spacing}'[additional space to put between lines]:pixels' \
+      '(-vb --vertical-scroll-bars)'{-vb,--vertical-scroll-bars}'[enable vertical scrollbars]' \
+      '(-fh --fullheight)'{-fh,--fullheight}'[as high as the screen]' \
+      '(-fw --fullwidth)'{-fw,--fullwidth}'[as wide as the screen]' \
+      '(-mm --maximized -fh --fullheight -fw --fullwidth)'{-mm,--maximized}'[maximize the screen]' \
+      '(-fs --fullscreen)'{-fs,--fullscreen}'[fullscreen]' \
+      '(-fg --foreground-color)'{-fg,--foreground-color}'[set the color of the text]:color:_x_color' \
+      '(-bg --background-color)'{-bg,--background-color}'[set the background]:color:_x_color' \
+      '(-bd --border-color)'{-bd,--border-color}'[set the border]:color:_x_color' \
+      '(-cr --cursor-color)'{-cr,--cursor-color}'[set the text cursor]:color:_x_color' \
+      '(-ms --mouse-color)'{-ms,--mouse-color}'[set the mouse cursor]:color:_x_color' \
+      '(-d --display)'{-d,--display}'[create emacs window on the display]:displayname:_x_display' \
+      '(-nbi --no-bitmap-icon)'{-nbi,--no-bitmap-icon}'[do not use picture of gnu for emacs icon]' \
+      '--iconic[start emacs in iconfied state]' \
+      '(-nbc --no-blinking-cursor)'{-nbc,--no-blinking-cursor}'[disable blinking cursor]' \
+      "(${x_args[*]})"{-nw,--no-window-system}'[tell emacs not to create a graphical frame]' \
+      '(-D --basic-display)'{-D,--basic-display}'[disables many display features]' \
+      '*:file:_files' && ret=0
+    ;;
 esac
 
-
-  case "${state}" in
-    xls_fonts)
-      _values 'xls_fonts' $(xlsfonts) && ret=0
-      ;;
-  esac
+case "${state}" in
+  xls_fonts)
+    _values 'xls_fonts' $(xlsfonts) && ret=0
+    ;;
+esac
 
 return ret

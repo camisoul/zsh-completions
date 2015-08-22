@@ -27,8 +27,6 @@
 
 local ret=1
 
-# TODO: modeの候補を表示したい
-
 _arguments -s -S \
   '(-b --backup)-b[backup]' \
   '(-b --backup)--backup=-[backup]:method:(none off numbered t existing nil simple never)' \
