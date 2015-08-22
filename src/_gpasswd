@@ -25,8 +25,6 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# TODO:2015-05-16:USERとADMINでカンマ区切りの入力をできるようにする
-
 local ret=1
 _arguments \
   '(-)'{-a,--add}'[add USER to GROUP]:USER:_users' \
@@ -34,9 +32,18 @@ _arguments \
   '(-)'{-Q,--root}'[directory to chroot into]:CHROOT_DIR:_files /-' \
   '(-)'{-r,--remove-password}"[remove the GROUP's password]" \
   '(-)'{-R,--restrict}'[restrict access to GROUP to its members]' \
-  '(-M --members)'{-M,--members}'[set the list of members of GROUP]:USER:_users' \
-  '(-A --administrators)'{-A,--administrators}'[set the list of administrators for GROUP]:ADMIN:_users' \
+  '(-M --members)'{-M,--members}'[set the list of members of GROUP]:USER:->admin' \
+  '(-A --administrators)'{-A,--administrators}'[set the list of administrators for GROUP]:ADMIN:->admin' \
   '(- : *)'{-h,--help}'[display help and exit]' \
   ':GROUP:_groups' && ret=0
+
+case $state in
+  admin)
+    _sequence -s , _users && ret=0
+    ;;
+  *)
+    ;;
+esac
+
 
 return ret
