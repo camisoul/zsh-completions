@@ -1,4 +1,4 @@
-#compdef wish
+#compdef wish tclsh
 #
 # --------------------------------------------------------------------------
 #
@@ -25,17 +25,22 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-
 local ret=1
-_arguments -S \
-  '-encoding[Specifies the encoding of the text stored in fileName]:name' \
-  '-colormap[Specifies the new private colormap for the screen]:new' \
-  '-display[Display on which to display window]:display' \
-  '-geometry[Initial geometry to use for window]:geometry' \
-  '-name[Use name as the title to be displayed in the window]:name' \
-  '-sync[Execute all X server commands synchronously]' \
-  '-use[Window whose identifier is id]:id' \
-  '-visual[Specifies the visual to use for the window]:visual' \
-  '*:file:_files' && ret=0
+if [[ $service == wish ]]; then
+  _arguments -S \
+    '-encoding[Specifies the encoding of the text stored in fileName]:name' \
+    '-colormap[Specifies the new private colormap for the screen]:new:_x_colormapid' \
+    '-display[Display on which to display window]:_x_display' \
+    '-geometry[Initial geometry to use for window]:geometry:_x_geometry' \
+    '-name[Use name as the title to be displayed in the window]:name:_x_title' \
+    '-sync[Execute all X server commands synchronously]' \
+    '-use[Window whose identifier is id]:id:_x_window' \
+    '-visual[Specifies the visual to use for the window]:visual' \
+    '*:file:_files' && ret=0
+elif [[ $service == tclsh ]]; then
+  _arguments -S \
+    '-encoding[Specifies the encoding of the text stored in fileName]:name' \
+    '*:file:_files' && ret=0
+fi
 
 return ret
