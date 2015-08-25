@@ -28,8 +28,30 @@
 # FIXME:2015-08-22:コマンドのあとにはコマンドに対する補完をしたい
 
 local ret=1
-local opts='allexport braceexpand emacs errexit errtrace functrace hashall histexpand history ignoreeof keyword monitor noclobber noexec noglob nolog notify nounset onecmd physical pipefail posix privileged verbose vi xtrace'
 
+local shopts='autocd cdable_vars cdspell checkhash checkjobs checkwinsize cmdhist compat31 compat32 compat40 compat41 compat42 complete_fullquote direxpand dirspell dotglob execfail expand_aliases extdebug extglob extquote failglob force_fignore globasciiranges globstar gnu_errfmt histappend histreedit histverify hostcomplete huponexit interactive_comments lastpipe lithist login_shell mailwarn no_empty_cmd_completion nocaseglob nocasematch nullglob progcomp promptvars restricted_shell shift_verbose sourcepath xpg_echo'
+local -A setopts
+setopts=(
+  a allexport
+  b notify
+  e errexit
+  f noglob
+  h hashall
+  k keyword
+  m monitor
+  n noexec
+  p privileged
+  t onecmd
+  u nounset
+  v verbose
+  x xtrace
+  B braceexpand
+  C noclobber
+  E errtrace
+  H histexpand
+  P physical
+  T functrace
+)
 local -a args
 args=(
   '(- : *)--help'
@@ -44,15 +66,20 @@ args=(
   '(--rcfile --init-file)--norc[do not read bashrc files]'
   '--posix[change the behavior of bash to posix mode]'
   '(-r --restricted)'{-r,--restricted}'[restricted shell]'
-  '(-v --verbose)'{-v,--verbose}
+  '--verbose[equivalent to -v]'
   '-i[interactive]'
-  "*-O[sets the value]:shopt:($opts)"
-  "*+O[unsets the value]:shopt:($opts)"
+  "*-O[sets the value]:shopt:(${shopts})"
+  "*+O[unsets the value]:shopt:(${shopts})"
 )
+for opts in ${(k)setopts[@]}
+do
+  args+=("-${opts}[equivalent to -o ${setopts[$opts]}]")
+  args+=("+${opts}[equivalent to +o ${setopts[$opts]}]")
+done
+args+=("*-o:set option-name:(${setopts})")
+args+=("*+o:unset option-name:(${setopts})")
 
-case $words[2] in
-  -s)
-    ;;
+case ${words[2]} in
   -c)
     args+=('*:command string:_command_names -e')
     ;;
@@ -65,9 +92,9 @@ if [[ $CURRENT -eq 2 ]]; then
   _arguments -s -S \
     '-c[read commands from the commad_string]' \
     '-s[stdin]' \
-    $args[@] && ret=0
+    ${args[@]} && ret=0
 else
-  _arguments -s -S $args[@] && ret=0
+  _arguments -s -S ${args[@]} && ret=0
 fi
 
 return ret
