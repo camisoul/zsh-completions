@@ -28,17 +28,19 @@
 # TODO:2015-08-22:コマンドごとに分岐したい
 
 local ret=1
-local -a cmds_args
-local -a archive_types
 local cmds='-a --add -c --cat -d --diff -x --extract -l --list -X --extract-to -r --repack'
-archive_types=(
-  {.,.tar,.t}{gz,bz,bz2,Z,lz,xz,7z}
+local -a cmds_args
+local -a archive_exts archive_types
+archive_exts=(
+  {.,.tar.,.t}{gz,bz,bz2,Z,lz,xz,7z}
   .t{ar{,.zlo},zo}
-  .zip .jar .war
-  .rar .lha .lzh
-  .alz .ace .arj .arc
-  .rpm .deb .cab .cpio
-  .lzma .rz .lrz .a
+  .zip .jar .war .rar .lha .lzh .alz .ace .arj .arc
+  .rpm .deb .cab .cpio .lzma .rz .lrz .a
+  )
+archive_types=(
+  {,tar+}{{g,l,b}zip,bzip2,compress,lzop,7z,xz}
+  {,al,r,lr}zip
+  tar jar rar a lha ace arj arc rpm deb cab lzma cpio
   )
 
 if [[ $service == atool ]]; then
@@ -57,7 +59,7 @@ _arguments -s -S \
   ${cmds_args[@]} \
   '(- 1 *)--version[Output version information and exit.]' \
   '(- 1 *)--help[Show summary of options.]' \
-  '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_types#.}}')"' \
+  '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
   '(-F --format)'{-F+,--format=}'[Specify arhive format manually.]:archive types:->types' \
   '(-S --simulate)'{-s,--simulate}'[Run atool in simulation mode.]' \
   '(-E --explain)'{-E,--explain}'[Display commands executed by atool.]' \
@@ -72,7 +74,7 @@ _arguments -s -S \
   '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
   '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
   '(--save-outdir)--save-outdir=:DIR:_directories' \
-  '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_types#.}}')"' \
+  '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
   '*:FILE:_files' \
   && ret=0
 
