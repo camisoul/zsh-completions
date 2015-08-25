@@ -33,8 +33,8 @@ local -a archive_types
 local cmds='-a --add -c --cat -d --diff -x --extract -l --list -X --extract-to -r --repack'
 archive_types=(
   {.,.tar,.t}{gz,bz,bz2,Z,lz,xz,7z}
-  .tar.lzo .tzo .lzo
-  .tar .zip .jar .war
+  .t{ar{,.zlo},zo}
+  .zip .jar .war
   .rar .lha .lzh
   .alz .ace .arj .arc
   .rpm .deb .cab .cpio

@@ -37,7 +37,7 @@ else
     '(- : *)'{-v,--version}'[show version]' \
     '(- : *)'{-h,--help}'[show help]' \
     '(-V --verbose)'{-V,--verbose}'[show version]' \
-    '(-0 -1 -2 -3 -4 -5 -6 -7 -8 -9)'{-0,-1,-2,-3,-4,-5,-6,-7,-8,-9}'[compression level]' \
+    '(-0 -1 -2 -3 -4 -5 -6 -7 -8 -9)'-{0..9}'[compression level]' \
     '(-n --noverify)'{-n,--noverify}'[disable automatic MD5 verification]' \
     '(-p --pristine)'{-p,--pristine}'[disable automatic GZIP decompression]' \
     '(-m --maxmem)'{-m,--maxmem=}'[set the buffer size limit]:SIZE' \

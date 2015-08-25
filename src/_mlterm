@@ -147,15 +147,13 @@ case "${state}" in
       'CP'{1250..1258} \
       'CP874' \
       'EUC-'{JP,KR,CN,TW,JISX0213} \
-      'Shift_JIS' \
-      'Shift_JISX0213' \
+      'Shift_JIS'{,JISX0213} \
       'ISO-2022-'{JP1,JP2,JP3,KR,CN} \
       'UHC' \
       'JOHAB' \
       'GB'{K,2312,18030} \
       'HZ' \
-      'BIG5' \
-      'BIG5HKSCS' \
+      'BIG5'{,BIG5HKSCS} \
       'UTF-8' && ret=0
     ;;
   bool)
