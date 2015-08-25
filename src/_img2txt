@@ -42,28 +42,16 @@ _arguments -s -S \
 
 case $state in
   dithering)
+    IFS=$'\n'
     _values 'dithering type' \
-      'none[no dithering]' \
-      'ordered2[2x2 ordered dithering]' \
-      'ordered4[4x4 ordered dithering]' \
-      'ordered8[8x8 ordered dithering]' \
-      'random[random dithering]' \
-      'fstein[Floyd-Steinberg dithering]' && ret=0
+      $(_call_program commands ${words[1]} --help |& sed -n "/DITHER/!d;n;:a;s/^\s*\([^ :]*\): \(.*\)$/\1[\2]/p;n;/FORMAT/!ba;q") \
+      && ret=0
     ;;
   format)
-    _values 'formats' \
-      'caca[native libcaca format]' \
-      'ansi[ANSI]' \
-      'utf8[UTF-8 with ANSI escape codes]' \
-      'utf8cr[UTF-8 with ANSI escape codes and MS-DOS \\r]' \
-      'html[HTML]' \
-      'html3[backwards-compatible HTML]' \
-      'bbfr[BBCode (French)]' \
-      'irc[IRC with mIRC colours]' \
-      'ps[PostScript document]' \
-      'svg[SVG vector image]' \
-      'tga[TGA image]' \
-      'troff[troff source]' && ret=0
+    IFS=$'\n'
+    _values 'format type' \
+      $(_call_program commands ${words[1]} --help |& sed -n "/FORMAT/!d;n;:a;s/^\s*\([^ :]*\): \(.*\)$/\1[\2]/p;n;ba;q") \
+      && ret=0
     ;;
 esac
 
