@@ -51,9 +51,15 @@ _arguments -s -S \
   '--universalindent[Output a config file for Universal Indent GUI]' \
   '--detect[detects the config from a source file]' \
   '-p[dump debug info to a file]:FILE:_file' \
-  '-L[Set the log severity (see log_levels.h)]:SEV' \
+  '-L[Set the log severity (see log_levels.h)]:SEV:->sev' \
   '-s[Show the log severity in the logs]' \
   '--decode[decode remaining args (chunk flags) and exit]:FLAG' \
   '*:file:_files' && ret=0
+
+if [[ $state == sev ]]; then
+  compset -P \*,
+  compset -S ,\*
+  _message -e SEV 'ex) 0-2,20-23,51' && ret=0
+fi
 
 return ret
