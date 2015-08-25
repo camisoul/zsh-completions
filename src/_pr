@@ -25,14 +25,14 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# FIXME:2015-05-05:-や+のあとに直接数字がくる引数を再現できない
-
 local ret=1
 _arguments -s -S \
   '(- : *)--help[display help and exit]' \
   '(- : *)--version[output version information and exit]' \
-  '(+ --pages)'{+,--pages=}'[begin (stop) printing with page FIRST_(LAST)_PAGE]:FIRST_PAGE' \
-  '(- --columns)'{-,--columns=}'[output COLUMN columns and print columns down]:COLUMN' \
+  '(--pages)--pages=[begin (stop) printing with page FIRST_(LAST)_PAGE]:FIRST_PAGE' \
+  '(--pages)*+'{0..9}-'[begin (stop) printing with page FIRST_(LAST)_PAGE]:FIRST_PAGE' \
+  '(--columns)--columns=[output COLUMN columns and print columns down]:COLUMN' \
+  '(--columns)*-'{0..9}-'[output COLUMN columns and print columns down]:COLUMN' \
   '(-a --across)'{-a,--across}'[print columns across rather than down, used together with -COLUMN]' \
   '(-c --show-control-chars)'{-c,--show-control-chars}'[use hat notation (^G) and octal backslash notation]' \
   '(-d --double-space)'{-d,--double-space}'[double space the output]' \

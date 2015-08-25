@@ -51,6 +51,7 @@ _arguments -s -S \
   '(-S --smart-case)'{-S,--smart-case}'[Match case sensitively if there are any uppercase letters in PATTERN, or case insensitively otherwise.]' \
   '--stats[Print stats (files scanned, time taken, etc)]' \
   '(-U --skip-vsc-ignores)'{-U,--skip-vsc-ignores}'[Ignore VCS ignore files (.gitigore, .hgignore, svn:ignore), but still use .ptignore.]' \
+  '(-c --count)'{-c,--count}'[only print the number of matches in each file]' \
   '(-w --word-regexp)'{-w,--word-regexp}'[Only match whole words.]' \
   '1: :->patterns' \
   '*: :_files' && ret=0
