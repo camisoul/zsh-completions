@@ -53,40 +53,7 @@ _arguments -C \
   '*+bufsize=:B' \
   '*+edns=:#' \
   '*+trusted-key=:####' \
-  '*'{+tcp,+notcp} \
-  '*'{+vc,+novc} \
-  '*'{+ignore,+noignore} \
-  '*'{+search,+nosearch} \
-  '*'{+showsearch,+noshowsearch} \
-  '*'{+aaonly,+noaaonly,+aaflag,+noaaflag} \
-  '*'{+adflag,+noadflag} \
-  '*'{+cdflag,+nocdflag} \
-  '*'{+cdcl,+nocdcl} \
-  '*'{+ttlid,+nottlid} \
-  '*'{+recurse,+norecurse} \
-  '*'{+nssearch,+nonssearch} \
-  '*'{+trace,+notrace} \
-  '*'{+short,+noshort} \
-  '*'{+identify,+noidentify} \
-  '*'{+comments,+nocomments} \
-  '*'{+rrcomments,+norrcomments} \
-  '*'{+stats,+nostats} \
-  '*'{+qr,+noqr} \
-  '*'{+question,+noquestion} \
-  '*'{+answer,+noanswer} \
-  '*'{+authority,+noauthority} \
-  '*'{+additional,+noadditional} \
-  '*'{+multiline,+nomultiline} \
-  '*'{+onesoa,+noonesoa} \
-  '*'{+fail,+nofail} \
-  '*'{+besteffort,+nobesteffort} \
-  '*'{+dnssec,+nodnssec} \
-  '*'{+sigchase,+nosigchase} \
-  '*'{+topdown,+notopdown} \
-  '*'{+nsid,+nonsid} \
-  '*'{+keepopen,+nokeepopen} \
-  '*'{+all,+noall} \
-  '(+cmd +nocmd)'{+cmd,+nocmd} \
+  {+tcp,+notcp,+vc,+novc,+ignore,+noignore,+search,+nosearch,+showsearch,+noshowsearch,+aaonly,+noaaonly,+aaflag,+noaaflag,+adflag,+noadflag,+cdflag,+nocdflag,+cdcl,+nocdcl,+ttlid,+nottlid,+recurse,+norecurse,+nssearch,+nonssearch,+trace,+notrace,+short,+noshort,+identify,+noidentify,+comments,+nocomments,+rrcomments,+norrcomments,+stats,+nostats,+qr,+noqr,+question,+noquestion,+answer,+noanswer,+authority,+noauthority,+additional,+noadditional,+multiline,+nomultiline,+onesoa,+noonesoa,+fail,+nofail,+besteffort,+nobesteffort,+dnssec,+nodnssec,+sigchase,+nosigchase,+topdown,+notopdown,+nsid,+nonsid,+keepopen,+cmd,+nocmd,+nokeepopen,+all,+noall} \
   ':domain:_hosts' \
   ':query type:((any\:wildcard a\:internet\ address cname\:canonical\ name\ for\ alias hinfo\:CPU\ and\ operating\ system\ type minfo\:mailbox\ or\ mail\ list\ information mx\:mail\ exchanger ns\:name\ server\ for\ zone ptr\:host\ name\ or\ other\ information soa\:domain\'"'"'s\ \`start-of-authority\'"'"'\ information txt\:text\ information uinfo\:user\ information wks\:supported\ well-known\ services))' \
   ':query class:((in\:Internet\ class chaos\:CHAOS\ class hesiod\:MIT\ Athena\ Hesiod\ class any\:wildcard))' && ret=0
