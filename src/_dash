@@ -26,28 +26,38 @@
 # --------------------------------------------------------------------------
 
 local ret=1
+local -A setopts
+setopts=(
+  a allexport
+  C clobber
+  e errexit
+  f noglob
+  n noexec
+  u nounset
+  v verbose
+  x xtrace
+  I ignoreeof
+  i interactive
+  m monitor
+  b notify
+  E vi
+  V emacs
+  )
+
 local -a args
 args=(
-  '+-a[allexport]'
-  '+-C[clobber]'
-  '+-e[errexit]'
-  '+-f[noglob]'
-  '+-n[noexec]'
-  '+-u[nounset]'
-  '+-v[verbose]'
-  '+-x[xtrace]'
-  '+-I[ignoreeof]'
-  '+-i[interactive]'
-  '+-m[monitor]'
-  '+-b[notify]'
-  '(+-E)+-V[vi]'
-  '(+-V)+-E[emacs]'
-  '*+-o[set argument]:argument:(allexport clobber errexit noglob noexec nounset verbose xtrace ignoreeof interactive monitor stdin vi emacs notify)'
+  '-l[Make dash act as if it had been invoked as a login shell]'
 )
 
-case $words[2] in
-  -s)
-    ;;
+for opts in ${(k)setopts[@]}
+do
+  args+=("-${opts}[equivalent to -o ${setopts[$opts]}]")
+  args+=("+${opts}[equivalent to +o ${setopts[$opts]}]")
+done
+args+=("*-o:set option-name:(${setopts})")
+args+=("*+o:unset option-name:(${setopts})")
+
+case ${words[2]} in
   -c)
     args+=('*:command string:_command_names -e')
     ;;
@@ -60,9 +70,9 @@ if [[ $CURRENT -eq 2 ]]; then
   _arguments -s -S \
     '-c[read commands from the commad_string]' \
     '-s[stdin]' \
-    $args[@] && ret=0
+    ${args[@]} && ret=0
 else
-  _arguments -s -S $args[@] && ret=0
+  _arguments -s -S ${args[@]} && ret=0
 fi
 
 return ret
