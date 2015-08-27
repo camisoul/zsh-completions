@@ -53,20 +53,8 @@ _arguments -s -S \
 
 case $state in
   flags)
-    _values 'flags' \
-      'a[show actual arguments]' \
-      'c[show before collect, after collect and after call]' \
-      'e[show expansion]' \
-      'f[say current input file name]' \
-      'i[show changes in input files]' \
-      'l[say current input line number]' \
-      'p[show results of path searches]' \
-      'q[quote values as necessary, with a or e flag]' \
-      "t[trace for all macro calls, not only traceon'ed]" \
-      'x[add a unique macro call id, useful with c flag]' \
-      'V[shorthand for all of the above flags]' && ret=0
-    ;;
-  *)
+    IFS=$'\n'
+    _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/!d;:a;n;s/^\s*([^ ])\s*(.*)$/\1[\2]/p;ta;q') && ret=0
     ;;
 esac
 
