@@ -28,7 +28,7 @@
 local ret=1
 _arguments -s -S \
   '(- 1 *)'{-h,-v}'[Show library version and the usage prompt, then quit]' \
-  '(-u -U)'{-u+,-U+}'[Display only processes with a user id or user name matching that given]:number or name:_users' \
+  '(-u -U -p)'{-u+,-U+}'[Display only processes with a user id or user name matching that given]:number or name:_users' \
   "-b[Starts top in 'Batch' mode]" \
   "-c[Starts top with the last remembered 'c' state reversed]" \
   '-d[Specifies the delay between screen updates]:interval(ss.t)' \
@@ -37,7 +37,7 @@ _arguments -s -S \
   '-n[Specifies the maximum number of iterations, or frames, top should produce before ending.]:number' \
   '-o+[Specifies the name of the field on which tasks will be sorted]:fieldname:->field' \
   '-O[This option acts as a form of help for the above -o option]' \
-  '*-p+[Monitor only processes with specified process IDs]:PID:_sequence -s , _pids' \
+  '(-u -U)*-p+[Monitor only processes with specified process IDs]:PID:_sequence -s , _pids' \
   '-s[Starts top with secure mode forced, even for root]' \
   "-S[Starts top with the last remembered 'S' state reversed]" \
   "-w-[In 'Batch' mode, when used without an argument top will format output using the COLUMNS= and LINES= environment variables]:number" && ret=0
