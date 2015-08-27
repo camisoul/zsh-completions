@@ -25,11 +25,8 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# TODO:2015-08-22:コマンドごとに分岐したい
-
 local ret=1
 local cmds='-a --add -c --cat -d --diff -x --extract -l --list -X --extract-to -r --repack'
-local -a cmds_args
 local -a archive_exts archive_types
 archive_exts=(
   {.,.tar.,.t}{gz,bz,bz2,Z,lz,xz,7z}
@@ -43,40 +40,38 @@ archive_types=(
   tar jar rar a lha ace arj arc rpm deb cab lzma cpio
   )
 
-if [[ $service == atool ]]; then
-  cmds_args=(
-  "($cmds)"{-l,--list}'[List files in archive.]'
-  "($cmds)"{-x,--extract}'[Extract files from archive.]'
-  "($cmds)"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_directories'
-  "($cmds)"{-a,--add}'[Create archive.]'
-  "($cmds)"{-c,--cat}'[Extract a file from archive to standard out.]'
-  "($cmds)"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]'
-  "($cmds)"{-r,--repack}'[Repacks archives to a differnt format.]'
-  )
+if [[ $service == atool && $CURRENT -eq 2 ]]; then
+  _arguments -s -S \
+    '(- 1 *)--version[Output version information and exit.]' \
+    '(- 1 *)--help[Show summary of options.]' \
+    "($cmds)"{-l,--list}'[List files in archive.]' \
+    "($cmds)"{-x,--extract}'[Extract files from archive.]' \
+    "($cmds)"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_directories' \
+    "($cmds)"{-a,--add}'[Create archive.]' \
+    "($cmds)"{-c,--cat}'[Extract a file from archive to standard out.]' \
+    "($cmds)"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]' \
+    "($cmds)"{-r,--repack}'[Repacks archives to a differnt format.]' && ret=0
+else
+  _arguments -s -S \
+    '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
+    '(-F --format)'{-F+,--format=}'[Specify arhive format manually.]:archive types:->types' \
+    '(-S --simulate)'{-s,--simulate}'[Run atool in simulation mode.]' \
+    '(-E --explain)'{-E,--explain}'[Display commands executed by atool.]' \
+    '(-p --page)'{-p,--page}'[Run output through a pager.]' \
+    '(-f --force)'{-f,--force}'[Allow overwriting of local files.]' \
+    '(-D --subdir)'{-D,--subdir}'[Always create a new directory for the archive.]' \
+    '(-0 --null)'{-0,--null}'[If no file arguments are specified, the list of files will be read from standard in.]' \
+    '*'{-q,--quiet}'[Decrease verbosity level by one.]' \
+    '*'{-v,--verbose}'[Increase verbosity level by one.]' \
+    '(-q --quiet -v --verbose)'{-V+,--verbosity=}'[Specify verbosity level.]:LEVEL' \
+    '(--config)--config=[Load configuration from the specified file.]:FILE:_files' \
+    '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
+    '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
+    '(--save-outdir)--save-outdir=:DIR:_directories' \
+    '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
+    '*:FILE:_files' && ret=0
 fi
 
-_arguments -s -S \
-  ${cmds_args[@]} \
-  '(- 1 *)--version[Output version information and exit.]' \
-  '(- 1 *)--help[Show summary of options.]' \
-  '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
-  '(-F --format)'{-F+,--format=}'[Specify arhive format manually.]:archive types:->types' \
-  '(-S --simulate)'{-s,--simulate}'[Run atool in simulation mode.]' \
-  '(-E --explain)'{-E,--explain}'[Display commands executed by atool.]' \
-  '(-p --page)'{-p,--page}'[Run output through a pager.]' \
-  '(-f --force)'{-f,--force}'[Allow overwriting of local files.]' \
-  '(-D --subdir)'{-D,--subdir}'[Always create a new directory for the archive.]' \
-  '(-0 --null)'{-0,--null}'[If no file arguments are specified, the list of files will be read from standard in.]' \
-  '*'{-q,--quiet}'[Decrease verbosity level by one.]' \
-  '*'{-v,--verbose}'[Increase verbosity level by one.]' \
-  '(-q --quiet -v --verbose)'{-V+,--verbosity=}'[Specify verbosity level.]:LEVEL' \
-  '(--config)--config=[Load configuration from the specified file.]:FILE:_files' \
-  '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
-  '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
-  '(--save-outdir)--save-outdir=:DIR:_directories' \
-  '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_exts#.}}')"' \
-  '*:FILE:_files' \
-  && ret=0
 
 case $state in
   types)
