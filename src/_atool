@@ -34,11 +34,6 @@ archive_exts=(
   .zip .jar .war .rar .lha .lzh .alz .ace .arj .arc
   .rpm .deb .cab .cpio .lzma .rz .lrz .a
   )
-archive_types=(
-  {,tar+}{{g,l,b}zip,bzip2,compress,lzop,7z,xz}
-  {,al,r,lr}zip
-  tar jar rar a lha ace arj arc rpm deb cab lzma cpio
-  )
 
 if [[ $service == atool && $CURRENT -eq 2 ]]; then
   _arguments -s -S \
@@ -72,10 +67,43 @@ else
     '*:FILE:_files' && ret=0
 fi
 
+local -a archive_add archive_cat archive_extract archive_list
+archive_add=(
+  {,tar+}{{g,l,b}zip,bzip2,compress,lzop,7z,xz}
+  zip jar rar lha a arj arc lzma rzip lrzip cpio
+  )
+archive_cat=(
+  {,tar+}{{g,l,b}zip,bzip2,compress,xz}
+  tar+{7z,lzop} cab zip rar lha a arc lzma
+  )
+archive_extract=(
+  {,tar+}{{g,l,b}zip,bzip2,compress,lzop,7z,xz}
+  {,al,r,lr}zip tar jar rar a lha ace arj arc rpm deb cab lzma cpio
+  )
+archive_list=(
+  tar+{{g,l,b}zip,bzip2,compress,lzop,7z,xz}
+  zip tar jar rar a lha ace arj arc rpm deb cab cpio
+  )
+archive_repack=(
+  {,tar+}{{g,l,b}zip,bzip2,compress}
+  tar+{7z,lzop} zip rar lha a arc lzma
+  )
 
 case $state in
   types)
-    _describe -t 'types' 'type' archive_types && ret=0
+    if [[ ${words[1]} == arepack || ${words[2]} =~ "--arepack|-r" ]]; then
+      _describe -t 'types' 'type' archive_repack && ret=0
+    elif [[ ${words[1]} == apack || ${words[2]} =~ "--add|-a" ]]; then
+      _describe -t 'types' 'type' archive_add && ret=0
+    elif [[ ${words[1]} == acat || ${words[2]} =~ "--cat|-c" ]]; then
+      _describe -t 'types' 'type' archive_cat && ret=0
+    elif [[ ${words[1]} == als || ${words[2]} =~ "--list|-l" ]]; then
+      _describe -t 'types' 'type' archive_list && ret=0
+    elif [[ ${words[1]} == aunpack || ${words[2]} =~ "--extract|-x" || ${words[2]} =~ "--extract-to|-X"  ]]; then
+      _describe -t 'types' 'type' archive_extract && ret=0
+    elif [[ ${words[1]} == adiff || ${words[2]} =~ "--diff|-d" ]]; then
+      _describe -t 'types' 'type' archive_extract && ret=0
+    fi
     ;;
   option)
     compset -P '*='
