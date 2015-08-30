@@ -25,9 +25,12 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-
 local ret=1
 local -a args
+
+_executable_file() {
+  [[ -x ${REPLY} || ${REPLY} = (*.(exe|EXE|elf|xpi|dll|DLL|so|sys|SYS)) ]]
+}
 
 case ${OSTYPE} in
   *linux*)
@@ -81,7 +84,7 @@ _arguments -s -S \
   '--overlay=[option for extra data]:overlay:->overlays' \
   '--preserve-build-id[copy .gnu.note.build-id to compressed output]' \
   ${args[@]} \
-  '*:file:_files' && ret=0
+  "*:executable file:_files -g '*(-.e:_executable_file:)'" && ret=0
 
 case $state in
   overlays)
