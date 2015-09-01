@@ -26,7 +26,12 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -a common_args archive_types
+local -a archive_exts
+archive_exts=(
+  tgz tbz tbz2 tzo tlz txz t7z gz bz bz2 zo lz xz 7z Z tZ tar zip jar war rar
+  lha lzh alz ace a lib arj arc rpm deb lzma lzo rz lrz cpio iso gem pak cab
+  mdf mdx nrg cdi ccd pdf img exe EXE MSI ZIP CAB RAR ARC JAR ACE ARJ LIB
+  )
 
 common_args=(
   '(-p -password)'{-p,-password}'[the password to use for decrypting]:PASSWORD'
@@ -50,7 +55,7 @@ case $service in
       '(-k -forks)'{-k,-forks}'[how to handle Mac OS resource forks]:forks:(visible hidden skip)' \
       '(-q -quiet)'{-q,-quiet}'[run in quiet mode]' \
       ${common_args[@]} \
-      '*:archives:_files' && ret=0
+      '*:archives:_files -g "*.('${(j:|:)${archive_exts}}')"' && ret=0
     ;;
   lsar)
     _arguments \
@@ -60,7 +65,7 @@ case $service in
       '(-j -json -ja -json-ascii)'{-j,-json}'[print the listing in JSON format]' \
       '(-j -json -ja -json-ascii)'{-ja,-json-ascii}'[print the listing in JSON format, encoded as pure ASCII text]' \
       ${common_args[@]} \
-      '*:archives:_files' && ret=0
+      '*:archives:_files -g "*.('${(j:|:)${archive_exts}}')"' && ret=0
     ;;
 esac
 
