@@ -55,7 +55,7 @@ case ${service} in
       '(-k -forks)'{-k,-forks}'[how to handle Mac OS resource forks]:forks:(visible hidden skip)' \
       '(-q -quiet)'{-q,-quiet}'[run in quiet mode]' \
       ${common_args[@]} \
-      '*:archives:_files -g "*.('${(j:|:)${archive_exts}}')"' && ret=0
+      '*:archives:_files -g "*.('${(j:|:)archive_exts}')"' && ret=0
     ;;
   lsar)
     _arguments \
@@ -65,7 +65,7 @@ case ${service} in
       '(-j -json -ja -json-ascii)'{-j,-json}'[print the listing in JSON format]' \
       '(-j -json -ja -json-ascii)'{-ja,-json-ascii}'[print the listing in JSON format, encoded as pure ASCII text]' \
       ${common_args[@]} \
-      '*:archives:_files -g "*.('${(j:|:)${archive_exts}}')"' && ret=0
+      '*:archives:_files -g "*.('${(j:|:)archive_exts}')"' && ret=0
     ;;
 esac
 

@@ -49,7 +49,7 @@ if [[ ${service} == atool && ${CURRENT} -eq 2 ]]; then
     "(${cmds})"{-r,--repack}'[Repacks archives to a differnt format.]' && ret=0
 else
   _arguments -s -S \
-    '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_exts}}')"' \
+    '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)archive_exts}')"' \
     '(-F --format)'{-F+,--format=}'[Specify arhive format manually.]:archive types:->types' \
     '(-S --simulate)'{-s,--simulate}'[Run atool in simulation mode.]' \
     '(-E --explain)'{-E,--explain}'[Display commands executed by atool.]' \
@@ -64,7 +64,7 @@ else
     '(-o --option)*'{-o,--option=}'[Override a configuration option.]:KEY=VALUE:->option' \
     '(-O --format-option)*'{-O,--format-option=}'[Send additional options to the archiver command.]:OPTION' \
     '(--save-outdir)--save-outdir=:DIR:_directories' \
-    '1:ARCHIVE:_files -g "*.('${(j:|:)${archive_exts}}')"' \
+    '1:ARCHIVE:_files -g "*.('${(j:|:)archive_exts}')"' \
     '*:FILE:_files' && ret=0
 fi
 
