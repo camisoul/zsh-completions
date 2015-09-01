@@ -27,7 +27,7 @@
 
 local ret=1
 
-case $service in
+case ${service} in
   emacsclient*)
     _arguments -S \
       '(* : -)'{-V,--version}'[print version info and return]' \

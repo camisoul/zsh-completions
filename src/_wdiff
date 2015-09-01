@@ -46,7 +46,7 @@ args=(
   '(-z --end-insert)'{-z,--end-insert=}'[string to mark end of insert region]:STRING'
 )
 
-if [[ $CURRENT -eq 2 ]]; then
+if [[ ${CURRENT} -eq 2 ]]; then
   _arguments -S -A "-*" \
     ${args[@]} \
     '(-d --diff-input)'{-d,--diff-input}'[use single unified diff as input]' \

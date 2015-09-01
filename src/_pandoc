@@ -157,8 +157,8 @@ function scan_help
   done < <(_call_program commands "${words[1]}" --help)
 }
 
-if [[ $state == *formats ]]; then
-  case $state in
+if [[ ${state} == *formats ]]; then
+  case ${state} in
     iformats)
       local section="Input formats:  "
       ;;
@@ -167,15 +167,15 @@ if [[ $state == *formats ]]; then
       ;;
   esac
   _values 'formats' $(scan_help "${section}") && ret=0
-elif [[ $state == offset ]]; then
+elif [[ ${state} == offset ]]; then
   compset -P \*,
   compset -S ,\*
   _message -e number 'number' && ret=0
-elif [[ $state == uris ]]; then
+elif [[ ${state} == uris ]]; then
   _alternative \
     'files:file:_files' \
     'urls:url:_urls' && ret=0
-elif [[ $state == keys ]]; then
+elif [[ ${state} == keys ]]; then
   compset -P '*:'
   _message -e key 'KEY[:VALUE]' && ret=0
 fi

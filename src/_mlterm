@@ -132,8 +132,8 @@ _arguments -s -S \
   '(- : *)'{-h,--help}'[display help and exit]' \
   '(- : *)'{-v,--version}'[output version information and exit]' && ret=0
 
-case "${state}" in
-  "encs")
+case ${state} in
+  encs)
     _values 'character encoding' \
       'AUTO' \
       'ISO-8859-'{1..11} \

@@ -51,11 +51,9 @@ _arguments -s -S \
   '(-t --trace)'{-t+,--trace=}'[trace NAME when it is defined]:NAME' \
   '*:file:_files' && ret=0
 
-case $state in
-  flags)
-    IFS=$'\n'
-    _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/!d;:a;n;s/^\s*([^ ])\s*(.*)$/\1[\2]/p;ta;q') && ret=0
-    ;;
-esac
+if [[ ${state} == flags ]]; then
+  IFS=$'\n'
+  _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/!d;:a;n;s/^\s*([^ ])\s*(.*)$/\1[\2]/p;ta;q') && ret=0
+fi
 
 return ret

@@ -36,17 +36,17 @@ archive_exts=(
   ZIP JAR RAR ACE ARJ ARC
   )
 
-if [[ $service == atool && $CURRENT -eq 2 ]]; then
+if [[ ${service} == atool && ${CURRENT} -eq 2 ]]; then
   _arguments -s -S \
     '(- 1 *)--version[Output version information and exit.]' \
     '(- 1 *)--help[Show summary of options.]' \
-    "($cmds)"{-l,--list}'[List files in archive.]' \
-    "($cmds)"{-x,--extract}'[Extract files from archive.]' \
-    "($cmds)"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_directories' \
-    "($cmds)"{-a,--add}'[Create archive.]' \
-    "($cmds)"{-c,--cat}'[Extract a file from archive to standard out.]' \
-    "($cmds)"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]' \
-    "($cmds)"{-r,--repack}'[Repacks archives to a differnt format.]' && ret=0
+    "(${cmds})"{-l,--list}'[List files in archive.]' \
+    "(${cmds})"{-x,--extract}'[Extract files from archive.]' \
+    "(${cmds})"{-X,--extract-to=}'[Extract files from archive to specified directory.]:directory:_directories' \
+    "(${cmds})"{-a,--add}'[Create archive.]' \
+    "(${cmds})"{-c,--cat}'[Extract a file from archive to standard out.]' \
+    "(${cmds})"{-d,--diff}'[Extract two archives and use diff to generate differencies between them.]' \
+    "(${cmds})"{-r,--repack}'[Repacks archives to a differnt format.]' && ret=0
 else
   _arguments -s -S \
     '(-e --each)'{-e,--each}'[For each argument, execute the specified command.]:files:_files -g "*.('${(j:|:)${archive_exts}}')"' \
@@ -90,7 +90,7 @@ archive_repack=(
   tar+{7z,lzop} zip rar lha a arc lzma
   )
 
-case $state in
+case ${state} in
   types)
     if [[ ${words[1]} == arepack || ${words[2]} =~ "--arepack|-r" ]]; then
       _describe -t 'types' 'type' archive_repack && ret=0

@@ -26,7 +26,7 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-if [[ $service == wish ]]; then
+if [[ ${service} == wish ]]; then
   _arguments -S \
     '-encoding[Specifies the encoding of the text stored in fileName]:name' \
     '-colormap[Specifies the new private colormap for the screen]:new:_x_colormapid' \
@@ -37,7 +37,7 @@ if [[ $service == wish ]]; then
     '-use[Window whose identifier is id]:id:_x_window' \
     '-visual[Specifies the visual to use for the window]:visual' \
     '*:file:_files' && ret=0
-elif [[ $service == tclsh ]]; then
+elif [[ ${service} == tclsh ]]; then
   _arguments -S \
     '-encoding[Specifies the encoding of the text stored in fileName]:name' \
     '*:file:_files' && ret=0

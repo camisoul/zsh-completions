@@ -43,7 +43,7 @@ args=(
   '*:file:_files'
 )
 
-case "${service}" in
+case ${service} in
   hd)
     _arguments -s -S ${args[@]} && ret=0
     ;;

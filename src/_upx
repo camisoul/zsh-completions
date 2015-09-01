@@ -86,7 +86,7 @@ _arguments -s -S \
   ${args[@]} \
   "*:executable file:_files -g '*(-.e:_executable_file:)'" && ret=0
 
-case $state in
+case ${state} in
   overlays)
     _values 'overlay' \
       'copy[copy any extra data attached to the file (default)]' \

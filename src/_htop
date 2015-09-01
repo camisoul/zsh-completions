@@ -35,7 +35,7 @@ _arguments -s -S \
   '(- : *)'{-h,-help,--help}'[display help and exit]' \
   '(- : *)'{-v,-version,--version}'[output version information and exit]' && ret=0
 
-case $state in
+case ${state} in
   sortkey)
     _values 'COLUMN' \
       $(_call_program commands ${words[1]} --sort-key help) && ret=0

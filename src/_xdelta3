@@ -51,7 +51,7 @@ encode_args=(
   '-A[disable/provide application header]'
 )
 
-if [[ $CURRENT -eq 2 ]]; then
+if [[ ${CURRENT} -eq 2 ]]; then
   _arguments \
     '1: :->modes' \
     ${args[@]} \
@@ -89,7 +89,7 @@ else
   esac
 fi
 
-case $state in
+case ${state} in
   modes)
     _values 'mode' \
       'config[prints xdelta3 configuration]' \

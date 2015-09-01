@@ -50,10 +50,10 @@ _arguments -S \
   '(-R --command)'{-R,--command}'[file Dgawk only]' \
   '(-S --sandbox)'{-S,--sandbox}'[Runs gawk in sandbox mode]' \
   '(-t --lint-old)'{-t,--lint-old}'[Provide warnings about constructs that are not portable to the original version of Unix awk]' \
-  "($gnu_opts)"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
+  "(${gnu_opts})"'*'{-f,--file}'[Read the AWK program source from the file program-file]:program-file:_files' \
   '(-)*:file:_files' && ret=0
 
-if [[ $state = assign ]]; then
+if [[ ${state} = assign ]]; then
   compset -P '*='
   compset -S '=*'
   _message -e value 'var=val' && ret=0

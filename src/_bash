@@ -73,8 +73,8 @@ args=(
 )
 for opts in ${(k)setopts[@]}
 do
-  args+=("-${opts}[equivalent to -o ${setopts[$opts]}]")
-  args+=("+${opts}[equivalent to +o ${setopts[$opts]}]")
+  args+=("-${opts}[equivalent to -o ${setopts[${opts}]}]")
+  args+=("+${opts}[equivalent to +o ${setopts[${opts}]}]")
 done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
@@ -88,7 +88,7 @@ case ${words[2]} in
     ;;
 esac
 
-if [[ $CURRENT -eq 2 ]]; then
+if [[ ${CURRENT} -eq 2 ]]; then
   _arguments -s -S \
     '-c[read commands from the commad_string]' \
     '-s[stdin]' \

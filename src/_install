@@ -33,7 +33,7 @@ _arguments -- \
   '*=OWNER*:OWNER:_users' \
   '*=MODE*:MODE:->mode' && ret=0
 
-if [[ $state == mode ]]; then
+if [[ ${state} == mode ]]; then
   compset -P \*,
   compset -S ,\*
   if [[ -prefix [0-7] ]]; then
@@ -46,7 +46,7 @@ if [[ $state == mode ]]; then
       "u[owner's current permissions]" \
       "g[group's current permissions]" \
       "o[other's current permissions]" \
-      "$privs[@]" && ret=0
+      "${privs[@]}" && ret=0
   else
     suf=( -S '' )
     compset -P '*'

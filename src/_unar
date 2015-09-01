@@ -42,7 +42,7 @@ common_args=(
   '(- : *)'{-v,-version}'[display version infomation]'
   '(- : *)'{-h,-help}'[display help infomation]'
 )
-case $service in
+case ${service} in
   unar)
     _arguments \
       '(-o -output-directory)'{-o,-output-directory}'[the directory to write the contents]:DIRECTORY:_directories' \
@@ -69,7 +69,7 @@ case $service in
     ;;
 esac
 
-case $state in
+case ${state} in
   encs)
     declare -a ary
     IFS=$'\n'

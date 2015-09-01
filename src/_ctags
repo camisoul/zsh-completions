@@ -79,7 +79,7 @@ _arguments -s -S \
   '*:file:_files' && ret=0
 
 
-case $state in
+case ${state} in
   langs)
     _values 'languages' \
       $(_call_program commands ${words[1]} --list-languages) && ret=0

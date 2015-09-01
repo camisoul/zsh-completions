@@ -34,12 +34,12 @@ args=(
   '(-q --quiet --silent -v --verbose)'{-q,--quiet,--silent}'[never print headers giving file names]'
   '*:FILE:_files'
 )
-if [[ $service == head ]]; then
+if [[ ${service} == head ]]; then
   _arguments -s -S ${args[@]} \
     '(-c --bytes -n --lines)'{-c+,--bytes=}'[print the first K bytes of each file]: :->k_balue' \
     '(-c --bytes -n --lines)'{-n+,--lines=}'[print the first K lines instead of the first 10]: :->k_value' \
     && ret=0
-elif [[ $service == tail ]]; then
+elif [[ ${service} == tail ]]; then
   _arguments -s -S \
     ${args[@]} \
     '(-f --follow -F)'{-f-,--follow=-}'[output appended data as the file grows]::name or descriptor' \
@@ -52,9 +52,9 @@ elif [[ $service == tail ]]; then
     && ret=0
 fi
 
-case $state in
+case ${state} in
   k_value)
-    if [[ $service == tail ]]; then
+    if [[ ${service} == tail ]]; then
       _message -e numbers 'K: normal, +K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
     else
       _message -e numbers 'K: normal, -K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0

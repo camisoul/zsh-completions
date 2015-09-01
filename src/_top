@@ -42,7 +42,7 @@ _arguments -s -S \
   "-S[Starts top with the last remembered 'S' state reversed]" \
   "-w-[In 'Batch' mode, when used without an argument top will format output using the COLUMNS= and LINES= environment variables]:number" && ret=0
 
-if [[ $state == field ]]; then
+if [[ ${state} == field ]]; then
   _values 'field name' \
     $(_call_program commands ${words[1]} -O) && ret=0
 fi
