@@ -25,8 +25,6 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# TODO:2015-08-22: `KEY[:VAL]`というスタイルの入力をガードしたい
-
 local ret=1
 local -a general_opts reader_opts general_writer_opts specific_writers_opts citation_opts math_rendering_opts wrapper_opts
 
@@ -138,12 +136,10 @@ _arguments -s -S \
   '*:input file or URI:->uris' && ret=0
 
 
-function scan_help
-{
+function scan_help {
   local flag=false
   local str
-  while read line
-  do
+  while read line; do
     if [[ ${line} =~ "${1}" ]]; then
       flag=true
     fi
