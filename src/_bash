@@ -71,10 +71,9 @@ args=(
   "*-O[sets the value]:shopt:(${shopts})"
   "*+O[unsets the value]:shopt:(${shopts})"
 )
-for opts in ${(k)setopts[@]}
-do
-  args+=("-${opts}[equivalent to -o ${setopts[${opts}]}]")
-  args+=("+${opts}[equivalent to +o ${setopts[${opts}]}]")
+for opts value in ${(kv)setopts}; do
+  args+=("-${opts}[equivalent to -o ${value}]")
+  args+=("+${opts}[equivalent to +o ${value}]")
 done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")

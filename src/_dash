@@ -49,10 +49,9 @@ args=(
   '-l[Make dash act as if it had been invoked as a login shell]'
 )
 
-for opts in ${(k)setopts[@]}
-do
-  args+=("-${opts}[equivalent to -o ${setopts[${opts}]}]")
-  args+=("+${opts}[equivalent to +o ${setopts[${opts}]}]")
+for opts value in ${(kv)setopts}; do
+  args+=("-${opts}[equivalent to -o ${value}]")
+  args+=("+${opts}[equivalent to +o ${value}]")
 done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
