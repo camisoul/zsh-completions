@@ -25,7 +25,6 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-
 local ret=1
 _arguments -s -S \
   '(- : *)--help[display help and exit]' \

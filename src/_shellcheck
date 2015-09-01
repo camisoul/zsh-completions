@@ -34,12 +34,10 @@ _arguments -S \
   '(: * -)'{-V,--version}'[print version information]' \
   '*:FILE:_files' && ret=0
 
-case ${state} in
-  code)
-    compset -P \*,
-    compset -S ,\*
-    _message -e code 'input code' && ret=0
-    ;;
-esac
+if [[ ${state} == code ]]; then
+  compset -P \*,
+  compset -S ,\*
+  _message -e code 'input code' && ret=0
+fi
 
 return ret

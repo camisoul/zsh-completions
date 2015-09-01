@@ -89,19 +89,17 @@ else
   esac
 fi
 
-case ${state} in
-  modes)
-    _values 'mode' \
-      'config[prints xdelta3 configuration]' \
-      {-d,decode}'[decompress the input]' \
-      {-e,encode}'[compress the input (default)]' \
-      'test[run the builtin tests]' \
-      'printdelta[print information about the entire delta]' \
-      'printhdr[print information about the first window]' \
-      'printhdrs[print information about all windows]' \
-      'recode[encode with new application/secondary settings]' \
-      'merge[merge VCDIFF inputs]' && ret=0
-      ;;
-esac
+if [[ ${state} = modes ]]; then
+  _values 'mode' \
+    'config[prints xdelta3 configuration]' \
+    {-d,decode}'[decompress the input]' \
+    {-e,encode}'[compress the input (default)]' \
+    'test[run the builtin tests]' \
+    'printdelta[print information about the entire delta]' \
+    'printhdr[print information about the first window]' \
+    'printhdrs[print information about all windows]' \
+    'recode[encode with new application/secondary settings]' \
+    'merge[merge VCDIFF inputs]' && ret=0
+fi
 
 return ret

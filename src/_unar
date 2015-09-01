@@ -69,13 +69,11 @@ case ${service} in
     ;;
 esac
 
-case ${state} in
-  encs)
-    declare -a ary
-    IFS=$'\n'
-    ary=($(${words[1]} -e list))
-    _values 'charset' ${${${ary[2,$]}/  \* /}/ \(*/} && ret=0
-    ;;
-esac
+if [[ ${state} == encs ]]; then
+  declare -a ary
+  IFS=$'\n'
+  ary=($(${words[1]} -e list))
+  _values 'charset' ${${${ary[2,$]}/  \* /}/ \(*/} && ret=0
+fi
 
 return ret

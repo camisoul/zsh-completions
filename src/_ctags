@@ -78,13 +78,9 @@ _arguments -s -S \
   '(* : -)--help[Print this option summary.]' \
   '*:file:_files' && ret=0
 
-
-case ${state} in
-  langs)
-    _values 'languages' \
-      $(_call_program commands ${words[1]} --list-languages) && ret=0
-    ;;
-esac
-
+if [[ ${state} == langs ]]; then
+  _values 'languages' \
+    $(_call_program commands ${words[1]} --list-languages) && ret=0
+fi
 
 return ret

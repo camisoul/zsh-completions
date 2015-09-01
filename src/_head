@@ -52,14 +52,12 @@ elif [[ ${service} == tail ]]; then
     && ret=0
 fi
 
-case ${state} in
-  k_value)
-    if [[ ${service} == tail ]]; then
-      _message -e numbers 'K: normal, +K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
-    else
-      _message -e numbers 'K: normal, -K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
-    fi
-    ;;
-esac
+if [[ ${state} == k_value ]]; then
+  if [[ ${service} == tail ]]; then
+    _message -e numbers 'K: normal, +K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
+  else
+    _message -e numbers 'K: normal, -K: exclusive, suffix: b 512, kB 1000, K 1024 MB 1000*1000 M 1024*1024...G, T, P, E, Z, Y' && ret=0
+  fi
+fi
 
 return ret
