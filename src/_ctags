@@ -25,15 +25,16 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
+local ret=1
+local lists
 local -a languages
-for value in $(_call_program commands ${words[1]} --list-languages)
-do
+
+lists=$(_call_program commands ${words[1]} --list-languages)
+for value in ${=lists}; do
   languages+="--regex-${value}=:pattern"
   languages+="--${value}-kinds=:kind"
 done
 
-
-local ret=1
 _arguments -s -S \
   ${languages[@]} \
   '-a[Append the tags to an existing tag file.]' \
@@ -79,8 +80,7 @@ _arguments -s -S \
   '*:file:_files' && ret=0
 
 if [[ ${state} == langs ]]; then
-  _values 'languages' \
-    $(_call_program commands ${words[1]} --list-languages) && ret=0
+  _values 'languages' ${lists} && ret=0
 fi
 
 return ret
