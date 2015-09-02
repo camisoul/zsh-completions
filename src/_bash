@@ -25,10 +25,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-# FIXME:2015-08-22:コマンドのあとにはコマンドに対する補完をしたい
-
 local ret=1
-
 local shopts='autocd cdable_vars cdspell checkhash checkjobs checkwinsize cmdhist compat31 compat32 compat40 compat41 compat42 complete_fullquote direxpand dirspell dotglob execfail expand_aliases extdebug extglob extquote failglob force_fignore globasciiranges globstar gnu_errfmt histappend histreedit histverify hostcomplete huponexit interactive_comments lastpipe lithist login_shell mailwarn no_empty_cmd_completion nocaseglob nocasematch nullglob progcomp promptvars restricted_shell shift_verbose sourcepath xpg_echo'
 local -A setopts
 setopts=(
@@ -70,6 +67,8 @@ args=(
   '-i[interactive]'
   "*-O[sets the value]:shopt:(${shopts})"
   "*+O[unsets the value]:shopt:(${shopts})"
+  '-c[read commands from the commad_string]'
+  '-s[stdin]'
 )
 for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
@@ -78,22 +77,19 @@ done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
 
-case ${words[2]} in
-  -c)
-    args+=('*:command string:_command_names -e')
-    ;;
-  *)
-    args+=('*:file:_files')
-    ;;
-esac
-
-if [[ ${CURRENT} -eq 2 ]]; then
-  _arguments -s -S \
-    '-c[read commands from the commad_string]' \
-    '-s[stdin]' \
-    ${args[@]} && ret=0
+if (( CURRENT == ${words[(i)-c]} + 1 )); then
+  _arguments '*:command string:_command_names -e' && ret=0
 else
+  local n=${words[(b:2:i)[^-]*]}
+  if (( n <= CURRENT )); then
+    compset -n $n
+    _alternative \
+      'files:file:_files' \
+      'commands:command:_normal' && return 0
+  fi
   _arguments -s -S ${args[@]} && ret=0
 fi
+
+ret=$?
 
 return ret

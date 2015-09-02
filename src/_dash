@@ -47,6 +47,8 @@ setopts=(
 local -a args
 args=(
   '-l[Make dash act as if it had been invoked as a login shell]'
+  '-c[read commands from the commad_string]'
+  '-s[stdin]'
 )
 
 for opts value in ${(kv)setopts}; do
@@ -56,22 +58,19 @@ done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
 
-case ${words[2]} in
-  -c)
-    args+=('*:command string:_command_names -e')
-    ;;
-  *)
-    args+=('*:file:_files')
-    ;;
-esac
-
-if [[ ${CURRENT} -eq 2 ]]; then
-  _arguments -s -S \
-    '-c[read commands from the commad_string]' \
-    '-s[stdin]' \
-    ${args[@]} && ret=0
+if (( CURRENT == ${words[(i)-c]} + 1 )); then
+  _arguments '*:command string:_command_names -e' && ret=0
 else
+  local n=${words[(b:2:i)[^-]*]}
+  if (( n <= CURRENT )); then
+    compset -n $n
+    _alternative \
+      'files:file:_files' \
+      'commands:command:_normal' && return 0
+  fi
   _arguments -s -S ${args[@]} && ret=0
 fi
+
+ret=$?
 
 return ret
