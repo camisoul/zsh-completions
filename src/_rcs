@@ -170,9 +170,7 @@ case ${state} in
       'v[generate only keyword values for keyword strings]' && ret=0
     ;;
   rcsfiles)
-    local -a rcs_files
-    rcsfiles=( *,v(D:t:s/\,v//) RCS/*,v(D:t:s/\,v//) )
-    _multi_parts / rcsfiles && ret=0
+    _path_files -g "*,v(D:t:s/\,v//)|RCS/*,v(D:t:s/\,v//)" && ret=0
     ;;
 esac
 
