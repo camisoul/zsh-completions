@@ -42,16 +42,20 @@ _arguments -s -S \
 
 case ${state} in
   dithering)
+    local OLDIFS=IFS
     IFS=$'\n'
     _values 'dithering type' \
       $(_call_program commands ${words[1]} --help |& sed -n "/DITHER/!d;n;:a;s/^\s*\([^ :]*\): \(.*\)$/\1[\2]/p;n;/FORMAT/!ba;q") \
       && ret=0
+    IFS=OLDIFS
     ;;
   format)
+    local OLDIFS=IFS
     IFS=$'\n'
     _values 'format type' \
       $(_call_program commands ${words[1]} --help |& sed -n "/FORMAT/!d;n;:a;s/^\s*\([^ :]*\): \(.*\)$/\1[\2]/p;n;ba;q") \
       && ret=0
+    IFS=OLDIFS
     ;;
 esac
 
