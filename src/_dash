@@ -51,6 +51,7 @@ args=(
   '-s[stdin]'
 )
 
+local opts value
 for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
   args+=("+${opts}[equivalent to +o ${value}]")

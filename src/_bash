@@ -28,6 +28,7 @@
 local ret=1
 local shopts='autocd cdable_vars cdspell checkhash checkjobs checkwinsize cmdhist compat31 compat32 compat40 compat41 compat42 complete_fullquote direxpand dirspell dotglob execfail expand_aliases extdebug extglob extquote failglob force_fignore globasciiranges globstar gnu_errfmt histappend histreedit histverify hostcomplete huponexit interactive_comments lastpipe lithist login_shell mailwarn no_empty_cmd_completion nocaseglob nocasematch nullglob progcomp promptvars restricted_shell shift_verbose sourcepath xpg_echo'
 local -A setopts
+local -a args
 setopts=(
   a allexport
   b notify
@@ -49,7 +50,6 @@ setopts=(
   P physical
   T functrace
 )
-local -a args
 args=(
   '(- : *)--help'
   '(- : *)--version'
@@ -70,6 +70,8 @@ args=(
   '-c[read commands from the commad_string]'
   '-s[stdin]'
 )
+
+local opts value
 for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
   args+=("+${opts}[equivalent to +o ${value}]")

@@ -26,7 +26,7 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local lists
+local lists value
 local -a languages
 
 lists=$(_call_program commands ${words[1]} --list-languages)
