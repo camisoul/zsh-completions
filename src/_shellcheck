@@ -31,6 +31,7 @@ _arguments -S \
   '(-e --exclude)'{-e,--exclude=}'[exclude types of warnings]:CODE:->code' \
   '(-f --format)'{-f,--format=}'[output format]:FORMAT:(checkstyle gcc json tty)' \
   '(-s --shell)'{-s,--shell=}'[specify dialect]:SHELLNAME:(bsh sh ksh)' \
+  '(-x --external-sources)'{-x,--external-sources=}'[Allow source outside of FILES]:FILE:_files' \
   '(: * -)'{-V,--version}'[print version information]' \
   '*:FILE:_files' && ret=0
 
