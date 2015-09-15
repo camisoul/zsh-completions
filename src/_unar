@@ -70,7 +70,7 @@ case ${service} in
 esac
 
 if [[ ${state} == encs ]]; then
-  declare -a ary
+  local -a ary
   local OLDIFS=${IFS}
   IFS=$'\n'
   ary=($(${words[1]} -e list))
