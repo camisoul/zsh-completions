@@ -139,7 +139,7 @@ _arguments -s -S \
 function scan_help {
   local flag=false
   local str
-  while read line; do
+  _call_program commands "${words[1]}" --help | while read -r line; do
     if [[ ${line} =~ "${1}" ]]; then
       flag=true
     fi
@@ -150,7 +150,7 @@ function scan_help {
         return 0
       fi
     fi
-  done < <(_call_program commands "${words[1]}" --help)
+  done
 }
 
 if [[ ${state} == *formats ]]; then
