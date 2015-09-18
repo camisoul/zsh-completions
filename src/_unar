@@ -71,11 +71,9 @@ esac
 
 if [[ ${state} == encs ]]; then
   local -a ary
-  local OLDIFS=${IFS}
-  IFS=$'\n'
+  local IFS=$'\n'
   ary=($(${words[1]} -e list))
   _values 'charset' ${${${ary[2,$]}/  \* /}/ \(*/} && ret=0
-  IFS=${OLDIFS}
 fi
 
 return ret

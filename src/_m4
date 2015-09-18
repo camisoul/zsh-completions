@@ -51,10 +51,8 @@ _arguments -s -S \
   '*:file:_files' && ret=0
 
 if [[ ${state} == flags ]]; then
-  local OLDIFS=${IFS}
-  IFS=$'\n'
+  local IFS=$'\n'
   _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/!d;:a;n;s/^\s*([^ ])\s*(.*)$/\1[\2]/p;ta;q') && ret=0
-  IFS=${OLDIFS}
 fi
 
 return ret
