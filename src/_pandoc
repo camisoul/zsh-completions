@@ -146,7 +146,7 @@ function scan_help {
     if ${flag}; then
       str+=${line}
       if [[ ${line} =~ [^,]$ ]]; then
-        echo "${${${${str#${1}}//\*/}//, /\n}//,/\n}"
+        print "${${${${str#${1}}//\*/}//, /\n}//,/\n}"
         return 0
       fi
     fi
