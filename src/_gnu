@@ -1,4 +1,4 @@
-#compdef bc dc tee tac paste mv shred touch readlink pathchk basename dirname rmdir dir vdir tr mktemp mkfifo mknod ed base64 dircolors free prtstat file  ptx runcon chcon chroot truncate split csplit expand fold w who pinky hostname shar gpasswd unshar nproc zenity nemo pt peco fmt numfmt timeout uptime objdump ld lsblk lshw stdbuf flock blkid apg dh_make sum cksum shasum sha1sum sha224sum sha256sum sha384sum sha512sum hlint
+#compdef bc dc tee tac paste mv shred touch readlink pathchk basename dirname rmdir dir vdir mktemp mkfifo mknod ed base64 dircolors free prtstat file ptx runcon chcon chroot truncate split csplit expand fold w who pinky hostname shar gpasswd unshar nproc zenity nemo pt peco fmt numfmt timeout uptime objdump ld lsblk lshw stdbuf flock blkid apg dh_make sum cksum shasum sha1sum sha224sum sha256sum sha384sum sha512sum hlint
 
 _gnu_generic || return 1
 
