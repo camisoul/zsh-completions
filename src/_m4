@@ -52,7 +52,7 @@ _arguments -s -S \
 
 if [[ ${state} == flags ]]; then
   local IFS=$'\n'
-  _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/!d;:a;n;s/^\s*([^ ])\s*(.*)$/\1[\2]/p;ta;q') && ret=0
+  _values -s '' 'flags' $(m4 --help | sed -nr '/^FLAGS/,/^$/{/^FLAGS/b;/^$/b;s/^ *(.) *(.*)$/\1[\2]/;p;}') && ret=0
 fi
 
 return ret
