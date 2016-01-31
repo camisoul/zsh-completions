@@ -145,7 +145,7 @@ if [[ ${state} == *formats ]]; then
       local section="Output formats: "
       ;;
   esac
-  _values 'formats' $(_call_program commands ${words[1]} --help | sed -nr "/${section}/,/[^,]\$/{s/${section}//;s/\*//g;s/, ?/\n/g;s/\n$//;s/^[ \t]*//;p;}") && ret=0
+  _values 'formats' $(_call_program commands ${words[1]} --help | sed -nr "/${section}/,/[^,]\$/{s/${section}//;s/\*//g;s/, ?/\n/g;s/\n$//;s/^[ 	]*//;p;}") && ret=0
 elif [[ ${state} == offset ]]; then
   compset -P \*,
   compset -S ,\*
