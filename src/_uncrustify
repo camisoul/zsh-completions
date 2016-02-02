@@ -42,6 +42,7 @@ _arguments -s -S \
   '-t[load a file with types (usually not needed)]' \
   '-q[quiet mode - no output on stderr (-L will override)]' \
   '--frag[code fragment, assume the first line is indented correctly]' \
+  '--assume[Uses the filename FN for automatic language detection if reading from stdin unless -l is specified]:FN:_files' \
   '--version[print the version and exit]' \
   '--show-config[print out option documentation and exit]' \
   '--update-config[Output a new config file]' \
