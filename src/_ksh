@@ -1,0 +1,84 @@
+#compdef ksh ksh93
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for ksh
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2016 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local shopts='allexport bgnice braceexpand emacs errexit globstar gmacs histexpand ignoreeof keyword letoctal markdirs monitor multiline noclobber noexec noglob nolog notify nounset pipefail privileged rc showme trackall verbose vi viraw xtrace'
+local -A setopts=(
+  a allexport
+  B braceexpand
+  e errexit
+  G globstar
+  H histexpand
+  k keyword
+  m monitor
+  C noclobber
+  n noexec
+  f noglob
+  b notify
+  u nounset
+  p privileged
+  h trackall
+  v verbose
+  x xtrace
+)
+local -a args=(
+  '(- : *)--help'
+  '(- : *)--version'
+  '-l[login shell]'
+  '-i[interactive]'
+  '-r[restricted mode]'
+  '-s[stdin]'
+  '-D[dump strings]'
+  '-E[reads the file /etc/ksh.kshrc, followed by ~/.kshrc]'
+  '-R[create a cross reference database]:file:_files'
+  '-T[spacific test code defined by mask]:mask:mask]'
+  '(1 -)-c[run a command]:command:_cmdstring'
+  '(-)1:script file:_files'
+  '*:file:_files'
+)
+
+local opts value
+for opts value in ${(kv)setopts}; do
+  args+=("-${opts}[equivalent to -o ${value}]")
+  args+=("+${opts}[equivalent to +o ${value}]")
+done
+args+=("*-o:set option-name:(${setopts})")
+args+=("*+o:unset option-name:(${setopts})")
+
+_arguments -S -s : ${args} && ret=0
+
+case $state in
+  args)
+    if [[ -n ${opt_args[(I)-c|-s]} ]]; then
+      _files
+    else
+      _normal
+    fi
+    ;;
+esac
+
+return ret
