@@ -1,12 +1,12 @@
-#compdef sh dash
+#compdef ash dash
 #
 # --------------------------------------------------------------------------
 #
 # Description :
-#   @(#) zsh completion script for dash
+#   @(#) zsh completion script for ash/dash
 #
 # --------------------------------------------------------------------------
-# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+# Copyright (c) 2015-2016 camisoul<camisoulmax@gmail.com>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any damages
@@ -26,10 +26,9 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -A setopts
-setopts=(
+local -A setopts=(
   a allexport
-  C clobber
+  C noclobber
   e errexit
   f noglob
   n noexec
@@ -40,18 +39,21 @@ setopts=(
   i interactive
   m monitor
   b notify
-  E vi
-  V emacs
+  E emacs
+  V vi
   )
 
 local -a args
 args=(
-  '-l[Make dash act as if it had been invoked as a login shell]'
-  '-c[read commands from the commad_string]'
+  '-l[login shell]'
   '-s[stdin]'
+  '(1 -)-c[run a command]:command:_cmdstring'
+  '(-)1:script file:_files'
+  '*::arguments:->args'
 )
 
 local opts value
+local -A opt_args
 for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
   args+=("+${opts}[equivalent to +o ${value}]")
@@ -59,19 +61,16 @@ done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
 
-if (( CURRENT == ${words[(i)-c]} + 1 )); then
-  _arguments '*:command string:_command_names -e' && ret=0
-else
-  local n=${words[(b:2:i)[^-]*]}
-  if (( n <= CURRENT )); then
-    compset -n $n
-    _alternative \
-      'files:file:_files' \
-      'commands:command:_normal' && return 0
-  fi
-  _arguments -s -S ${args[@]} && ret=0
-fi
+_arguments -S -s : ${args} && ret=0
 
-ret=$?
+case $state in
+  args)
+    if [[ -n ${opt_args[(I)-c|-s]} ]]; then
+      _files
+    else
+      _normal
+    fi
+    ;;
+esac
 
 return ret
