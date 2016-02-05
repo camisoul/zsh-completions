@@ -6,7 +6,7 @@
 #   @(#) zsh completion script for bash
 #
 # --------------------------------------------------------------------------
-# Copyright (c) 2015 camisoul<camisoulmax@gmail.com>
+# Copyright (c) 2015-2016 camisoul<camisoulmax@gmail.com>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any damages
@@ -27,9 +27,7 @@
 
 local ret=1
 local shopts='autocd cdable_vars cdspell checkhash checkjobs checkwinsize cmdhist compat31 compat32 compat40 compat41 compat42 complete_fullquote direxpand dirspell dotglob execfail expand_aliases extdebug extglob extquote failglob force_fignore globasciiranges globstar gnu_errfmt histappend histreedit histverify hostcomplete huponexit interactive_comments lastpipe lithist login_shell mailwarn no_empty_cmd_completion nocaseglob nocasematch nullglob progcomp promptvars restricted_shell shift_verbose sourcepath xpg_echo'
-local -A setopts
-local -a args
-setopts=(
+local -A setopts=(
   a allexport
   b notify
   e errexit
@@ -50,7 +48,7 @@ setopts=(
   P physical
   T functrace
 )
-args=(
+local -a args=(
   '(- : *)--help'
   '(- : *)--version'
   '--debugger[arrange for the debugger profile to be executed before the shell starts]'
@@ -67,8 +65,10 @@ args=(
   '-i[interactive]'
   "*-O[sets the value]:shopt:(${shopts})"
   "*+O[unsets the value]:shopt:(${shopts})"
-  '-c[read commands from the commad_string]'
   '-s[stdin]'
+  '(1 -)-c[run a command]:command:_cmdstring'
+  '(-)1:script file:_files'
+  '*:file:_files'
 )
 
 local opts value
@@ -79,19 +79,16 @@ done
 args+=("*-o:set option-name:(${setopts})")
 args+=("*+o:unset option-name:(${setopts})")
 
-if (( CURRENT == ${words[(i)-c]} + 1 )); then
-  _arguments '*:command string:_command_names -e' && ret=0
-else
-  local n=${words[(b:2:i)[^-]*]}
-  if (( n <= CURRENT )); then
-    compset -n $n
-    _alternative \
-      'files:file:_files' \
-      'commands:command:_normal' && return 0
-  fi
-  _arguments -s -S ${args[@]} && ret=0
-fi
+_arguments -S -s : ${args} && ret=0
 
-ret=$?
+case $state in
+  args)
+    if [[ -n ${opt_args[(I)-c|-s]} ]]; then
+      _files
+    else
+      _normal
+    fi
+    ;;
+esac
 
 return ret
