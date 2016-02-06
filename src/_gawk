@@ -26,6 +26,10 @@
 # --------------------------------------------------------------------------
 
 local ret=1
+if [[ $(${words[1]} --version) != GNU* ]]; then
+  _awk && ret=0
+fi
+
 local gnu_opts='-C --copyright -h --help -V --version -F --field-separator -v --assign -b --characters-as-bytes -c --traditional -d --dump-variables -e --source -E --exec -g --gen-pot -L --lint -n --non-decimal-data -N --use-lc-numeric -O --optimize -p --profile -b --characters-as-bytes -P --posix -r --re-interval -R --command -S --sandbox -t --lint-old'
 
 _arguments -S \
