@@ -1,4 +1,4 @@
-#compdef ksh ksh93
+#compdef ksh ksh93 mksh
 #
 # --------------------------------------------------------------------------
 #
@@ -26,48 +26,80 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local shopts='allexport bgnice braceexpand emacs errexit globstar gmacs histexpand ignoreeof keyword letoctal markdirs monitor multiline noclobber noexec noglob nolog notify nounset pipefail privileged rc showme trackall verbose vi viraw xtrace'
-local -A setopts=(
-  a allexport
-  B braceexpand
-  e errexit
-  G globstar
-  H histexpand
-  k keyword
-  m monitor
-  C noclobber
-  n noexec
-  f noglob
-  b notify
-  u nounset
-  p privileged
-  h trackall
-  v verbose
-  x xtrace
-)
-local -a args=(
-  '(- : *)--help'
-  '(- : *)--version'
-  '-l[login shell]'
-  '-i[interactive]'
-  '-r[restricted mode]'
-  '-s[stdin]'
-  '-D[dump strings]'
-  '-E[reads the file /etc/ksh.kshrc, followed by ~/.kshrc]'
-  '-R[create a cross reference database]:file:_files'
-  '-T[spacific test code defined by mask]:mask:mask]'
-  '(1 -)-c[run a command]:command:_cmdstring'
-  '(-)1:script file:_files'
-  '*:file:_files'
-)
+if [[ $(ksh -rc 'print ${KSH_VERSION}') =~ MIRBSD ]]; then
+  # mksh
+  local shopts='allexport notify noclobber errexit noglob trackall interactive keyword login monitor noexec privileged restricted stdin utf8-mode nounset verbose markdirs xtrace bgnice braceexpand emacs gmacs ignoreeof inherit-xtrace nohup nolog physical pipefail posix sh vi vi-esccomplete vi-tabcomplete viraw'
+  local -A setopts=(
+    a allexport
+    b notify
+    C noclobber
+    e errexit
+    f noglob
+    h trackall
+    i interactive
+    k keyword
+    l login
+    m monitor
+    n noexec
+    p privileged
+    s stdin
+    u nounset
+    U utf8-mode
+    v verbose
+    x xtrace
+    X markdirs
+  )
+  local -a args=(
+    '-T[spawn mksh on the tty device given]:tty:tty]'
+    '(1 -)-c[run a command]:command:_cmdstring'
+    '(-)1:script file:_files'
+    '*:file:_files'
+  )
+
+else
+  local shopts='allexport bgnice braceexpand emacs errexit globstar gmacs histexpand ignoreeof keyword letoctal markdirs monitor multiline noclobber noexec noglob nolog notify nounset pipefail privileged rc showme trackall verbose vi viraw xtrace'
+  local -A setopts=(
+    a allexport
+    b notify
+    B braceexpand
+    C noclobber
+    e errexit
+    f noglob
+    G globstar
+    H histexpand
+    h trackall
+    k keyword
+    m monitor
+    n noexec
+    p privileged
+    u nounset
+    v verbose
+    x xtrace
+  )
+  local -a args=(
+    '(- : *)--help'
+    '(- : *)--version'
+    '-l[login shell]'
+    '-i[interactive]'
+    '-r[restricted mode]'
+    '-s[stdin]'
+    '-D[dump strings]'
+    '-E[reads the file /etc/ksh.kshrc, followed by ~/.kshrc]'
+    '-R[create a cross reference database]:file:_files'
+    '-T[spacific test code defined by mask]:mask:mask]'
+    '(1 -)-c[run a command]:command:_cmdstring'
+    '(-)1:script file:_files'
+    '*:file:_files'
+  )
+fi
 
 local opts value
 for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
   args+=("+${opts}[equivalent to +o ${value}]")
 done
-args+=("*-o:set option-name:(${setopts})")
-args+=("*+o:unset option-name:(${setopts})")
+args+=("*-o:set option-name:(${shopts})")
+args+=("*+o:unset option-name:(${shopts})")
 
 _arguments -S -s : ${args} && ret=0
 
