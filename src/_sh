@@ -24,4 +24,9 @@
 # 3. This notice may not be removed or altered from any source distribution.
 # --------------------------------------------------------------------------
 
-"_${$(whence -p sh):A:t}" && return 0
+local shlcmd=${$(whence -p sh):A:t}
+if [[ ${shlcmd} != sh ]]; then
+  "_${shlcmd}" && return 0
+else
+  _bash
+fi
