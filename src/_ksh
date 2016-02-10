@@ -26,7 +26,7 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-if [[ $(ksh -rc 'print ${KSH_VERSION}') =~ MIRBSD ]]; then
+if [[ $(ksh -rc 'print ${KSH_VERSION}' 2>/dev/null) =~ MIRBSD ]]; then
   # mksh
   local shopts='allexport notify noclobber errexit noglob trackall interactive keyword login monitor noexec privileged restricted stdin utf8-mode nounset verbose markdirs xtrace bgnice braceexpand emacs gmacs ignoreeof inherit-xtrace nohup nolog physical pipefail posix sh vi vi-esccomplete vi-tabcomplete viraw'
   local -A setopts=(
