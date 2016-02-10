@@ -8,14 +8,7 @@ task default: 'backup'
 desc 'gitのHEADをバックアップ'
 task :backup do |_t|
   backup_dir = ''
-  os = `uname`
-
-  case os
-  when /(MSYS|MINGW).*/
-    backup_dir = '/g/WinHome'
-  when /Linux/
-    backup_dir = '/media/cami/DATA/WinHome'
-  end
+  backup_dir = '/media/cami/DATA/WinHome'
 
   break if backup_dir.empty?
   sh "git archive -o #{archive} HEAD"
