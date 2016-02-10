@@ -27,7 +27,7 @@
 
 local ret=1
 
-_arguments -- \
+LC_MESSAGES=C _arguments -- \
   '*=DEST*:DEST:_directories' \
   '*=GROUP*:GROUP:_groups' \
   '*=OWNER*:OWNER:_users' \
