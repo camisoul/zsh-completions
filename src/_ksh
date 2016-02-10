@@ -1,4 +1,4 @@
-#compdef ksh ksh93 mksh
+#compdef ksh ksh93 mksh pdksh lksh
 #
 # --------------------------------------------------------------------------
 #
@@ -26,7 +26,7 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-if [[ $(ksh -rc 'print ${KSH_VERSION}' 2>/dev/null) =~ MIRBSD ]]; then
+if [[ $("${words[1]}" -rc 'print ${KSH_VERSION}' 2>/dev/null) =~ (MIRBSD|LEGACY) ]]; then
   # mksh
   local shopts='allexport notify noclobber errexit noglob trackall interactive keyword login monitor noexec privileged restricted stdin utf8-mode nounset verbose markdirs xtrace bgnice braceexpand emacs gmacs ignoreeof inherit-xtrace nohup nolog physical pipefail posix sh vi vi-esccomplete vi-tabcomplete viraw'
   local -A setopts=(
@@ -50,7 +50,7 @@ if [[ $(ksh -rc 'print ${KSH_VERSION}' 2>/dev/null) =~ MIRBSD ]]; then
     X markdirs
   )
   local -a args=(
-    '-T[spawn mksh on the tty device given]:tty:tty]'
+    '-T[spawn ksh on the tty device given]:tty:tty]'
     '(1 -)-c[run a command]:command:_cmdstring'
     '(-)1:script file:_files'
     '*:file:_files'
