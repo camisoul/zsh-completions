@@ -1,9 +1,9 @@
-#compdef ash dash
+#compdef ash dash posh
 #
 # --------------------------------------------------------------------------
 #
 # Description :
-#   @(#) zsh completion script for ash/dash
+#   @(#) zsh completion script for ash/dash/posh
 #
 # --------------------------------------------------------------------------
 # Copyright (c) 2015-2016 camisoul<camisoulmax@gmail.com>
@@ -26,22 +26,37 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local -A setopts=(
-  a allexport
-  C noclobber
-  e errexit
-  f noglob
-  n noexec
-  u nounset
-  v verbose
-  x xtrace
-  I ignoreeof
-  i interactive
-  m monitor
-  b notify
-  E emacs
-  V vi
-  )
+if [[ $(${words[1]} -c 'echo ${POSH_VERSION}') != "" ]]; then
+  local -A setopts=(
+    a allexport
+    C noclobber
+    e errexit
+    f noglob
+    n noexec
+    u nounset
+    v verbose
+    x xtrace
+    I ignoreeof
+    i interactive
+    )
+else
+  local -A setopts=(
+    a allexport
+    C noclobber
+    e errexit
+    f noglob
+    n noexec
+    u nounset
+    v verbose
+    x xtrace
+    I ignoreeof
+    i interactive
+    m monitor
+    b notify
+    E emacs
+    V vi
+    )
+fi
 
 local -a args
 args=(
