@@ -76,8 +76,8 @@ for opts value in ${(kv)setopts}; do
   args+=("-${opts}[equivalent to -o ${value}]")
   args+=("+${opts}[equivalent to +o ${value}]")
 done
-args+=("*-o:set option-name:(${setopts})")
-args+=("*+o:unset option-name:(${setopts})")
+args+=("*-o:set option-name:(${shopts})")
+args+=("*+o:unset option-name:(${shopts})")
 
 _arguments -S -s : ${args} && ret=0
 
