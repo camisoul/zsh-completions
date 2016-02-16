@@ -1,0 +1,79 @@
+#compdef yash
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for yash
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2016 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+local shopts='allexport braceexpand caseglob clobber cmdline curasync curbg curstop dotglob emacs errexit exec extendedglob glob hashondef histspace ignoreeof interactive lealwaysrp lecompdebug leconvmeta lepromptsp levisiblebell log login markdirs monitor notify notifyle nullglob posixlycorrect stdin traceall unset verbose vi xtrace'
+local -A setopts=(
+  a allexport
+  C noclobber
+  e errexit
+  h hashondef
+  n noexec
+  f noglob
+  m monitor
+  b notify
+  u nounset
+  v verbose
+  x xtrace
+)
+local -a args=(
+  '(- : *)--help'
+  '(- : *)--version'
+  '(--noprofile)--profile[do not read login and profile files]'
+  '(--norcfile)--rcfile[do not read rc files]'
+  '(--profile)--noprofile[read login and profile files]:FILE:_files'
+  '(--rcfile)--norcfile[read rc files]:FILE:_files'
+  '(-l --login)'{-l,--login}'[make bash act as if it had been invoked as a login shell]'
+  '(-i -interactive)'{-i,--interactive}'[interactive]'
+  '-s[stdin]'
+  '--verbose[equivalent to -v]'
+  '(1 -)-c[run a command]:command:_cmdstring'
+  '(-)1:script file:_files'
+  '*:file:_files'
+)
+
+local opts value
+for opts value in ${(kv)setopts}; do
+  args+=("-${opts}[equivalent to -o ${value}]")
+  args+=("+${opts}[equivalent to +o ${value}]")
+done
+args+=("*-o:set option-name:(${shopts})")
+args+=("*+o:unset option-name:(${shopts})")
+
+_arguments -S -s : ${args} && ret=0
+
+case $state in
+  args)
+    if [[ -n ${opt_args[(I)-c|-s]} ]]; then
+      _files
+    else
+      _normal
+    fi
+    ;;
+esac
+
+return ret
