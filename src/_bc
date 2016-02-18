@@ -1,0 +1,65 @@
+#compdef bc dc
+#
+# --------------------------------------------------------------------------
+#
+# Description :
+#   @(#) zsh completion script for bc/dc
+#
+# --------------------------------------------------------------------------
+# Copyright (c) 2016 camisoul<camisoulmax@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty.  In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would be
+#    appreciated but is not required.
+# 2. Altered source versions must be plainly marked as such, and must not be
+#    misrepresented as being the original software.
+# 3. This notice may not be removed or altered from any source distribution.
+# --------------------------------------------------------------------------
+
+local ret=1
+
+case ${words[1]} in
+  bc)
+    case $(${words[1]} -v 2>&1) in
+      *BSD)
+        _arguments -S \
+          '(- : *)'{-h,--help}'[print usage]' \
+          '(- : *)'{-v,--version}'[print version]' \
+          '-c[bc is actually a preprocessor for bc]' \
+          {-e,--expression}'[Evaluate expression]:expression' \
+            {-l,--matlib}'[arbitrary precision math library]' \
+              '*:file:_files' && ret=0
+        ;;
+      *)
+        LC_MESSAGES=C _gnu_generic && ret=0
+        ;;
+    esac
+    ;;
+  dc)
+    case $(${words[1]} -V 2>&1) in
+      *BSD)
+        _arguments -S \
+          '(- : *)'{-h,--help}'[print usage]' \
+          '(- : *)'{-V,--version}'[print version]' \
+          '-e[bc is actually a preprocessor for bc]' \
+          {-e,--expression}'[Evaluate expression]:expression' \
+          '-f[process the content of the given file before further calculations are done]:file:_files' \
+          '*:file:_files' && ret=0
+        ;;
+      *)
+        LC_MESSAGES=C _gnu_generic && ret=0
+        ;;
+    esac
+    ;;
+esac
+
+return ret
