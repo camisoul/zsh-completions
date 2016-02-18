@@ -1,12 +1,12 @@
-#compdef bash
+#compdef yash
 #
 # --------------------------------------------------------------------------
 #
 # Description :
-#   @(#) zsh completion script for bash
+#   @(#) zsh completion script for yash
 #
 # --------------------------------------------------------------------------
-# Copyright (c) 2015-2016 camisoul<camisoulmax@gmail.com>
+# Copyright (c) 2016 camisoul<camisoulmax@gmail.com>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any damages
@@ -26,46 +26,31 @@
 # --------------------------------------------------------------------------
 
 local ret=1
-local shopts='autocd cdable_vars cdspell checkhash checkjobs checkwinsize cmdhist compat31 compat32 compat40 compat41 compat42 complete_fullquote direxpand dirspell dotglob execfail expand_aliases extdebug extglob extquote failglob force_fignore globasciiranges globstar gnu_errfmt histappend histreedit histverify hostcomplete huponexit interactive_comments lastpipe lithist login_shell mailwarn no_empty_cmd_completion nocaseglob nocasematch nullglob progcomp promptvars restricted_shell shift_verbose sourcepath xpg_echo'
+local shopts='allexport braceexpand caseglob clobber cmdline curasync curbg curstop dotglob emacs errexit exec extendedglob glob hashondef histspace ignoreeof interactive lealwaysrp lecompdebug leconvmeta lepromptsp levisiblebell log login markdirs monitor notify notifyle nullglob posixlycorrect stdin traceall unset verbose vi xtrace'
 local -A setopts=(
   a allexport
-  b notify
+  C noclobber
   e errexit
-  f noglob
-  h hashall
-  k keyword
-  m monitor
+  h hashondef
   n noexec
-  p privileged
-  t onecmd
+  f noglob
+  m monitor
+  b notify
   u nounset
   v verbose
   x xtrace
-  B braceexpand
-  C noclobber
-  E errtrace
-  H histexpand
-  P physical
-  T functrace
 )
 local -a args=(
   '(- : *)--help'
   '(- : *)--version'
-  '--debugger[arrange for the debugger profile to be executed before the shell starts]'
-  '(-D --dump-strings)--dump-po-strings[equivalent to -D, but the output is in the GNU gettext po file format]'
-  '(-D --dump-strings --dump-po-strings)'{-D,--dump-strings}'[dump strings]'
+  '(--noprofile)--profile[do not read login and profile files]'
+  '(--norcfile)--rcfile[do not read rc files]'
+  '(--profile)--noprofile[read login and profile files]:FILE:_files'
+  '(--rcfile)--norcfile[read rc files]:FILE:_files'
   '(-l --login)'{-l,--login}'[make bash act as if it had been invoked as a login shell]'
-  '(--rcfile --init-file --norc)'{--rcfile,--init-file}'[execute commands from file instead of rc file]:file:_files'
-  '--noediting[do not use the GNU readline library]'
-  '--noprofile[do not read login and profile files]'
-  '(--rcfile --init-file)--norc[do not read bashrc files]'
-  '--posix[change the behavior of bash to posix mode]'
-  '(-r --restricted)'{-r,--restricted}'[restricted shell]'
-  '--verbose[equivalent to -v]'
-  '-i[interactive]'
-  "*-O[sets the value]:shopt:(${shopts})"
-  "*+O[unsets the value]:shopt:(${shopts})"
+  '(-i -interactive)'{-i,--interactive}'[interactive]'
   '-s[stdin]'
+  '--verbose[equivalent to -v]'
   '(1 -)-c[run a command]:command:_cmdstring'
   '(-)1:script file:_files'
   '*:file:_files'
