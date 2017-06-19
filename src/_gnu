@@ -1,4 +1,4 @@
-#compdef tee tac paste mv shred readlink pathchk basename dirname rmdir dir vdir mktemp mkfifo mknod ed base64 dircolors free prtstat file ptx runcon chcon chroot truncate split csplit expand fold w who pinky hostname shar unshar nproc zenity nemo pt peco fmt numfmt timeout uptime objdump ld lsblk lshw stdbuf flock blkid apg dh_make sum cksum shasum sha1sum sha224sum sha256sum sha384sum sha512sum hlint maxima R Rscript mecab cabocha
+#compdef tee tac mv shred readlink pathchk basename dirname rmdir dir vdir mktemp mkfifo mknod ed base64 dircolors free prtstat file ptx runcon chcon chroot truncate split csplit expand fold w who pinky hostname shar unshar nproc zenity nemo pt peco fmt numfmt timeout uptime objdump ld lshw stdbuf flock blkid apg dh_make sum cksum shasum sha1sum sha224sum sha256sum sha384sum sha512sum hlint maxima R Rscript mecab cabocha
 
 LC_MESSAGES=C _gnu_generic || return 1
 
