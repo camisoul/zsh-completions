@@ -36,6 +36,11 @@ general_opts=(
   '(-t -w --to --write)'{-t,-w,--to=,--write=}'[specify output format]:FORMAT:->oformats'
   '(-o --output)'{-o,--output=}'[write output to FILE]:FILE:_files'
   '--data-dir=[specify the user data directory]:DIRECTORY:_directories'
+  '--list-input-formats'
+  '--list-output-formats'
+  '--list-extensions'
+  '--list-highlight-languages'
+  '--list-highlight-styles'
   )
 
 reader_opts=(
@@ -139,13 +144,12 @@ _arguments -s -S \
 if [[ ${state} == *formats ]]; then
   case ${state} in
     iformats)
-      local section="Input formats:  "
+      _values 'formats' $(_call_program commands ${words[1]} --list-input-formats) && ret=0
       ;;
     oformats)
-      local section="Output formats: "
+      _values 'formats' $(_call_program commands ${words[1]} --list-output-formats) && ret=0
       ;;
   esac
-  _values 'formats' $(_call_program commands ${words[1]} --help | sed -nr "/${section}/,/[^,]\$/{s/${section}//;s/\*//g;s/, ?/\n/g;s/\n$//;s/^[ 	]*//;p;}") && ret=0
 elif [[ ${state} == offset ]]; then
   compset -P \*,
   compset -S ,\*
